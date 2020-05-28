@@ -1,0 +1,14 @@
+<!-- <input type="file" accept="video/*;capture=camcorder"> -->
+<button id="button_1" (click)="takePicture()">Take Picture</button>
+<button id="button_2" (click)="sendPicture('')">Send Picture</button>
+<button id="button_3" (click)="downloadPicture('')">Download Picture</button>
+<div>
+  <video #video autoplay="true" id="video"></video>
+  <canvas
+    #canvas
+    id="canvas"
+    width="480"
+    height="360"
+    style="background: navy; border: 1px solid #000000;"
+  ></canvas>
+</div>

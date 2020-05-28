@@ -18,3 +18,9 @@ def save():
 @api_router.route('/api/4')
 def classify():
     return api_controller.classify('test')
+
+@api_router.route('/api/ocr', methods=['POST'])
+def ocr():
+    content = request.json
+    return api_controller.classify(content['picture'])
+    

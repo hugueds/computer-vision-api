@@ -1,7 +1,8 @@
 import os
+import pytesseract as pyt
 from pathlib import Path
 from datetime import datetime
-from tensorflow.keras.models import load_model
+# from tensorflow.keras.models import load_model
 
 from data import mockdata
 
@@ -19,6 +20,11 @@ class ApiController():
     def index(self):
         self.counter += 1
         return 'ApiController ' + str(self.counter)
+
+    def get_ocr(self, image, knowledgeList=[]):
+        return pyt.image_to_string(image)
+        # Buscar lista de strings para modelo conhecido
+        
     
     def classify(self, model, save=False):
         # verificar se modelo existe                
