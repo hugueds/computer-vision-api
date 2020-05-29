@@ -12,27 +12,34 @@ export class CameraComponent implements OnInit {
   @ViewChild('canvas', { static: true }) public canvas: ElementRef;
 
   picture: string;
-  response: string;
+  label: string;
+  response: any;
 
-  constructor(private _cvService: ComputerVisionService) {
-    
-  }
+  displayPreview = false;
+
+  partList = [
+    '2287886' // validate on Server
+  ]
+
+  constructor(private _cvService: ComputerVisionService) {  }
+
 
   ngOnInit(): void {
 
   }
+  
 
   public ngAfterViewInit() {
 
     const constraints = {
       video: true,
       width: {
-        min: 480,
-        max: 640
+        min: 360,
+        max: 360
       },
       height: {
         min: 360,
-        max: 480
+        max: 360
       },
       advanced: [{
         facingMode: "environment"
@@ -52,22 +59,41 @@ export class CameraComponent implements OnInit {
 
   takePicture() {
     let context = this.canvas.nativeElement.getContext('2d');
-    context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
-    this.picture = this.canvas.nativeElement.toDataURL();    
+    context.drawImage(this.video.nativeElement, 0, 0, 360, 360);
+    this.picture = this.canvas.nativeElement.toDataURL();
+    this.displayPreview = true;
   }
 
-  sendPicture(picture: String = '') {    
+  sendPicture(picture: string = '') {
     this._cvService.sendOCR(this.picture).then(res => {
-      console.log(res);
+      let strings = res.result.label.split(' ');
+      this.response = res;
+      this.displayPreview = false;
     });
-    return '';
   }
 
-  downloadPicture(href) {
-    const link = document.createElement('a');    
-    link.download = 'filename.png';
+  classify() {
+    const model = 'tanklabels'
+    this._cvService.classify(this.picture, model).then(res => {
+      console.log(res);
+      this.response = res;
+      this.displayPreview = false;
+    })
+  }
+
+  downloadPicture(href: string = '') {
+    const link = document.createElement('a');
+    link.download = new Date().toISOString().slice(0, 19) + '_' + this.label + '.png';
     link.href = this.picture;
     link.click();
+  }
+
+  onKey(event: any) {
+    this.label = (event.target.value);    
+  }
+
+  cancel() {
+    this.displayPreview = false;
   }
 
 

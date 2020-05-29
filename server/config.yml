@@ -1,0 +1,25 @@
+project:
+    name: 'Computer Vision API'
+    version: '0.0.10'
+server:
+    address: '0.0.0.0'
+    port: 5000
+models:
+    emptybox:
+        name: 'emptybox'
+        graph: 'emptybox.h5'
+        size: 300
+        channels: 3
+        labels: ['OK', 'NOT OK']
+    tanklabels:
+        name: 'tanklabels'
+        graph: 'tanklabels.h5'
+        size: 70
+        channels: 1
+        labels: ['1', '2', 'P', 'T', '1_180', '2_180', 'P_180', 'T_180', '1_90', '2_90', 'P_90', 'T_90']
+    Model2:
+        name: 'Model2'          
+        graph: 'model2.h5'
+        size: 70
+        channels: 1
+        labels: ['OK']
