@@ -15,10 +15,11 @@ def test():
 def save():
     return api_controller.save_picture()
 
-@api_router.route('/api/4')
+@api_router.route('/api/classify', methods=['POST'])
 def classify():
-    return api_controller.classify('test')
-
+    content = request.json
+    return api_controller.classify(content['picture'], content['model'])   
+    
 @api_router.route('/api/ocr', methods=['POST'])
 def ocr():
     content = request.json

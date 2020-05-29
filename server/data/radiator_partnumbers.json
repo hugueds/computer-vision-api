@@ -1,0 +1,308 @@
+[
+    {
+      "partNumber": 2324043,
+      "description": "DEFLETOR DO VEN",
+      "Met": 3,
+      "deduction": "56 CNTXF3 O4",
+      "consumption_location": "CH",
+      "customer": 4,
+      "balance": ""
+    },
+    {
+      "partNumber": 2324951,
+      "description": "DEFLETOR DO VEN",
+      "Met": 3,
+      "deduction": "56 CNTXF3 08",
+      "consumption_location": "CH",
+      "customer": 24,
+      "balance": ""
+    },
+    {
+      "partNumber": 2324953,
+      "description": "DEFLETOR DO VEN",
+      "Met": 3,
+      "deduction": "56 CNTXF3 08",
+      "consumption_location": "CH",
+      "customer": 9,
+      "balance": ""
+    },
+    {
+      "partNumber": 2324955,
+      "description": "DEFLETOR DO VEN",
+      "Met": 3,
+      "deduction": "56 CNTXF3 08",
+      "consumption_location": "CH",
+      "customer": 19,
+      "balance": ""
+    },
+    {
+      "partNumber": 2327469,
+      "description": "MANGUEIRA COMPL",
+      "Met": 3,
+      "deduction": "55 CNTXF3 11",
+      "consumption_location": "CH",
+      "customer": 35,
+      "balance": ""
+    },
+    {
+      "partNumber": 2327497,
+      "description": "MANGUEIRA COMPL",
+      "Met": 3,
+      "deduction": "55 CNTXF3 11",
+      "consumption_location": "CH",
+      "customer": 9,
+      "balance": ""
+    },
+    {
+      "partNumber": 2327825,
+      "description": "TUBO COMPLETO",
+      "Met": 3,
+      "deduction": "56 CNTXF3 12",
+      "consumption_location": "CH",
+      "customer": 60,
+      "balance": ""
+    },
+    {
+      "partNumber": 2362747,
+      "description": "CHARGE AIR COOL",
+      "Met": 3,
+      "deduction": "55 CNTXF3-07",
+      "consumption_location": "CH",
+      "customer": 9,
+      "balance": ""
+    },
+    {
+      "partNumber": 2362748,
+      "description": "REFRIG DE CARGA",
+      "Met": 3,
+      "deduction": "55 CNTXF3-07",
+      "consumption_location": "CH",
+      "customer": 28,
+      "balance": ""
+    },
+    {
+      "partNumber": 2362749,
+      "description": "REFRI. DE CARGA",
+      "Met": 3,
+      "deduction": "55 CNTXF3-07",
+      "consumption_location": "CH",
+      "customer": 19,
+      "balance": ""
+    },
+    {
+      "partNumber": 2377323,
+      "description": "TRILHO",
+      "Met": 3,
+      "deduction": "55 CNTXF3 09",
+      "consumption_location": "CH",
+      "customer": 95,
+      "balance": ""
+    },
+    {
+      "partNumber": 2377324,
+      "description": "TRILHO",
+      "Met": 3,
+      "deduction": "55 CNTXF3 09",
+      "consumption_location": "CH",
+      "customer": 35,
+      "balance": ""
+    },
+    {
+      "partNumber": 2378523,
+      "description": "A/C TUBO",
+      "Met": 3,
+      "deduction": "55 CNTXF3 11",
+      "consumption_location": "CH",
+      "customer": 28,
+      "balance": ""
+    },
+    {
+      "partNumber": 2426764,
+      "description": "Tampa do Ventil",
+      "Met": 3,
+      "deduction": "56 CNTXF3 04",
+      "consumption_location": "CH",
+      "customer": 6,
+      "balance": ""
+    },
+    {
+      "partNumber": 2428601,
+      "description": "MANGUEIRA",
+      "Met": 3,
+      "deduction": "55 CNTXF3 11",
+      "consumption_location": "CH",
+      "customer": 33,
+      "balance": ""
+    },
+    {
+      "partNumber": 2429457,
+      "description": "MANGUEIRA",
+      "Met": 3,
+      "deduction": "55 CNTXF3-09",
+      "consumption_location": "CH",
+      "customer": 109,
+      "balance": ""
+    },
+    {
+      "partNumber": 2483246,
+      "description": "MALHA DO RADIAD",
+      "Met": 3,
+      "deduction": "56 CNTXF3 14",
+      "consumption_location": "CH",
+      "customer": 32,
+      "balance": ""
+    },
+    {
+      "partNumber": 2483270,
+      "description": "MALHA RADIADOR",
+      "Met": 3,
+      "deduction": "55 CNTXF3 13",
+      "consumption_location": "CH",
+      "customer": 27,
+      "balance": ""
+    },
+    {
+      "partNumber": 2491241,
+      "description": "TRILHO LE",
+      "Met": 3,
+      "deduction": "55 CNTXF3 09",
+      "consumption_location": "CH",
+      "customer": 35,
+      "balance": ""
+    },
+    {
+      "partNumber": 2491243,
+      "description": "TRILHO LD",
+      "Met": 3,
+      "deduction": "55 CNTXF3 09",
+      "consumption_location": "CH",
+      "customer": 70,
+      "balance": ""
+    },
+    {
+      "partNumber": 2492228,
+      "description": "TUBO A/C",
+      "Met": 3,
+      "deduction": "55 CNTXF3 15",
+      "consumption_location": "CH",
+      "customer": 30,
+      "balance": ""
+    },
+    {
+      "partNumber": 2537263,
+      "description": "DEFLETOR",
+      "Met": 3,
+      "deduction": "56 CNTXF3 08",
+      "consumption_location": "CH",
+      "customer": 8,
+      "balance": ""
+    },
+    {
+      "partNumber": 2543257,
+      "description": "A/C CONDENSER",
+      "Met": 3,
+      "deduction": "56 CNTXF3 14",
+      "consumption_location": "CH",
+      "customer": 0,
+      "balance": ""
+    },
+    {
+      "partNumber": 2552200,
+      "description": "RADIADOR",
+      "Met": 3,
+      "deduction": "55 CNTXF3 07",
+      "consumption_location": "CH",
+      "customer": 23,
+      "balance": ""
+    },
+    {
+      "partNumber": 2552201,
+      "description": "RADIADOR",
+      "Met": 3,
+      "deduction": "56 CNTXF3-08",
+      "consumption_location": "CB",
+      "customer": 33,
+      "balance": ""
+    },
+    {
+      "partNumber": 2552202,
+      "description": "Radiator",
+      "Met": 3,
+      "deduction": "56 CNTX31 08",
+      "consumption_location": "CH",
+      "customer": 8,
+      "balance": ""
+    },
+    {
+      "partNumber": 2552740,
+      "description": "TELA RADIADOR",
+      "Met": 3,
+      "deduction": "56 CNTXF3 12",
+      "consumption_location": "CH",
+      "customer": 15,
+      "balance": ""
+    },
+    {
+      "partNumber": 2578751,
+      "description": "Fan cover up",
+      "Met": 3,
+      "deduction": "55 CNTXF3 07",
+      "consumption_location": "CH",
+      "customer": 1,
+      "balance": ""
+    },
+    {
+      "partNumber": 2630545,
+      "description": "COXIM LD",
+      "Met": 3,
+      "deduction": "55 CNTXF3 09",
+      "consumption_location": "CH",
+      "customer": 51,
+      "balance": ""
+    },
+    {
+      "partNumber": 2630546,
+      "description": "COXIM LD",
+      "Met": 3,
+      "deduction": "55 CNTXF3 09",
+      "consumption_location": "CH",
+      "customer": 79,
+      "balance": ""
+    },
+    {
+      "partNumber": 2635996,
+      "description": "RADIADOR D ËLEO",
+      "Met": 3,
+      "deduction": "56 CNTXF3 12",
+      "consumption_location": "CH",
+      "customer": 8,
+      "balance": ""
+    },
+    {
+      "partNumber": 2650751,
+      "description": "TUBO DO A/C",
+      "Met": 3,
+      "deduction": "56 CNTXF3 12",
+      "consumption_location": "CH",
+      "customer": 52,
+      "balance": ""
+    },
+    {
+      "partNumber": 2715918,
+      "description": "CONDENSADOR DE",
+      "Met": 3,
+      "deduction": "56 CNTXF3 14",
+      "consumption_location": "CH",
+      "customer": 57,
+      "balance": ""
+    },
+    {
+      "partNumber": 2721361,
+      "description": "DEFLETOR DO VEN",
+      "Met": 3,
+      "deduction": "55 CNTXF3 07",
+      "consumption_location": "CH",
+      "customer": 3,
+      "balance": ""
+    }
+  ]

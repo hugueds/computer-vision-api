@@ -6,18 +6,34 @@ import axios from 'axios';
 })
 export class ComputerVisionService {
 
-  baseURL = 'http://localhost:5000/api';
+  baseURL = 'http://10.33.22.113:5000/api';
 
   constructor() { }
 
-  async sendOCR(picture = '') {
-      try {
-        console.log(picture)
-        const response = await axios.post(`${this.baseURL}/ocr`, { picture });
-        return response.data;
-      } catch(err) {
-        console.error(err);
-      }
+  async sendOCR(picture) {
+
+    if (!picture) {
+      console.error('SendOCR:: No picture was provided');
+      return;    
+    }
+
+    try {
+      const response = await axios.post(`${this.baseURL}/ocr`, { picture });
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+
+  }
+
+  async classify(picture, model) {
+     try {
+      const response = await axios.post(`${this.baseURL}/classify`, { picture, model });      
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+
   }
 
 
