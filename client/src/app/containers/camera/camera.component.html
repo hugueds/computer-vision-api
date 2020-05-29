@@ -1,9 +1,33 @@
-<!-- <input type="file" accept="video/*;capture=camcorder"> -->
-<button id="button_1" (click)="takePicture()">Take Picture</button>
-<button id="button_2" (click)="sendPicture('')">Send Picture</button>
-<button id="button_3" (click)="downloadPicture('')">Download Picture</button>
+<input type="file" accept="video/*;capture=camcorder">
 <div>
-  <video #video autoplay="true" id="video"></video>
-  <canvas    #canvas    id="canvas"    width="640"  height="480" style="background: navy; border: 1px solid #000000;"
-  ></canvas>
+  <span>Classe: {{ response?.result.label }} </span>
+  <span>Certeza: {{ response?.result.confidence * 100 }} %</span>
+</div>
+<div>
+
+  <video [hidden]="displayPreview" #video autoplay="true" id="video"></video>
+
+
+  <canvas
+    [hidden]="!displayPreview"
+    #canvas
+    id="canvas"
+    width="360"
+    height="360"
+    style="background: navy; border: 1px solid #000000;"
+  >
+</canvas>
+
+</div>
+
+<div>
+  <button [hidden]="displayPreview"  id="button_1" (click)="takePicture()">Take Picture</button>
+  <button [hidden]="!displayPreview"  id="button_5" (click)="classify()">Classificar</button>
+  <button [hidden]="!displayPreview"  id="button_2" (click)="sendPicture()">ReadOCR</button>
+  <button [hidden]="!displayPreview"  id="button_4" (click)="cancel()">Cancel</button>
+  <button [hidden]="!displayPreview"  id="button_3" (click)="downloadPicture()">Download Picture</button>
+</div>
+
+<div>
+  <input #labelName type="text" (keyup)="onKey($event)">
 </div>

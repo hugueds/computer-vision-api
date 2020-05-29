@@ -1,8 +1,5 @@
-
-
-
-#videoElement {
-	width: 300px;
-	height: 300px;
+#video {
+	width: 300;
+	height: 360px;
 	background-color: #666;
 }
