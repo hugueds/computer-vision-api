@@ -6,14 +6,15 @@ import axios from 'axios';
 })
 export class ComputerVisionService {
 
-  baseURL = 'http://10.33.22.113:5000/api'
+  baseURL = 'http://localhost:5000/api';
 
   constructor() { }
 
-  async sendOCR(picture) {
+  async sendOCR(picture = '') {
       try {
+        console.log(picture)
         const response = await axios.post(`${this.baseURL}/ocr`, { picture });
-        return response;
+        return response.data;
       } catch(err) {
         console.error(err);
       }

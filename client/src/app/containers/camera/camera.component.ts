@@ -11,8 +11,8 @@ export class CameraComponent implements OnInit {
   @ViewChild('video', { static: true }) public video: ElementRef;
   @ViewChild('canvas', { static: true }) public canvas: ElementRef;
 
-  picture: String;
-  response: String;
+  picture: string;
+  response: string;
 
   constructor(private _cvService: ComputerVisionService) {
     
@@ -28,11 +28,11 @@ export class CameraComponent implements OnInit {
       video: true,
       width: {
         min: 480,
-        max: 480
+        max: 640
       },
       height: {
         min: 360,
-        max: 360
+        max: 480
       },
       advanced: [{
         facingMode: "environment"
@@ -52,23 +52,21 @@ export class CameraComponent implements OnInit {
 
   takePicture() {
     let context = this.canvas.nativeElement.getContext('2d');
-    context.drawImage(this.video.nativeElement, 0, 0, 480, 360);
-    this.picture = this.canvas.nativeElement.toDataURL();
-    console.log(this.picture);
+    context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
+    this.picture = this.canvas.nativeElement.toDataURL();    
   }
 
-  sendPicture(picture: String) {
-    this._cvService.sendOCR(picture).then(res => {
+  sendPicture(picture: String = '') {    
+    this._cvService.sendOCR(this.picture).then(res => {
       console.log(res);
     });
     return '';
   }
 
   downloadPicture(href) {
-    const link = document.createElement('a');
-    
+    const link = document.createElement('a');    
     link.download = 'filename.png';
-    link.href = href;
+    link.href = this.picture;
     link.click();
   }
 

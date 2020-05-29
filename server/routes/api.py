@@ -22,5 +22,5 @@ def classify():
 @api_router.route('/api/ocr', methods=['POST'])
 def ocr():
     content = request.json
-    return api_controller.classify(content['picture'])
+    return api_controller.get_ocr(content['picture'])
     
