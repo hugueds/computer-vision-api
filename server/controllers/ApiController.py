@@ -2,12 +2,17 @@ import os
 import pytesseract as pyt
 from pathlib import Path
 from datetime import datetime
+import matplotlib.pyplot as plt
+import base64
+
 # from tensorflow.keras.models import load_model
 
-from data import mockdata
+pyt.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
-class ApiController():
 
+
+
+class ApiController:
     def __init__(self):
         pass
 
@@ -19,36 +24,51 @@ class ApiController():
 
     def index(self):
         self.counter += 1
-        return 'ApiController ' + str(self.counter)
+        return "ApiController " + str(self.counter)
 
-    def get_ocr(self, image, knowledgeList=[]):
-        return pyt.image_to_string(image)
-        # Buscar lista de strings para modelo conhecido
+    def get_ocr(self, imagestring, knowledgeList=[]):
+
+        image = imagestring.split('base64,')[-1].strip()  
+
+        with open(f"ocr_test.png", "wb") as fh:
+            fh.write(base64.b64decode(image))        
         
-    
+        strings = pyt.image_to_string('ocr_test.png', config='--psm 6 --oem 1')
+        print(strings)
+        return 'ok'
+        # Buscar lista de strings para modelo conhecido
+
     def classify(self, model, save=False):
-        # verificar se modelo existe                
-        m = load_model('stamp_model.h5') # model = model name
+        # verificar se modelo existe
+        # m = load_model('stamp_model.h5') # model = model name
         # fazer o predict
         # m.predict()
         # if save... salvar imagem no banco
-        return 'ok' # { error: false, message: "", result: { label: "", confidence: 0.0 } }
+        return (
+            "ok"
+        )  # { error: false, message: "", result: { label: "", confidence: 0.0 } }
 
-    def save_picture(self, image, partNumber):        
-        # Data -> Pictures -> Ano -> Mes -> Dia -> Peca -> Data_Hora_Peca yyyyMMdd_hhmmss_xxxxxxxx.jpg 640x480?                
-        y, M, d = datetime.today().year, "%02d" % datetime.today().month,   "%02d" % datetime.today().day
-        h, m, s = datetime.today().hour, "%02d" % datetime.today().minute,  "%02d" % datetime.today().second
-        
-        file_name = f'{y}{M}{d}_{h}{m}{s}_{partNumber}.jpg' # png?
-        path = f'c:/Data/Pictures/{y}/{M}/{d}/{partNumber}'
+    def save_picture(self, image, partNumber):
+        # Data -> Pictures -> Ano -> Mes -> Dia -> Peca -> Data_Hora_Peca yyyyMMdd_hhmmss_xxxxxxxx.jpg 640x480?
+        y, M, d = (
+            datetime.today().year,
+            "%02d" % datetime.today().month,
+            "%02d" % datetime.today().day,
+        )
+        h, m, s = (
+            datetime.today().hour,
+            "%02d" % datetime.today().minute,
+            "%02d" % datetime.today().second,
+        )
+
+        file_name = f"{y}{M}{d}_{h}{m}{s}_{partNumber}.jpg"  # png?
+        path = f"c:/Data/Pictures/{y}/{M}/{d}/{partNumber}"
         Path(path).mkdir(parents=True, exist_ok=True)
 
-        with open(f'{path}/{file_name}', 'wb') as fh:
+        with open(f"{path}/{file_name}", "wb") as fh:
             fh.write(base64.b64decode(image))
 
         return file_name
-        
-
 
 
 
