@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
-from PIL import Image
 import yaml
+from PIL import Image
 from tensorflow.keras.models import load_model
 
 class TFModel:
