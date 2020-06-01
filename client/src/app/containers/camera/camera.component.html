@@ -1,33 +1,104 @@
-<input type="file" accept="video/*;capture=camcorder">
-<div>
-  <span>Classe: {{ response?.result.label }} </span>
-  <span>Certeza: {{ response?.result.confidence * 100 }} %</span>
-</div>
-<div>
+<div class="camera-container">
+  <div class="navbar-wrapper">
+    <mat-toolbar class="navbar">
+      <span>CLASSIFICADOR: __CLASSIFICADOR__</span>
+    </mat-toolbar>
+  </div>
 
-  <video [hidden]="displayPreview" #video autoplay="true" id="video"></video>
+  <div class="camera-preview">
 
+    <div class="camera-card" [hidden]="displayPreview">
+      <mat-card>
+        <video #video autoplay="true" id="video"></video>
+      </mat-card>
+    </div>
 
-  <canvas
-    [hidden]="!displayPreview"
-    #canvas
-    id="canvas"
-    width="360"
-    height="360"
-    style="background: navy; border: 1px solid #000000;"
-  >
-</canvas>
+    <div class="camera-card" [hidden]="!displayPreview">
+      <canvas
+        #canvas
+        id="canvas"
+        width="640"
+        height="480"
+        style="background: navy; border: 1px solid #000000;"
+      >
+      </canvas>
+    </div>
 
-</div>
+    <div class="camera-control" [hidden]="displayPreview">
+      <button mat-fab id="button_1" (click)="takePicture()">
+        <mat-icon>camera</mat-icon>
+      </button>
+    </div>
 
-<div>
-  <button [hidden]="displayPreview"  id="button_1" (click)="takePicture()">Take Picture</button>
-  <button [hidden]="!displayPreview"  id="button_5" (click)="classify()">Classificar</button>
-  <button [hidden]="!displayPreview"  id="button_2" (click)="sendPicture()">ReadOCR</button>
-  <button [hidden]="!displayPreview"  id="button_4" (click)="cancel()">Cancel</button>
-  <button [hidden]="!displayPreview"  id="button_3" (click)="downloadPicture()">Download Picture</button>
-</div>
+  </div>
 
-<div>
-  <input #labelName type="text" (keyup)="onKey($event)">
+  <!-- <input type="file" accept="video/*;capture=camcorder"> -->
+  <!-- 
+  <div class="camera-preview">
+    
+
+    <div class="camera-control" [hidden]="displayPreview">
+      
+    </div>
+
+    <div class="camera-card" [hidden]="displayPreview" >
+      <mat-card>
+        <video
+          #video          
+          autoplay="true"
+          id="video"
+        ></video>
+      </mat-card>
+    </div>
+
+    <div class="camera-card" [hidden]="!displayPreview">
+      <canvas
+        #canvas
+        id="canvas"
+        width="640"
+        height="480"
+        style="background: navy; border: 1px solid #000000;"
+      >
+      </canvas>
+    </div>
+
+    <div class="camera-control" [hidden]="displayPreview">
+      <button mat-fab id="button_1" (click)="takePicture()">
+        <mat-icon>camera</mat-icon>
+      </button>
+    </div>
+
+  </div>
+
+  <div class="button-control">
+    <button mat-button color="primary" class="button-control--notok">NOT OK</button>
+    <button mat-button color="secondary" class="button-control--ok">OK</button>
+  </div>  
+
+  <div>
+    <button [hidden]="!displayPreview" id="button_5" (click)="classify()">
+      Classificar
+    </button>
+    <button [hidden]="!displayPreview" id="button_2" (click)="sendPicture()">
+      ReadOCR
+    </button>
+    <button [hidden]="!displayPreview" id="button_4" (click)="cancel()">
+      Cancel
+    </button>
+    <button
+      [hidden]="!displayPreview"
+      id="button_3"
+      (click)="downloadPicture()"
+    >
+      Download Picture
+    </button>
+  </div>
+
+  <div>
+    <input #labelName type="text" (keyup)="onKey($event)" />
+  </div>
+  <div>
+    <span>Classe: {{ response?.result.label }} </span>
+    <span>Certeza: {{ response?.result.confidence * 100 }} %</span>
+  </div> -->
 </div>
