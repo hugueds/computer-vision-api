@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <video autoplay="true" id="video"></video>
+    <canvas
+      #canvas
+      id="canvas"
+      width="360"
+      height="360"
+      style="background: navy; border: 1px solid #000000;"
+    >
+    </canvas>
+
+    <script>
+
+      const constraints = {
+        video: true,
+        width: {
+          min: 360,
+          max: 360,
+        },
+        height: {
+          min: 360,
+          max: 360,
+        },
+        advanced: [
+          {
+            facingMode: "environment",
+          },
+        ],
+      };
+
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices
+          .getUserMedia({ video: constraints })
+          .then((stream) => {
+            const video = document.querySelector('#video');
+            video.srcObject = stream;
+            video.play();
+          });
+      }
+
+    </script>
+  </body>
+</html>
