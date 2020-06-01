@@ -9,7 +9,7 @@ import { ComputerVisionService } from '../../services/computer-vision.service';
 export class CameraComponent implements OnInit {
 
   @ViewChild('video', { static: true }) public video: ElementRef;
-  @ViewChild('canvas', { static: true }) public canvas: ElementRef;
+  @ViewChild('canvas') public canvas: ElementRef;
 
   picture: string;
   label: string;
@@ -34,12 +34,12 @@ export class CameraComponent implements OnInit {
     const constraints = {
       video: true,
       width: {
-        min: 360,
-        max: 360
+        min: 640,
+        max: 640
       },
       height: {
-        min: 360,
-        max: 360
+        min: 480,
+        max: 480
       },
       advanced: [{
         facingMode: "environment"
@@ -59,7 +59,8 @@ export class CameraComponent implements OnInit {
 
   takePicture() {
     let context = this.canvas.nativeElement.getContext('2d');
-    context.drawImage(this.video.nativeElement, 0, 0, 360, 360);
+    // context.drawImage(this.video.nativeElement, 0, 0, 0, 0);
+    context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
     this.picture = this.canvas.nativeElement.toDataURL();
     this.displayPreview = true;
   }

@@ -6,7 +6,7 @@ class HomeController():
         pass
 
     def index(self):
-        self.counter += 1
+        self.counter += 1        
         return 'Home Controller ' + str(self.counter)
 
     def test(self):
