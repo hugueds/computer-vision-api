@@ -27,11 +27,12 @@
 .camera-preview {
   display: flex;
   margin: 0 auto;
-  width: 99.5%;
+  width: 98%;
   height: 480px;
   flex: 1 0 auto;
   border: 2px solid #00f;
-  /* flex-direction: row;	 */
+  background: #C8C9C7;
+  padding: 0.838%;
 }
 
 
@@ -47,6 +48,7 @@
   align-items: center;  
   justify-items: center;
   justify-content: center;
+  background: #C8C9C7;
   border: 2px solid #0f0;  
 }
 
@@ -70,3 +72,22 @@
   background-color: #60b269;
 }
 
+
+.last-result {
+  display: flex;
+  margin: auto;
+  margin-top: 1.618%;
+  width: 83.82%;
+  font-size: 22pt;
+  padding: 1.618%;
+  justify-content: space-around;
+  justify-self: center; 
+  align-items: center; 
+  flex: 1 auto;
+  background-color: #94A596;
+}
+
+.last-result > button {
+  color: #FAFAFA;
+  background-color:  #005d6d;
+}

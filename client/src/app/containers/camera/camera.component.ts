@@ -91,12 +91,11 @@ export class CameraComponent implements OnInit {
 
 
   takePicture() {
-    // let context = this.canvas.nativeElement.getContext('2d');
-    // // // context.drawImage(this.video.nativeElement, 0, 0, 0, 0);
-    // context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
-    // this.picture = this.canvas.nativeElement.toDataURL();
-    // this.displayPreview = true;
-    this.displayPreview = !this.displayPreview;
+    let context = this.canvas.nativeElement.getContext('2d');
+    // context.drawImage(this.video.nativeElement, 0, 0, 0, 0);
+    context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
+    this.picture = this.canvas.nativeElement.toDataURL();
+    this.displayPreview = true;    
   }
 
   sendPicture(picture: string = '') {
