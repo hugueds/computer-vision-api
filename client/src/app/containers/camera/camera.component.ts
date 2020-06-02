@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ComputerVisionService } from '../../services/computer-vision.service';
+import Quagga from 'quagga';
 
 @Component({
   selector: 'app-camera',
@@ -8,26 +9,58 @@ import { ComputerVisionService } from '../../services/computer-vision.service';
 })
 export class CameraComponent implements OnInit {
 
-  @ViewChild('video', { static: true }) public video: ElementRef;
-  @ViewChild('canvas') public canvas: ElementRef;
+  @ViewChild('video',  { static: true }) public video: ElementRef;
+  @ViewChild('canvas', { static: true }) public canvas: ElementRef;
 
   picture: string;
   label: string;
   response: any;
 
-  displayPreview = false;
+  displayPreview: boolean;
+  step: number;
+
 
   partList = [
     '2287886' // validate on Server
   ]
 
-  constructor(private _cvService: ComputerVisionService) {  }
+  constructor(private _cvService: ComputerVisionService) { }
 
 
   ngOnInit(): void {
 
+    this.displayPreview = false;
+    
+    // Quagga.init({
+    //   inputStream : {
+    //     name : "Live",
+    //     type : "LiveStream",
+    //     target: document.querySelector('#barcode'),
+    //     constraints: {
+    //       width: 640,
+    //       height: 480,
+    //       facingMode: "environment",
+    //       deviceId: "7832475934759384534"
+    //     }
+    //   },
+    //   decoder : {
+    //     readers : ["code_128_reader"]
+    //   }
+    // }, function(err) {
+    //     if (err) {
+    //         console.log(err);
+    //         return
+    //     }
+    //     console.log("Initialization finished. Ready to start");
+    //     Quagga.start();
+    // });
+
+    // Quagga.onDetected(function(data) {
+    //   console.log(data)
+    // })
+
   }
-  
+
 
   public ngAfterViewInit() {
 
@@ -58,11 +91,12 @@ export class CameraComponent implements OnInit {
 
 
   takePicture() {
-    let context = this.canvas.nativeElement.getContext('2d');
-    // context.drawImage(this.video.nativeElement, 0, 0, 0, 0);
-    context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
-    this.picture = this.canvas.nativeElement.toDataURL();
-    this.displayPreview = true;
+    // let context = this.canvas.nativeElement.getContext('2d');
+    // // // context.drawImage(this.video.nativeElement, 0, 0, 0, 0);
+    // context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
+    // this.picture = this.canvas.nativeElement.toDataURL();
+    // this.displayPreview = true;
+    this.displayPreview = !this.displayPreview;
   }
 
   sendPicture(picture: string = '') {
@@ -90,7 +124,7 @@ export class CameraComponent implements OnInit {
   }
 
   onKey(event: any) {
-    this.label = (event.target.value);    
+    this.label = (event.target.value);
   }
 
   cancel() {

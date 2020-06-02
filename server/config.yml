@@ -1,5 +1,5 @@
 project:
-    name: 'Computer Vision API'
+    name: 'Computer Vision Service'
     version: '0.0.10'
 server:
     address: '0.0.0.0'

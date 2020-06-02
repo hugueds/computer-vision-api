@@ -1,5 +1,4 @@
 from datetime import datetime
-
 class Log():
 
     user = ''
@@ -9,3 +8,6 @@ class Log():
 
     def __init__(self):
         self.server_time = datetime.now()
+
+    def save(self):
+        pass
