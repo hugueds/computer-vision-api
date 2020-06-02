@@ -6,8 +6,46 @@
   </div>
 
   <div class="camera-preview">
+    
 
-    <div class="camera-card" [hidden]="displayPreview">
+    <div class="camera-card" [ngClass]="{'t': displayPreview}">      
+        <video #video autoplay="true" id="video"  width="640" height="480"></video>      
+    </div>
+
+    <div class="camera-control">
+
+      <button
+        mat-fab
+        [hidden]="displayPreview"
+        id="button_1"
+        (click)="takePicture()"
+      >
+        <mat-icon>camera</mat-icon>
+      </button>
+    </div>
+
+    <div class="camera-card" [ngClass]="{'t': !displayPreview}">
+      <canvas
+        #canvas
+        id="canvas"
+        width="640"
+        height="480"
+        style="background: navy; border: 1px solid #000000;"
+      >
+      </canvas>
+    </div>
+    
+  </div>
+
+  <div class="button-control" [ngClass]="{'t': !displayPreview}">
+    <button mat-button color="primary" class="button-control--notok">NOT OK</button>
+    <button mat-button color="secondary" class="button-control--ok">OK</button>
+  </div>  
+
+</div>
+
+<!-- 
+  <div class="camera-card" [hidden]="!displayPreview">
       <mat-card>
         <video #video autoplay="true" id="video"></video>
       </mat-card>
@@ -28,12 +66,12 @@
       <button mat-fab id="button_1" (click)="takePicture()">
         <mat-icon>camera</mat-icon>
       </button>
-    </div>
+    </div> 
+    
+  </div> -->
 
-  </div>
-
-  <!-- <input type="file" accept="video/*;capture=camcorder"> -->
-  <!-- 
+<!-- <input type="file" accept="video/*;capture=camcorder"> -->
+<!-- 
   <div class="camera-preview">
     
 
@@ -74,8 +112,8 @@
     <button mat-button color="primary" class="button-control--notok">NOT OK</button>
     <button mat-button color="secondary" class="button-control--ok">OK</button>
   </div>  
-
-  <div>
+-->
+<!-- <div>
     <button [hidden]="!displayPreview" id="button_5" (click)="classify()">
       Classificar
     </button>
@@ -92,13 +130,12 @@
     >
       Download Picture
     </button>
-  </div>
-
+  </div> -->
+<!--
   <div>
     <input #labelName type="text" (keyup)="onKey($event)" />
   </div>
   <div>
-    <span>Classe: {{ response?.result.label }} </span>
-    <span>Certeza: {{ response?.result.confidence * 100 }} %</span>
+    <span>Classe: {{ response?.content.result }} </span>
+    <span>Certeza: {{ response?.content.confidence * 100 }} %</span>
   </div> -->
-</div>
