@@ -5,14 +5,16 @@ from datetime import datetime
 import base64
 import cv2
 from PIL import Image
+from models.Instance import Instance
+from models.Device import Device
 from models.TFModel import TFModel
 
 pyt.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
-
 class ApiController:
 
     MAX_TEMP_FILES = 10
+    IMAGE_PATH = 'C:\Pictures'
     temp_file_counter = 0
 
     def __init__(self):
@@ -22,12 +24,18 @@ class ApiController:
         self.counter += 1
         return "ApiController"
 
+    def get_device(self, ip):
+        # Find instance Where Instance.IP == ip
+        return Device()        
+
+
+
     def get_ocr(self, imagestring, knowledgeList=[]):
 
         temp_file = f"temp/ocr_test_{str(self.temp_file_counter)}.png"
         self.update_temp()
 
-        image_path = ''       
+        image_path = ''
 
         image = imagestring.split('base64,')[-1].strip()
 
@@ -114,6 +122,3 @@ class ApiController:
             self.temp_file_counter = 0
 
 api_controller = ApiController()
-
-
-# return json.dumps(default=lambda x: getattr(x, '__dict__', str(x)))
