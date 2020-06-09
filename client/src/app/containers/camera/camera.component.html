@@ -7,7 +7,15 @@
     </mat-toolbar>
   </div>
 
-  <div class="camera-preview">
+  <div>
+    <span>INSTRUÇÃO: LER CODIGO DE BARRAS</span>
+  </div>
+
+  <div style="margin-top: 1%0;">
+    <span style="font-size: 2rem; color: red;">BARCODE: {{ barcode.value }}</span>
+  </div>
+
+  <div class="camera-preview">   
     
 
     <div class="camera-card" [ngClass]="{'t': displayPreview}">      
@@ -40,10 +48,11 @@
   </div>
 
   <div class="button-control" [ngClass]="{'t': !displayPreview}">
-    <button mat-button color="primary" class="button-control--notok" (click)="displayPreview = false" >NOT OK</button>
+    <button mat-button color="primary" class="button-control--notok" (click)="cancel()" >NOT OK</button>
     <button mat-button color="secondary" class="button-control--ok" (click)="classify()">OK</button>
   </div> 
   
+  <!-- Buscar da API os ultimos resultados para este tipo de classificador -->
   <div class="last-result"  [ngClass]="{'t': displayPreview}">
     <span> ULTIMO RESULTADO: {{ response?.content.result }} - {{ response?.content.confidence * 100 }}% - {{ 0 }} </span>
     <button mat-button>VER MAIS</button>

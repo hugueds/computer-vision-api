@@ -9,15 +9,23 @@ import Quagga from 'quagga';
 })
 export class CameraComponent implements OnInit {
 
-  @ViewChild('video',  { static: true }) public video: ElementRef;
+  @ViewChild('video', { static: true }) public video: ElementRef;
   @ViewChild('canvas', { static: true }) public canvas: ElementRef;
 
   picture: string;
   label: string;
   response: any;
-
   displayPreview: boolean;
-  step: number;
+  
+  barcode = {
+    value: '',
+    isReading: true
+  };
+
+  step = {
+    number: 0,
+    name: ''
+  };
 
 
   partList = [
@@ -29,35 +37,35 @@ export class CameraComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.displayPreview = false;
-    
-    // Quagga.init({
-    //   inputStream : {
-    //     name : "Live",
-    //     type : "LiveStream",
-    //     target: document.querySelector('#barcode'),
-    //     constraints: {
-    //       width: 640,
-    //       height: 480,
-    //       facingMode: "environment",
-    //       deviceId: "7832475934759384534"
-    //     }
-    //   },
-    //   decoder : {
-    //     readers : ["code_128_reader"]
-    //   }
-    // }, function(err) {
-    //     if (err) {
-    //         console.log(err);
-    //         return
-    //     }
-    //     console.log("Initialization finished. Ready to start");
-    //     Quagga.start();
-    // });
+    // Verificar a configuração da aplicação
+    // 0 - Leitura de Barcode 
+    // 1 - Leitura de OCR
+    // 2 - Classificação de imagem
+    // 3 - Armazenamento de imagem
 
-    // Quagga.onDetected(function(data) {
-    //   console.log(data)
-    // })
+    // Verificar tipo de validação inicial
+    // 0 - Leitura de barcode
+    // 1 - Leitura de OCR
+    // 2 - Sem leitura
+
+    // Intruções / Steps
+    // 000 - Aproxime o leitor a um codigo de barras
+    // 001 - Resultado: (exibir imagem com quadrado sobre a imagem scaneada) / Botao efetuar nova leitura
+
+    // 100 - Fotografe os caracteres que deseja identificar
+    // 101 - Deseja enviar imagem para o servidor?
+    // 102 - Resultado: XXXX / Efetuar nova leitura
+
+    // 200 - Realize a leitura do codigo de barras
+    // 201 - Fotografe o objeto desejado para a classificação
+    // 202 - Deseja enviar imagem para o servidor?
+    // 203 - Imagem salva com sucesso (mostrar resultado e botão para a proxima leitura)
+    
+
+
+    this.displayPreview = false;
+
+    this.quaggaInit();
 
   }
 
@@ -95,7 +103,7 @@ export class CameraComponent implements OnInit {
     // context.drawImage(this.video.nativeElement, 0, 0, 0, 0);
     context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
     this.picture = this.canvas.nativeElement.toDataURL();
-    this.displayPreview = true;    
+    this.displayPreview = true;
   }
 
   sendPicture(picture: string = '') {
@@ -127,8 +135,49 @@ export class CameraComponent implements OnInit {
   }
 
   cancel() {
+    this.barcode.value = '';
     this.displayPreview = false;
   }
 
+  quaggaInit() {
+    Quagga.init({
+      frequency: 2,
+      inputStream: {
+        name: "Live",
+        type: "LiveStream",
+        target: document.querySelector('#video'),
+        constraints: {
+          width: 640,
+          height: 480,
+          facingMode: "environment",
+          deviceId: "7832475934759384534"
+        }
+      },
+      decoder: {
+        readers: ["code_128_reader"]
+      }
+    }, function (err) {
+      if (err) {
+        console.log(err);
+        return
+      }
+      console.log("Initialization finished. Ready to start");
+      Quagga.start();
+    });
+
+    Quagga.onDetected( (data)=>{
+      console.log(data);
+      this.barcode.value = data.codeResult.code;
+      this.takePicture();
+      let context = this.canvas.nativeElement.getContext('2d');      
+      Quagga.ImageDebug.drawPath(data.box, {x: 0, y: 1}, context, {color: "lime", lineWidth: 3});
+
+    })
+  }
+
+// 0: (2) [157.81759464629909, 223.85046200822967]
+// 1: (2) [165.41159627728973, 113.02221893898945]
+// 2: (2) [486.0986026045397, 134.99583849339479W]
+// 3: (2) [478.50460097354903, 245.824081562635
 
 }
