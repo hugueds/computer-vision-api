@@ -2,14 +2,15 @@
 
 ## 2020-06-09
 
+- [ ] Add a button to revoke/claim last sent result
 - [ ] OnLoad, device request its instance from server
 - [ ] Create a route system in Frontend
-- [ ] Create a return arrow button
-- [ ] Create a menu button
 - [ ] History Screen
 - [ ] Home Screen
-- [ ] Create a resizer to make fotos 640x480
-- [ ] Get more empty boxes pictures
+- [ ] Create a return arrow button
+- [ ] Create a menu button
+- [x] Get more empty boxes pictures
+- [x] Create a resizer to make fotos 640x480
 
 ## 2020-05-28
 
