@@ -14,16 +14,16 @@
 
 ## 2020-05-28
 
-- [ ] Create a camera preview for IOs (Needs iOS 13)
-- [ ] Resize a picture and send to a server as a BASE64 String
-- [ ] Receive and store the picture
-- [ ] Classify the image to recognize the OCR Digits
+- [x] Resize a picture and send to a server as a BASE64 String
+- [x] Receive and store the picture
+- [x] Classify the image to recognize the OCR Digits
+- [x] Create a camera preview for IOs (Needs iOS 13)
 - [x] Capture a picture and make preview
 - [x] Create a camera preview for Android (Chrome)
 
 ## 2020-05-27
 
-- [ ] Create a tensorflow module for classification
-- [ ] Create a Log Module and a Log folder if not exists
-- [ ] A config containing infos about the model (input size, channels, model name, labels, threshold)
+- [x] A config containing infos about the model (input size, channels, model name, labels, threshold)
+- [x] Create a tensorflow module for classification
+- [x] Create a Log Module and a Log folder if not exists
 - [x] Create a default folder to store the pictures (if not exists)

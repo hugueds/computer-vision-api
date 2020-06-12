@@ -13,8 +13,8 @@ export class ComputerVisionService {
   async sendOCR(picture) {
 
     if (!picture) {
-      console.error('SendOCR:: No picture was provided');
-      return;    
+      console.error('SendOCR::No picture was provided');
+      return;
     }
 
     try {
@@ -26,9 +26,9 @@ export class ComputerVisionService {
 
   }
 
-  async classify(picture, model, partId="") {
-     try {
-      const response = await axios.post(`${this.baseURL}/classify`, { picture, model,  partId});      
+  async classify(picture, model, partId = "") {
+    try {
+      const response = await axios.post(`${this.baseURL}/classify`, { picture, model, partId });
       return response.data;
     } catch (err) {
       console.error(err);
