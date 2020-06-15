@@ -7,18 +7,20 @@ class DeviceController():
     def __init__(self):
         pass
 
-    def get(self, id = ''):
-        device = Device()
-        return jsonify(device.serialize())
+    def get(self, id=0):
+        devices = Device.get(id)
+        response = []
+        for d in devices:
+            response.append(d.serialize())
+        return jsonify(response)
 
     def get_by_ip(self, ip):
-        device = Device(ip='10.8.66.4')
-        return 'ok'
+        device = Device.get_by_ip(ip)
+        if device:
+            return jsonify(device.serialize())
+        return jsonify({ "error": True, "message": 'Device not found' })
 
-        pass
-
-    def create(self, device):     
-        print(device)   
+    def create(self, device):             
         d = Device(
             user= device['user'],
             ip = device['ip'],

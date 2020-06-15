@@ -53,6 +53,7 @@ cursor.execute("""
     CREATE TABLE IF NOT EXISTS Device (
         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         user VARCHAR(6),
+        device_id VARCHAR(20),
         ip VARCHAR(15),
         deviceType INTEGER,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
