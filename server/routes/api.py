@@ -7,15 +7,14 @@ api_router = Blueprint('api_router', __name__)
 @api_router.route('/api/device/', methods=['GET', 'POST', 'PUT', 'DELETE'], defaults={'id': None})
 @api_router.route('/api/device/<id>/', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def device(id):
-    ip = request.remote_addr    
-    print(ip)
+    ip = request.remote_addr
     if request.method == 'POST':        
         return device_controller.create(request.json)
     elif request.method == 'GET':
         if id:
-            return device_controller.get(id)
+            return device_controller.get(int(id))
         else:
-            return device_controller.get_by_ip(ip)
+            return device_controller.get_by_ip(ip) # Return Not Found
     else:        
         pass
 
