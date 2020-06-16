@@ -1,3 +1,4 @@
+from flask import jsonify
 from models.Instance import Instance
 
 class InstanceController():
@@ -6,10 +7,20 @@ class InstanceController():
         pass
 
     def get(id=''):
-        pass
+        instance = Instance.get(id)
+        return jsonify(instance.serialize())
 
-    def create():
-        pass
+    def create(self, request):
+        instance = Instance(
+            name = request['name'],
+            description = request['description']
+            _type = request['type']
+            identifier = request['identifier']
+            save = request['save']
+        )
+        instance.save()
+        return instance
+        
 
     def update():
         pass

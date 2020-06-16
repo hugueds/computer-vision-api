@@ -20,12 +20,12 @@ class DeviceController():
             return jsonify(device.serialize())
         return jsonify({ "error": True, "message": 'Device not found' })
 
-    def create(self, device):             
-        d = Device(
-            user= device['user'],
-            ip = device['ip'],
-            instance_id=device['instanceId'], 
-            device_type=device['deviceType'])
+    def create(self, request):             
+        d = request(
+            user= request['user'],
+            ip = request['ip'],
+            instance_id=request['instanceId'], 
+            device_type=request['deviceType'])
 
         d.save()
         return jsonify(d.serialize())

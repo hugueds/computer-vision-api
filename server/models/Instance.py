@@ -2,14 +2,17 @@ import datetime
 
 database = 'cv_service.db'
 
-class Instance():
+class Instance():   
 
-    name = ''
-    description = ''
-    _type = 0
-    identifier = 0
-    save = False
-    created_at = datetime.datetime.now()
+    def __init__(self, name='', description='', _type=0, identifier=0, save=False):
+
+        self.name = ''
+        self.description = ''
+        self._type = 0
+        self.identifier = 0
+        self.save = False
+        self.created_at = datetime.datetime.now()
+                
 
     @staticmethod
     def get(id=0):
@@ -24,15 +27,17 @@ class Instance():
         cursor = conn.cursor()
         cursor.execute(sql, (id,))
 
-        for id, user, ip, device_type, created_at, instance_id in cursor.fetchall():
+        for id, name, description, device_type, created_at, instance_id in cursor.fetchall():
+
             instance = Instance()
             instance.id = id
-            instance.user = user
-            instance.ip = ip
+            instance.name = name
+            instance.identifier = identifier
+            instance._type = _type
             instance.device_type = device_type
-            instance.created_at = created_at
-            instance.instance_id = instance_id
-            instance.append(instance)
+            instance.created_at = created_at    
+
+            instances.append(instance)
 
         cursor.close()
 
@@ -44,7 +49,7 @@ class Instance():
             cursor = conn.cursor()
             d = (self.user, self.ip, self.instance_id,
                 self.device_type, self.created_at)
-            sql = ''' INSERT INTO Instance(name , description , type, identifier, save) VALUES(?,?,?,?,?) '''
+            sql = ''' INSERT INTO Instance(name , description , type, identifier, save) VALUES (?,?,?,?,?) '''
             cursor.execute(sql, d)
             conn.commit()
             cursor.close()

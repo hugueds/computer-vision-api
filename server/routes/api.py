@@ -24,7 +24,7 @@ def create_device(id):
 @api_router.route('/api/classify', methods=['POST'])
 def classify():
     content = request.json
-    return api_controller.classify(content['picture'], content['model'], content['partId'])   
+    return api_controller.classify(content['picture'], content['model'], content['partId'], content['save'])   
     
 @api_router.route('/api/ocr', methods=['POST'])
 def ocr():

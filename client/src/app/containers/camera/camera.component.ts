@@ -1,6 +1,10 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ComputerVisionService } from '../../services/computer-vision.service';
 import Quagga from 'quagga';
+import { DeviceService } from 'src/app/services/device.service';
+import { InstanceService } from 'src/app/services/instance.service';
+import Device from 'src/app/models/Device';
+import Instance from 'src/app/models/Instance';
 
 @Component({
   selector: 'app-camera',
@@ -16,7 +20,9 @@ export class CameraComponent implements OnInit {
   label: string;
   response: any;
   displayPreview: boolean;
-  
+  device: Device;
+  instance: Instance;
+
   barcode = {
     value: '',
     isReading: true
@@ -32,10 +38,20 @@ export class CameraComponent implements OnInit {
     '2287886' // validate on Server
   ]
 
-  constructor(private _cvService: ComputerVisionService) { }
+  constructor(private _cvService: ComputerVisionService
+    , private _deviceService: DeviceService
+    , private _instanceService: InstanceService
+  ) { }
 
 
   ngOnInit(): void {
+
+    this._deviceService.get().then(device => {
+        this.device = device;
+        console.log(device)
+        this._instanceService.get(device.instance).then(inst => this.instance = inst);
+      }
+    );
 
     // Verificar a configuração da aplicação
     // 0 - Leitura de Barcode 
@@ -59,8 +75,7 @@ export class CameraComponent implements OnInit {
     // 200 - Realize a leitura do codigo de barras
     // 201 - Fotografe o objeto desejado para a classificação
     // 202 - Deseja enviar imagem para o servidor?
-    // 203 - Imagem salva com sucesso (mostrar resultado e botão para a proxima leitura)
-    
+    // 203 - Imagem salva com sucesso (mostrar resultado e botão para a proxima leitura)    
 
 
     this.displayPreview = false;
@@ -71,6 +86,8 @@ export class CameraComponent implements OnInit {
 
 
   public ngAfterViewInit() {
+
+    const videoWidth = 0;
 
     const constraints = {
       video: true,
@@ -100,7 +117,6 @@ export class CameraComponent implements OnInit {
 
   takePicture() {
     let context = this.canvas.nativeElement.getContext('2d');
-    // context.drawImage(this.video.nativeElement, 0, 0, 0, 0);
     context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
     this.picture = this.canvas.nativeElement.toDataURL();
     this.displayPreview = true;
@@ -115,7 +131,7 @@ export class CameraComponent implements OnInit {
   }
 
   classify() {
-    const model = 'tanklabels'
+    const model = 'emptybox'
     this._cvService.classify(this.picture, model).then(res => {
       console.log(res);
       this.response = res;
@@ -165,19 +181,19 @@ export class CameraComponent implements OnInit {
       Quagga.start();
     });
 
-    Quagga.onDetected( (data)=>{
+    Quagga.onDetected((data) => {
       console.log(data);
       this.barcode.value = data.codeResult.code;
       this.takePicture();
-      let context = this.canvas.nativeElement.getContext('2d');      
-      Quagga.ImageDebug.drawPath(data.box, {x: 0, y: 1}, context, {color: "lime", lineWidth: 3});
+      let context = this.canvas.nativeElement.getContext('2d');
+      Quagga.ImageDebug.drawPath(data.box, { x: 0, y: 1 }, context, { color: "lime", lineWidth: 3 });
 
     })
   }
 
-// 0: (2) [157.81759464629909, 223.85046200822967]
-// 1: (2) [165.41159627728973, 113.02221893898945]
-// 2: (2) [486.0986026045397, 134.99583849339479W]
-// 3: (2) [478.50460097354903, 245.824081562635
+  // 0: (2) [157.81759464629909, 223.85046200822967]
+  // 1: (2) [165.41159627728973, 113.02221893898945]
+  // 2: (2) [486.0986026045397, 134.99583849339479W]
+  // 3: (2) [478.50460097354903, 245.824081562635
 
 }

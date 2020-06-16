@@ -31,10 +31,22 @@
   margin: 0 auto;
   width: 98%;
   height: 480px;
-  flex: 1 0 auto;
-  /* border: 2px solid #00f; */
+  flex: 1 1 auto;  
   background: #97999B;
   padding: 0.838%;
+}
+
+@media (max-width: 600px) 
+{
+  .camera-preview { 
+    height: 100px;
+    flex: 1 0 auto;  
+   }
+
+   #video {
+     height: 360px;
+     width: 640px;
+   }
 }
 
 .camera-control > button {
@@ -42,14 +54,13 @@
   color: #FAFAFA;
 }
 
-
-
-
 .camera-card {
   display: flex;
   margin: 0 auto;  
   border: 1px solid #2D2926;
 }
+
+
 
 .camera-control { 
   display: flex;

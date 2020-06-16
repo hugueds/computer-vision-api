@@ -8,7 +8,7 @@ models:
     emptybox:
         name: 'emptybox'
         graph: 'emptybox.h5'
-        size: 300
+        size: 224
         channels: 3
         labels: ['OK', 'NOT OK']
     tanklabels:
