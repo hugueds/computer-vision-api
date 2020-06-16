@@ -18,23 +18,33 @@ class DeviceController():
         device = Device.get_by_ip(ip)
         if device:
             return jsonify(device.serialize())
-        return jsonify({ "error": True, "message": 'Device not found' })
+        return jsonify({"error": True, "message": 'Device not found'})
 
-    def create(self, request):             
-        d = request(
-            user= request['user'],
-            ip = request['ip'],
-            instance_id=request['instanceId'], 
+    def create(self, request):
+
+        d = Device(
+            user=request['user'],
+            ip=request['ip'],
+            device_id=request['deviceId'],
+            instance_id=request['instanceId'],
             device_type=request['deviceType'])
 
         d.save()
+
         return jsonify(d.serialize())
 
     def update(self):
         return
 
-    def delete(self):
-        return
+    def delete(self, id):
+        if id:
+            device = Device.get(id, True)
+            if device:
+                Device.delete(device.id)
+                return ('Device ID ' + str(id) + ' Deleted')
+            else:
+                return jsonify({"error": True, "message": f'Device ID {id} Not Found'})
+        return 'Not Found'
 
 
 device_controller = DeviceController()

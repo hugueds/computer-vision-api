@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class DeviceService {
 
-  baseURL = 'http://10.33.22.113:5000/api';
+  baseURL = environment.server;
 
   constructor() { }
 
