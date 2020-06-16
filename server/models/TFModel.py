@@ -29,6 +29,7 @@ class TFModel:
             _, image = cv.threshold(
                 image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
         else:
+            pass
             image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
 
         image = cv.resize(image, (self.size, self.size), cv.INTER_AREA)

@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
+import {environment} from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ComputerVisionService {
 
-  baseURL = 'http://10.33.22.113:5000/api';
+  baseURL = environment.server;
 
   constructor() { }
 
@@ -28,7 +29,7 @@ export class ComputerVisionService {
 
   async classify(picture, model, partId = "", save = 'True') {
     try {
-      const response = await axios.post(`${this.baseURL}/classify`, { picture, model, partId, save });
+      const response = await axios.post(`${this.baseURL}/classify/`, { picture, model, partId, save });
       return response.data;
     } catch (err) {
       console.error(err);

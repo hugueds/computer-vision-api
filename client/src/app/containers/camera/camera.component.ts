@@ -23,6 +23,10 @@ export class CameraComponent implements OnInit {
   device: Device;
   instance: Instance;
 
+
+  applicationType = 2;
+  readType = 0;
+
   barcode = {
     value: '',
     isReading: true
@@ -34,10 +38,6 @@ export class CameraComponent implements OnInit {
   };
 
 
-  partList = [
-    '2287886' // validate on Server
-  ]
-
   constructor(private _cvService: ComputerVisionService
     , private _deviceService: DeviceService
     , private _instanceService: InstanceService
@@ -46,25 +46,44 @@ export class CameraComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.step.number = 0;
+    this.displayPreview = false;
+
     this._deviceService.get().then(device => {
         this.device = device;
         console.log(device)
-        this._instanceService.get(device.instance).then(inst => this.instance = inst);
+        // this._instanceService.get(device.instance).then(inst => this.instance = inst);
       }
     );
 
+    // Simular configuração do device / instancia
+
+    if (this.applicationType == 2) {
+
+      if (this.readType == 0) {
+        this.step.number = 1;
+        this.step.name = 'Aguardando leitura do Código de Barras';
+        this.openBarcodeScanner();
+      }
+
+    }
+
+    
     // Verificar a configuração da aplicação
     // 0 - Leitura de Barcode 
     // 1 - Leitura de OCR
     // 2 - Classificação de imagem
     // 3 - Armazenamento de imagem
-
+    
     // Verificar tipo de validação inicial
     // 0 - Leitura de barcode
     // 1 - Leitura de OCR
     // 2 - Sem leitura
-
+    
     // Intruções / Steps
+
+    // Application Type | Read Type | St
+
     // 000 - Aproxime o leitor a um codigo de barras
     // 001 - Resultado: (exibir imagem com quadrado sobre a imagem scaneada) / Botao efetuar nova leitura
 
@@ -75,12 +94,9 @@ export class CameraComponent implements OnInit {
     // 200 - Realize a leitura do codigo de barras
     // 201 - Fotografe o objeto desejado para a classificação
     // 202 - Deseja enviar imagem para o servidor?
-    // 203 - Imagem salva com sucesso (mostrar resultado e botão para a proxima leitura)    
+    // 203 - Imagem salva com sucesso (mostrar resultado e botão para a proxima leitura)
 
-
-    this.displayPreview = false;
-
-    this.quaggaInit();
+        
 
   }
 
@@ -90,6 +106,7 @@ export class CameraComponent implements OnInit {
     const videoWidth = 0;
 
     const constraints = {
+
       video: true,
       width: {
         min: 640,
@@ -155,7 +172,8 @@ export class CameraComponent implements OnInit {
     this.displayPreview = false;
   }
 
-  quaggaInit() {
+  openBarcodeScanner() {
+
     Quagga.init({
       frequency: 2,
       inputStream: {
@@ -174,6 +192,7 @@ export class CameraComponent implements OnInit {
       }
     }, function (err) {
       if (err) {
+        window.alert(err);
         console.log(err);
         return
       }
@@ -184,16 +203,15 @@ export class CameraComponent implements OnInit {
     Quagga.onDetected((data) => {
       console.log(data);
       this.barcode.value = data.codeResult.code;
-      this.takePicture();
-      let context = this.canvas.nativeElement.getContext('2d');
-      Quagga.ImageDebug.drawPath(data.box, { x: 0, y: 1 }, context, { color: "lime", lineWidth: 3 });
+      Quagga.stop();
+      this.step.number = 2;      
+      this.step.name = 'Fotografe a Peça Desejada';
+      // this.takePicture();
+      // let context = this.canvas.nativeElement.getContext('2d');
+      // Quagga.ImageDebug.drawPath(data.box, { x: 0, y: 1 }, context, { color: "lime", lineWidth: 3 });
 
     })
   }
 
-  // 0: (2) [157.81759464629909, 223.85046200822967]
-  // 1: (2) [165.41159627728973, 113.02221893898945]
-  // 2: (2) [486.0986026045397, 134.99583849339479W]
-  // 3: (2) [478.50460097354903, 245.824081562635
 
 }

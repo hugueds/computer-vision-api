@@ -23,10 +23,7 @@ class ApiController:
     def index(self):
         self.counter += 1
         return "ApiController"
-
-    def get_device(self, ip):
-        # Find instance Where Instance.IP == ip
-        return Device()
+    
 
     def get_ocr(self, imagestring, knowledgeList=[]):
 
