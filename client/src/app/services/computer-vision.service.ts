@@ -26,9 +26,9 @@ export class ComputerVisionService {
 
   }
 
-  async classify(picture, model, partId = "") {
+  async classify(picture, model, partId = "", save = 'True') {
     try {
-      const response = await axios.post(`${this.baseURL}/classify`, { picture, model, partId });
+      const response = await axios.post(`${this.baseURL}/classify`, { picture, model, partId, save });
       return response.data;
     } catch (err) {
       console.error(err);

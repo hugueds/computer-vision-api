@@ -7,7 +7,7 @@ import cv2
 from PIL import Image
 from models.Instance import Instance
 from models.Device import Device
-# from models.TFModel import TFModel
+from models.TFModel import TFModel
 
 pyt.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
