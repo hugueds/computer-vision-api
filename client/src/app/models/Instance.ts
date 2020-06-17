@@ -15,7 +15,7 @@ export enum InstanceType {
 }
 
 export enum IdentifierType {
-    NONE,
+    BARCODE,
     OCR,
-    BARCODE
+    NONE,
 }
