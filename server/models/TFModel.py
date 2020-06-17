@@ -36,7 +36,10 @@ class TFModel:
         image = image / 255
         image = image.reshape(1, self.size, self.size, self.channels)
 
-        pred = self.model.predict(image)        
-        index = int(pred.argmax(axis=1)[0])        
+        if self.model:
+            pred = self.model.predict(image)        
+            index = int(pred.argmax(axis=1)[0])        
+            return { "prediction" : self.labels[index], "confidence" : pred[0][index] } 
 
-        return { "prediction" : self.labels[index], "confidence" : pred[0][index] } 
+        else: 
+            return { 'error': True, 'message': 'server is processing a previous request' }

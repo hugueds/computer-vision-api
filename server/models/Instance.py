@@ -1,21 +1,23 @@
 import datetime
+import json
+import sqlite3
 
 database = 'cv_service.db'
 
 class Instance():   
 
-    def __init__(self, name='', description='', _type=0, identifier=0, save=False):
+    def __init__(self, id=0, name='', description='', _type=0, identifier=0, save=0):
 
-        self.name = ''
-        self.description = ''
-        self._type = 0
-        self.identifier = 0
-        self.save = False
+        self.name = name
+        self.description = description
+        self._type = _type
+        self.identifier = identifier
+        self.save = save
         self.created_at = datetime.datetime.now()
                 
 
     @staticmethod
-    def get(id=0):
+    def get(id=0, only_one=False):
 
         instances = []
         sql = ''' SELECT * FROM INSTANCE WHERE ID > ? '''
@@ -27,31 +29,39 @@ class Instance():
         cursor = conn.cursor()
         cursor.execute(sql, (id,))
 
-        for id, name, description, device_type, created_at, instance_id in cursor.fetchall():
+        for id, name, description, _type, identifier, save, created_at in cursor.fetchall():
 
             instance = Instance()
             instance.id = id
             instance.name = name
-            instance.identifier = identifier
-            instance._type = _type
-            instance.device_type = device_type
+            instance.description = description
+            instance._type = _type         
+            instance.identifier = identifier            
+            instance.save = save
             instance.created_at = created_at    
 
             instances.append(instance)
 
         cursor.close()
 
-        return instance
+        if only_one:
+            if len(instances) > 0:
+                return instances[0]
+            else:
+                return None
 
-    def save(self):
+        return instances
+
+    def _save(self):
+        print('Creating a new Instance')
         try:
             conn = sqlite3.connect(database)
-            cursor = conn.cursor()
-            d = (self.user, self.ip, self.instance_id,
-                self.device_type, self.created_at)
-            sql = ''' INSERT INTO Instance(name , description , type, identifier, save) VALUES (?,?,?,?,?) '''
+            cursor = conn.cursor()            
+            d = (self.name, self.description, self._type, self.identifier, self.save, self.created_at)
+            sql = ''' INSERT INTO Instance( name , description , type, identifier, save, created_at) VALUES (?,?,?,?,?,?) '''
             cursor.execute(sql, d)
             conn.commit()
+            self.id = cursor.lastrowid
             cursor.close()
             return True
         except Exception as e:
@@ -60,6 +70,7 @@ class Instance():
 
     def serialize(self):
         return {
+            "id": self.id,
             "name": self.name,
             "description": self.description,
             "type": self._type,

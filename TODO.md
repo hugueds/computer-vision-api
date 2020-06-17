@@ -1,5 +1,11 @@
 # TODO
 
+## 2020-06-17
+
+- [ ] Corrigir desvio do leitor de codigo de barras para o Ipad
+- [ ] Adicionar nome do modelo na instancia
+- [ ] Buscar o nome do modelo do classificador
+
 ## 2020-06-09
 
 - [ ] Add a button to revoke/claim last sent result

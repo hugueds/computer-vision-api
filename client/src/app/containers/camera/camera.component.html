@@ -1,29 +1,27 @@
 <div class="camera-container">
-
   <div class="navbar-wrapper">
     <mat-toolbar class="navbar">
       <span>CLASSIFICADOR: __CLASSIFICADOR__</span>
-      <img src="assets/icons/scania-icon.png" alt="">
+      <img src="assets/icons/scania-icon.png" alt="" />
     </mat-toolbar>
   </div>
 
   <div>
-    <span>INSTRUÇÃO: LER CODIGO DE BARRAS</span>
+    <span>{{ step.number + 1 }} INSTRUÇÃO: {{ step.name }}</span>
   </div>
 
   <div style="margin-top: 1%0;">
-    <span style="font-size: 2rem; color: red;">BARCODE: {{ barcode.value }}</span>
+    <span style="font-size: 2rem; color: red;"
+      >BARCODE: {{ barcode.value }}</span
+    >
   </div>
 
-  <div class="camera-preview">   
-    
-
-    <div class="camera-card" [ngClass]="{'t': displayPreview}">      
-        <video #video autoplay="true" id="video"  width="640" height="480"></video>      
+  <div class="camera-preview">
+    <div class="camera-card" [ngClass]="{ 'displayPreview': displayPreview }">
+      <video #video id="video" ></video>
     </div>
 
     <div class="camera-control">
-
       <button
         mat-fab
         [hidden]="displayPreview"
@@ -34,7 +32,7 @@
       </button>
     </div>
 
-    <div class="camera-card" [ngClass]="{'t': !displayPreview}">
+    <div class="camera-card" [ngClass]="{ 'displayPreview': !displayPreview }">
       <canvas
         #canvas
         id="canvas"
@@ -44,21 +42,33 @@
       >
       </canvas>
     </div>
-    
   </div>
 
-  <div class="button-control" [ngClass]="{'t': !displayPreview}">
-    <button mat-button color="primary" class="button-control--notok" (click)="cancel()" >NOT OK</button>
-    <button mat-button color="secondary" class="button-control--ok" (click)="classify()">OK</button>
-  </div> 
-  
+  <div class="button-control" [ngClass]="{ 'displayPreview': !displayPreview && !loading }">
+    <button
+      mat-button
+      color="primary"
+      class="button-control--notok"
+      (click)="cancel()"
+    >
+      NOT OK
+    </button>
+    <button
+      mat-button
+      color="secondary"
+      class="button-control--ok"
+      (click)="classify()"
+    >
+      OK
+    </button>
+  </div>
+
   <!-- Buscar da API os ultimos resultados para este tipo de classificador -->
-  <div class="last-result"  [ngClass]="{'t': displayPreview}">
-    <span> ULTIMO RESULTADO: {{ response?.content.result }} - {{ response?.content.confidence * 100 }}% - {{ 0 }} </span>
+  <div class="last-result" [ngClass]="{ 'displayPreview': displayPreview }">
+    <span>
+      ULTIMO RESULTADO: {{ response?.content.result }} -
+      {{ response?.content.confidence * 100 }}% - {{ 0 }}
+    </span>
     <button mat-button>VER MAIS</button>
   </div>
-
 </div>
-
-
-

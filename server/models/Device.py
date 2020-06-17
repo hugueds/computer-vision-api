@@ -1,7 +1,7 @@
 import datetime
 import json
-from models.Instance import Instance
 import sqlite3
+from models.Instance import Instance
 
 database = 'cv_service.db'
 
@@ -128,7 +128,7 @@ class Device():
         return {
             'id': self.id,
             'user': self.user,
-            'device_id': self.device_id,
+            'deviceId': self.device_id,
             'ip': self.ip,
             'instance': self.instance_id,
             'deviceType': self.device_type,

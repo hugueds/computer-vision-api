@@ -1,12 +1,11 @@
 import Instance from './Instance';
 
-export default class Device {
-    
+export default class Device {    
     id: number;
     ip: string;
     user: string;
     deviceId: string;
-    instance: Instance;
+    instance: number;
     deviceType: DeviceType;
     createdAt: Date;
 }

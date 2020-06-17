@@ -1,6 +1,7 @@
 from flask import Blueprint, request, json
 from controllers.ApiController import api_controller
 from controllers.DeviceController import device_controller
+from controllers.InstanceController import instance_controller
 
 api_router = Blueprint('api_router', __name__)
 
@@ -21,15 +22,14 @@ def device(id):
         return device_controller.delete(int(id))
     
 
-@api_router.route('/api/instance/', methods=['GET', 'POST', 'PUT', 'DELETE'], defaults={'id': None})
+@api_router.route('/api/instance/', methods=['GET', 'POST', 'PUT', 'DELETE'], defaults={'id': 0})
 @api_router.route('/api/instance/<id>/', methods=['GET', 'POST', 'PUT', 'DELETE'])
-def instance(id):
-    ip = request.remote_addr
-    if request.method == 'GET':
-        if id:
-            return instance_controller.get(int(id))
+def instance(id):    
+    if request.method == 'GET':  
+        if id:      
+            return instance_controller.get_by_id(int(id))
         else:
-            return instance_controller.get_by_ip(ip) # Return Not Found
+            return instance_controller.get()
     elif request.method == 'POST':        
         return instance_controller.create(request.json)
     elif request.method == 'PUT':

@@ -39,7 +39,7 @@ cursor.execute("""
     CREATE TABLE IF NOT EXISTS Instance (
         id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
         name VARCHAR(30),
-        description VARCHAR(50),
+        description VARCHAR(50),        
         type INTEGER,
         identifier INTEGER,
         save INTEGER,
