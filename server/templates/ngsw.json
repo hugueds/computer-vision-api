@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1592334424587,
+  "timestamp": 1592398017145,
   "index": "/index.html",
   "assetGroups": [
     {
@@ -10,8 +10,8 @@
       "urls": [
         "/favicon.ico",
         "/index.html",
-        "/main-es2015.db149f2ee5f35ec8ab3c.js",
-        "/main-es5.db149f2ee5f35ec8ab3c.js",
+        "/main-es2015.31d11458f083d79287da.js",
+        "/main-es5.31d11458f083d79287da.js",
         "/manifest.webmanifest",
         "/polyfills-es2015.f2c5ab749249a66bdf26.js",
         "/polyfills-es5.049f620af8c864cf4d88.js",
@@ -51,9 +51,9 @@
     "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
     "/assets/icons/scania-icon.png": "73c677be5bd1af06c4dc01e2978ee22b93e7b520",
     "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
-    "/index.html": "da1d329a973def7150a581b02729958c1026b0dc",
-    "/main-es2015.db149f2ee5f35ec8ab3c.js": "1304094d597acb75a261897375b8b040223d9770",
-    "/main-es5.db149f2ee5f35ec8ab3c.js": "828b3da80d7a7a85ef1d8d8dbb22fe59fda7cb89",
+    "/index.html": "7995e6040a418e54567e1d9d39756b9a8aa6fe86",
+    "/main-es2015.31d11458f083d79287da.js": "48433f425d69b6102df4be39fe28ca6d41b6a053",
+    "/main-es5.31d11458f083d79287da.js": "d34a092ba5ff41bea653f030459a4b16bdeebfce",
     "/manifest.webmanifest": "61b7a0a463987c8ad7ea00130505c49d53c87dc4",
     "/polyfills-es2015.f2c5ab749249a66bdf26.js": "72ad4ccc0a3916ae4598199447cdeadd6d380570",
     "/polyfills-es5.049f620af8c864cf4d88.js": "8aa26ea87b9958c6bd13b7c257c0e9940438e684",

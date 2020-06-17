@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 import {environment} from '../../environments/environment';
+import Instance from '../models/Instance';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class InstanceService {
 
   constructor() { }
 
-  async get(id = '') {
+  async get(id): Promise<Instance> {
 
     try {
       const response = await axios.get(`${this.baseURL}/instance/{id}`.replace('{id}', id));

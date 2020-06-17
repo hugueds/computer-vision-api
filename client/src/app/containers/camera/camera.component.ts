@@ -1,10 +1,11 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { ComputerVisionService } from '../../services/computer-vision.service';
-import Quagga from 'quagga';
 import { DeviceService } from 'src/app/services/device.service';
 import { InstanceService } from 'src/app/services/instance.service';
 import Device from 'src/app/models/Device';
 import Instance from 'src/app/models/Instance';
+import Quagga from 'quagga';
+
 
 @Component({
   selector: 'app-camera',
@@ -16,16 +17,14 @@ export class CameraComponent implements OnInit {
   @ViewChild('video', { static: true }) public video: ElementRef;
   @ViewChild('canvas', { static: true }) public canvas: ElementRef;
 
-  picture: string;
-  label: string;
+  picture: string;  
   response: any;
   displayPreview: boolean;
   device: Device;
   instance: Instance;
 
-
-  applicationType = 2;
-  readType = 0;
+  loading = false;
+  model = 'emptybox';  
 
   barcode = {
     value: '',
@@ -47,38 +46,33 @@ export class CameraComponent implements OnInit {
   ngOnInit(): void {
 
     this.step.number = 0;
-    this.displayPreview = false;
+    this.displayPreview = false;    
 
     this._deviceService.get().then(device => {
         this.device = device;
-        console.log(device)
-        // this._instanceService.get(device.instance).then(inst => this.instance = inst);
+        this._instanceService.get(device.instance).then(instance => {
+          this.instance = instance;          
+          this.loadOperation(instance);
+        });
       }
     );
 
     // Simular configuração do device / instancia
 
-    if (this.applicationType == 2) {
 
-      if (this.readType == 0) {
-        this.step.number = 1;
-        this.step.name = 'Aguardando leitura do Código de Barras';
-        this.openBarcodeScanner();
-      }
-
-    }
-
-    
-    // Verificar a configuração da aplicação
-    // 0 - Leitura de Barcode 
-    // 1 - Leitura de OCR
-    // 2 - Classificação de imagem
-    // 3 - Armazenamento de imagem
-    
     // Verificar tipo de validação inicial
     // 0 - Leitura de barcode
     // 1 - Leitura de OCR
     // 2 - Sem leitura
+
+    // Verificar a configuração da aplicação
+    // 0 - Leitura de Barcode 
+    // 1 - Leitura de OCR
+    // 2 - Classificação de imagem
+    // 3 - Armazenamento de imagem   
+
+
+    // Device type for rendering
     
     // Intruções / Steps
 
@@ -101,7 +95,23 @@ export class CameraComponent implements OnInit {
   }
 
 
-  public ngAfterViewInit() {
+  loadOperation(instance: Instance) {
+
+    switch (instance.identifierType) {
+
+        case 0: break; // BARCODE
+        case 1: break; // OCR
+        case 2: break; // SEM VALIDAÇÃO
+        
+    }
+    
+
+  }
+
+  
+
+
+  ngAfterViewInit() {
 
     const videoWidth = 0;
 
@@ -133,7 +143,7 @@ export class CameraComponent implements OnInit {
 
 
   takePicture() {
-    let context = this.canvas.nativeElement.getContext('2d');
+    const context = this.canvas.nativeElement.getContext('2d');
     context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
     this.picture = this.canvas.nativeElement.toDataURL();
     this.displayPreview = true;
@@ -147,25 +157,24 @@ export class CameraComponent implements OnInit {
     });
   }
 
-  classify() {
-    const model = 'emptybox'
-    this._cvService.classify(this.picture, model).then(res => {
+  classify() {    
+    this.loading = true;
+    this._cvService.classify(this.picture, this.instance.name).then(res => {
       console.log(res);
       this.response = res;
       this.displayPreview = false;
+      this.loading = false;
     })
   }
 
   downloadPicture(href: string = '') {
     const link = document.createElement('a');
-    link.download = new Date().toISOString().slice(0, 19) + '_' + this.label + '.png';
+    // link.download = new Date().toISOString().slice(0, 19) + '_' + this.label + '.png';
     link.href = this.picture;
     link.click();
   }
 
-  onKey(event: any) {
-    this.label = (event.target.value);
-  }
+  
 
   cancel() {
     this.barcode.value = '';
@@ -211,6 +220,7 @@ export class CameraComponent implements OnInit {
       // Quagga.ImageDebug.drawPath(data.box, { x: 0, y: 1 }, context, { color: "lime", lineWidth: 3 });
 
     })
+
   }
 
 

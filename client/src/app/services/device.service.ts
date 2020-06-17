@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
-import {environment} from '../../environments/environment';
+import { environment } from '../../environments/environment';
+import Device from '../models/Device';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +12,7 @@ export class DeviceService {
 
   constructor() { }
 
-  async get(id = '') {
+  async get(id = ''): Promise<Device> {
 
     try {
       const response = await axios.get(`${this.baseURL}/device/{id}`.replace('{id}', id));
@@ -22,8 +23,8 @@ export class DeviceService {
 
   }
 
-  async create(){}
-  async update(){}
-  async delete(){}
-  
+  async create() { }
+  async update() { }
+  async delete() { }
+
 }

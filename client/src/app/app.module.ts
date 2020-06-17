@@ -33,13 +33,13 @@ import { VideoCameraComponent } from './components/video-camera/video-camera.com
     VideoCameraComponent
   ],
   imports: [
+    // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     MatIconModule,
     MatToolbarModule,
     MatCardModule,
     MatButtonModule,
     BrowserModule,
     AppRoutingModule,
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     BrowserAnimationsModule
   ],
   providers: [],
