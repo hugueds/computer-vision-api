@@ -1,5 +1,5 @@
 project:
-    name: 'Computer Vision API'
+    name: 'Computer Vision Service'
     version: '0.0.10'
 server:
     address: '0.0.0.0'
@@ -8,7 +8,7 @@ models:
     emptybox:
         name: 'emptybox'
         graph: 'emptybox.h5'
-        size: 300
+        size: 224
         channels: 3
         labels: ['OK', 'NOT OK']
     tanklabels:

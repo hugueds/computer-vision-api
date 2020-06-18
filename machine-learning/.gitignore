@@ -1,0 +1,10 @@
+images/
+images/*
+models/
+models/boxes/
+models/boxes/*
+opencv-text-detection/
+opencv-text-recognition/
+images/stamps
+.ipynb_checkpoints/
+machine-learning/boxes/variables/variables.data-00000-of-00001 

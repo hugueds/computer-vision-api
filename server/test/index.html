@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>TESTE2</h1>
+
+    <button onclick="start()">start</button>
+    <video id="video" autoplay="false"></video>
+
+    <script src="quagga.min.js"></script>
+
+    <script>
+        start()
+      const constraints = {
+        video: true,
+        width: {
+          min: 640,
+          max: 640,
+        },
+        height: {
+          min: 480,
+          max: 480,
+        },
+        advanced: [
+          {
+            facingMode: "environment",
+          },
+        ],
+      };
+
+      const video = document.querySelector("#video");
+
+      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices
+          .getUserMedia({ video: constraints })
+          .then((stream) => {
+            video.srcObject = stream;
+            video.play();
+          });
+      }
+
+      function start() {
+        Quagga.init(
+          {
+            frequency: 2,
+            locate: false,
+            inputStream: {
+              name: "Live",
+              type: "LiveStream",
+              target: document.querySelector("#video"),
+              constraints: {
+                width: 640,
+                height: 480,
+                facingMode: "environment",
+              },
+            },
+            decoder: {
+              readers: ["code_128_reader", 'ean_reader']
+            },
+          },
+          function (err) {
+            if (err) {
+              window.alert(err);
+              console.log(err);
+              return;
+            }
+            console.log("Initialization finished. Ready to start");           
+            Quagga.start();
+             if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+              navigator.mediaDevices
+                .getUserMedia({ video: constraints })
+                .then((stream) => {
+                  video.srcObject = stream;
+                  video.play();
+                });
+            }
+          }
+        );
+
+        Quagga.onDetected((data) => {
+          window.alert(data.codeResult.code)
+          console.log(data)
+        });
+      }
+    </script>
+  </body>
+</html>
