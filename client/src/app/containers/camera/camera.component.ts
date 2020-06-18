@@ -3,7 +3,7 @@ import { ComputerVisionService } from '../../services/computer-vision.service';
 import { DeviceService } from 'src/app/services/device.service';
 import { InstanceService } from 'src/app/services/instance.service';
 import Device from 'src/app/models/Device';
-import Instance from 'src/app/models/Instance';
+import Instance, { IdentifierType } from 'src/app/models/Instance';
 import Quagga from 'quagga';
 
 
@@ -17,17 +17,17 @@ export class CameraComponent implements OnInit {
   @ViewChild('video', { static: true }) public video: ElementRef;
   @ViewChild('canvas', { static: true }) public canvas: ElementRef;
 
-  picture: string;  
+  picture: "";
   response: any;
   displayPreview: boolean;
   device: Device;
   instance: Instance;
 
   loading = false;
-  model = 'emptybox';  
 
-  barcode = {
+  identifier = {
     value: '',
+    typeString: '',
     isReading: true
   };
 
@@ -39,23 +39,26 @@ export class CameraComponent implements OnInit {
 
   constructor(private _cvService: ComputerVisionService
     , private _deviceService: DeviceService
-    , private _instanceService: InstanceService
+
   ) { }
 
 
   ngOnInit(): void {
 
     this.step.number = 0;
-    this.displayPreview = false;    
+    this.displayPreview = false;
 
-    this._deviceService.get().then(device => {
-        this.device = device;
-        this._instanceService.get(device.instance).then(instance => {
-          this.instance = instance;          
-          this.loadOperation(instance);
-        });
-      }
-    );
+    this._deviceService.get().then(result => {
+
+      this.device = result.device;
+      if (result.device.instance == 0) return;
+      this.instance = result.instance;
+      console.log(result.device);
+      console.log(result.instance);
+      this.loadOperation(result.instance);
+
+    });
+
 
     // Simular configuração do device / instancia
 
@@ -73,7 +76,7 @@ export class CameraComponent implements OnInit {
 
 
     // Device type for rendering
-    
+
     // Intruções / Steps
 
     // Application Type | Read Type | St
@@ -90,30 +93,31 @@ export class CameraComponent implements OnInit {
     // 202 - Deseja enviar imagem para o servidor?
     // 203 - Imagem salva com sucesso (mostrar resultado e botão para a proxima leitura)
 
-        
+
 
   }
 
 
   loadOperation(instance: Instance) {
 
-    switch (instance.identifierType) {
+    switch (instance.identifier) {
 
-        case 0: break; // BARCODE
-        case 1: break; // OCR
-        case 2: break; // SEM VALIDAÇÃO
-        
+      case IdentifierType.BARCODE:
+        this.identifier.typeString = 'BARCODE';
+        break;
+
+      case IdentifierType.OCR: break; // OCR
+      case IdentifierType.NONE: break; // SEM VALIDAÇÃO
+
     }
-    
+
 
   }
 
-  
+
 
 
   ngAfterViewInit() {
-
-    const videoWidth = 0;
 
     const constraints = {
 
@@ -136,6 +140,7 @@ export class CameraComponent implements OnInit {
       navigator.mediaDevices.getUserMedia({ video: constraints }).then(stream => {
         this.video.nativeElement.srcObject = stream
         this.video.nativeElement.play();
+        // this.openBarcodeScanner()
       });
     }
 
@@ -144,6 +149,8 @@ export class CameraComponent implements OnInit {
 
   takePicture() {
     const context = this.canvas.nativeElement.getContext('2d');
+    context.canvas.width = 640;
+    context.canvas.height = 480;
     context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
     this.picture = this.canvas.nativeElement.toDataURL();
     this.displayPreview = true;
@@ -151,20 +158,28 @@ export class CameraComponent implements OnInit {
 
   sendPicture(picture: string = '') {
     this._cvService.sendOCR(this.picture).then(res => {
-      let strings = res.result.label.split(' ');
+      const strings = res.result.label.split(' ');
       this.response = res;
       this.displayPreview = false;
     });
   }
 
-  classify() {    
+  classify() {
     this.loading = true;
-    this._cvService.classify(this.picture, this.instance.name).then(res => {
+    this._cvService.classify(
+      this.picture
+      , this.instance.name
+      , this.identifier.value
+      , this.instance.save
+      , this.instance.name
+      , this.device.deviceId
+      , this.device.user
+    ).then(res => {
       console.log(res);
       this.response = res;
       this.displayPreview = false;
       this.loading = false;
-    })
+    });
   }
 
   downloadPicture(href: string = '') {
@@ -174,10 +189,10 @@ export class CameraComponent implements OnInit {
     link.click();
   }
 
-  
+
 
   cancel() {
-    this.barcode.value = '';
+    this.identifier.value = '';
     this.displayPreview = false;
   }
 
@@ -188,13 +203,7 @@ export class CameraComponent implements OnInit {
       inputStream: {
         name: "Live",
         type: "LiveStream",
-        target: document.querySelector('#video'),
-        constraints: {
-          width: 640,
-          height: 480,
-          facingMode: "environment",
-          deviceId: "7832475934759384534"
-        }
+        target: document.querySelector('#video')
       },
       decoder: {
         readers: ["code_128_reader"]
@@ -211,13 +220,13 @@ export class CameraComponent implements OnInit {
 
     Quagga.onDetected((data) => {
       console.log(data);
-      this.barcode.value = data.codeResult.code;
+      this.identifier.value = data.codeResult.code;
       Quagga.stop();
-      this.step.number = 2;      
+      this.step.number = 2;
       this.step.name = 'Fotografe a Peça Desejada';
-      // this.takePicture();
-      // let context = this.canvas.nativeElement.getContext('2d');
-      // Quagga.ImageDebug.drawPath(data.box, { x: 0, y: 1 }, context, { color: "lime", lineWidth: 3 });
+      this.takePicture();
+      const context = this.canvas.nativeElement.getContext('2d');
+      Quagga.ImageDebug.drawPath(data.box, { x: 0, y: 1 }, context, { color: "lime", lineWidth: 3 });
 
     })
 

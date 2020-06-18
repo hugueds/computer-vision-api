@@ -15,7 +15,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 # app.register_blueprint(router)
 app.register_blueprint(api_router)
 
-cors = CORS(app)
+CORS(app)
 
 
 @app.route('/', methods=['GET'])

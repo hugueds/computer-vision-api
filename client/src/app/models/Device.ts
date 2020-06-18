@@ -10,6 +10,11 @@ export default class Device {
     createdAt: Date;
 }
 
+export class ResultDevice {
+    device: Device;
+    instance: Instance;
+}
+
 export enum DeviceType {
     TABLET = 0,
     MOBILE,

@@ -1,8 +1,7 @@
 <div class="camera-container">
   <div class="navbar-wrapper">
     <mat-toolbar class="navbar">
-      <span>CLASSIFICADOR: __CLASSIFICADOR__</span>
-      <img src="assets/icons/scania-icon.png" alt="" />
+      <span>TIPO DE LEITURA: {{ instance?.typeString }} - MODELO:  {{ instance?.name }} </span>      
     </mat-toolbar>
   </div>
 
@@ -10,14 +9,13 @@
     <span>{{ step.number + 1 }} INSTRUÇÃO: {{ step.name }}</span>
   </div>
 
-  <div style="margin-top: 1%0;">
-    <span style="font-size: 2rem; color: red;"
-      >BARCODE: {{ barcode.value }}</span
-    >
+  <div>
+    <span style="font-size: 1rem; color: red;">IDENTIFICADOR: {{ identifier.value }}</span>
   </div>
 
   <div class="camera-preview">
-    <div class="camera-card" [ngClass]="{ 'displayPreview': displayPreview }">
+
+    <div class="camera-card" [ngClass]="{ 'display-preview': displayPreview }">
       <video #video id="video" ></video>
     </div>
 
@@ -32,19 +30,14 @@
       </button>
     </div>
 
-    <div class="camera-card" [ngClass]="{ 'displayPreview': !displayPreview }">
-      <canvas
-        #canvas
-        id="canvas"
-        width="640"
-        height="480"
-        style="background: navy; border: 1px solid #000000;"
-      >
-      </canvas>
+    <div class="camera-card" [ngClass]="{ 'display-preview': !displayPreview }">
+      <canvas #canvas id="canvas" ></canvas>
+      <!-- <canvas #canvas id="canvas" width="640" height="480"></canvas> -->
     </div>
+
   </div>
 
-  <div class="button-control" [ngClass]="{ 'displayPreview': !displayPreview && !loading }">
+  <div class="button-control" [ngClass]="{ 'display-preview': !displayPreview && !loading }">
     <button
       mat-button
       color="primary"
@@ -64,7 +57,7 @@
   </div>
 
   <!-- Buscar da API os ultimos resultados para este tipo de classificador -->
-  <div class="last-result" [ngClass]="{ 'displayPreview': displayPreview }">
+  <div class="last-result" [ngClass]="{ 'display-preview': displayPreview }">
     <span>
       ULTIMO RESULTADO: {{ response?.content.result }} -
       {{ response?.content.confidence * 100 }}% - {{ 0 }}

@@ -1,10 +1,11 @@
 .navbar-container {
     display: flex;
     max-width: 100%;
-    width: 100%;
+    width: 100%;    
 }
 
 .navbar {
+    justify-content: space-between;
     color: #FAFAFA;
     background-color: #041E42;
 }

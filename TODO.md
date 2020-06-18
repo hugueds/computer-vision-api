@@ -1,20 +1,28 @@
 # TODO
 
+## 2020-06-18
+
+- [ ] Retornar o IP do usuário mesmo que não cadastrado
+- [ ] Adicionar serviço de status de comunicação com o servidor
+- [ ] Alterar o canvas dinamicamente
+- [ ] Adicionar identificador ao resultado
+- [ ] Criar tabela de resultados
+
 ## 2020-06-17
 
 - [ ] Corrigir desvio do leitor de codigo de barras para o Ipad
-- [ ] Adicionar nome do modelo na instancia
-- [ ] Buscar o nome do modelo do classificador
+- [x] Buscar o nome do modelo do classificador
+- [x] Adicionar nome do modelo na instancia
 
 ## 2020-06-09
 
 - [ ] Add a button to revoke/claim last sent result
-- [ ] OnLoad, device request its instance from server
+- [x] OnLoad, device request its instance from server
 - [ ] Create a route system in Frontend
 - [ ] History Screen
 - [ ] Home Screen
 - [ ] Create a return arrow button
-- [ ] Create a menu button
+- [x] Create a menu button
 - [x] Get more empty boxes pictures
 - [x] Create a resizer to make fotos 640x480
 
