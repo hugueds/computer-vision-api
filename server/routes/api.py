@@ -13,7 +13,7 @@ def device(id):
         if id:
             return device_controller.get(int(id))
         else:
-            return device_controller.get_by_ip(ip) # Return Not Found
+            return device_controller.get_by_ip(ip) 
     elif request.method == 'POST':        
         return device_controller.create(request.json)
     elif request.method == 'PUT':
@@ -40,7 +40,14 @@ def instance(id):
 @api_router.route('/api/classify', methods=['POST'])
 def classify():
     content = request.json
-    return api_controller.classify(content['picture'], content['model'], content['partId'], content['save'])   
+    picture = content['picture']
+    part_id = content['partId']
+    model = content['model']
+    save = content['save']
+    instance = content['instance']
+    user = content['user']
+    device = content['device']
+    return api_controller.classify(picture, model, part_id, save, instance, user, device)
     
 @api_router.route('/api/ocr', methods=['POST'])
 def ocr():

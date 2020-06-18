@@ -1,6 +1,8 @@
 project:
     name: 'Computer Vision Service'
     version: '0.0.10'
+database:
+    name: 'cv_service.db'
 server:
     address: '0.0.0.0'
     port: 5000

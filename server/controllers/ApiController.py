@@ -1,13 +1,14 @@
 import os
+import cv2
+import base64
 import pytesseract as pyt
 from pathlib import Path
 from datetime import datetime
-import base64
-import cv2
 from PIL import Image
 from models.Instance import Instance
 from models.Device import Device
-# from models.TFModel import TFModel
+from models.Result import Result
+from models.TFModel import TFModel
 
 pyt.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
@@ -55,7 +56,7 @@ class ApiController:
         }
         # Buscar lista de strings para modelo conhecido
 
-    def classify(self, image, model, partId, save=False):
+    def classify(self, image, model, part_id="not_provided", save=False, instance="", user="", device=""):
 
         temp_file = f'temp/classify_test_{str(self.temp_file_counter)}.png'
         self.update_temp()
@@ -68,11 +69,19 @@ class ApiController:
         with open(temp_file, "wb") as fh:
             fh.write(base64.b64decode(image))
 
-        if save:
-            image_path = self.save_picture(image)
+        if save:            
+            image_path = self.save_picture(image, part_id)
 
         img_g = cv2.imread(temp_file)
         result = tf.predict(img_g)
+
+        Result(
+            user = user,
+            device= device,
+            instance=instance,
+            file_path=image_path,
+            label= result['prediction'],
+            probability=str(round(result['confidence'], 2))).save()
 
         return {
             "error": False,
@@ -84,7 +93,7 @@ class ApiController:
             }
         }
 
-    def save_picture(self, image, partId="_not_provided"):
+    def save_picture(self, image, part_id):
         # Data/Pictures/Ano/Mes/Dia/Identificacao -> Data_Hora_PartId yyyyMMdd_hhmmss_xxxx.png
         y, M, d = (
             datetime.today().year,
@@ -98,8 +107,8 @@ class ApiController:
             "%02d" % datetime.today().second,
         )
 
-        file_name = f"{y}{M}{d}_{h}{m}{s}_{partId}.png"  # png?
-        path = f"c:/Data/Pictures/{y}/{M}/{d}/{partId}"
+        file_name = f"{y}{M}{d}_{h}{m}{s}_{part_id}.png"  # png?
+        path = f"c:/Data/Pictures/{y}/{M}/{d}/{part_id}"
         Path(path).mkdir(parents=True, exist_ok=True)
 
         try:
@@ -115,5 +124,12 @@ class ApiController:
         self.temp_file_counter += 1
         if self.temp_file_counter > self.MAX_TEMP_FILES:
             self.temp_file_counter = 0
+
+    def save_results(self):
+        r = Result()
+        r.save()
+        
+
+
 
 api_controller = ApiController()

@@ -1,11 +1,14 @@
 export default class Instance {
+
     id: number;
     name: string;
-    save: boolean;
-    instanceType: InstanceType;
-    identifierType: IdentifierType;
+    save: number;
+    type: InstanceType;
+    identifier: IdentifierType;
     createdAt: Date;
     partList: Array<string>;
+    typeString: string;    
+
 }
 
 export enum InstanceType {
