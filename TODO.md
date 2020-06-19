@@ -1,12 +1,16 @@
 # TODO
 
+## 2020-06-19
+
+- [ ] Adicionar a imagem o numero da peça, data e hora que foi tirada
+
 ## 2020-06-18
 
-- [ ] Retornar o IP do usuário mesmo que não cadastrado
 - [ ] Adicionar serviço de status de comunicação com o servidor
 - [ ] Alterar o canvas dinamicamente
 - [ ] Adicionar identificador ao resultado
 - [ ] Criar tabela de resultados
+- [x] Retornar o IP do usuário mesmo que não cadastrado
 
 ## 2020-06-17
 
