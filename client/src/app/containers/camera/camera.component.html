@@ -1,7 +1,7 @@
 <div class="camera-container">
   <div class="navbar-wrapper">
     <mat-toolbar class="navbar">
-      <span>TIPO DE LEITURA: {{ instance?.typeString }} - MODELO:  {{ instance?.name }} </span>      
+      <span>TIPO DE LEITURA: {{ identifier?.typeString }} - MODELO:  {{ instance?.name }} </span>      
     </mat-toolbar>
   </div>
 
@@ -15,14 +15,20 @@
 
   <div class="camera-preview">
 
-    <div class="camera-card" [ngClass]="{ 'display-preview': displayPreview }">
-      <video #video id="video" ></video>
+    <div class="camera-card" [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.BARCODE }">
+      <div class="barcode-wrapper">
+        <div id="barcode"></div>
+      </div>
+    </div>    
+
+    <div class="camera-card" [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.CAMERA }">
+      <video #video id="video" autoplay="true"></video>
     </div>
 
-    <div class="camera-control">
+    <div class="camera-control" [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.CAMERA }">
       <button
         mat-fab
-        [hidden]="displayPreview"
+        [hidden]="cameraMode != CAMERA_MODE.CAMERA"
         id="button_1"
         (click)="takePicture()"
       >
@@ -30,14 +36,13 @@
       </button>
     </div>
 
-    <div class="camera-card" [ngClass]="{ 'display-preview': !displayPreview }">
-      <canvas #canvas id="canvas" ></canvas>
-      <!-- <canvas #canvas id="canvas" width="640" height="480"></canvas> -->
+    <div class="camera-card" [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.PREVIEW }">
+      <canvas #canvas id="canvas" ></canvas>      
     </div>
 
   </div>
 
-  <div class="button-control" [ngClass]="{ 'display-preview': !displayPreview && !loading }">
+  <div class="button-control" [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.PREVIEW  && !loading }">
     <button
       mat-button
       color="primary"
@@ -57,7 +62,7 @@
   </div>
 
   <!-- Buscar da API os ultimos resultados para este tipo de classificador -->
-  <div class="last-result" [ngClass]="{ 'display-preview': displayPreview }">
+  <div class="last-result" [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.BARCODE }">
     <span>
       ULTIMO RESULTADO: {{ response?.content.result }} -
       {{ response?.content.confidence * 100 }}% - {{ 0 }}

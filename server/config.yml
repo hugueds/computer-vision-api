@@ -10,8 +10,8 @@ models:
     emptybox:
         name: 'emptybox'
         graph: 'emptybox.h5'
-        size: 224
-        channels: 3
+        size: 128
+        channels: 1
         labels: ['OK', 'NOT OK']
     tanklabels:
         name: 'tanklabels'

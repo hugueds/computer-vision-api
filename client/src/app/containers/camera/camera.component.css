@@ -29,8 +29,7 @@
 .camera-preview {
   display: flex;
   margin: 0 auto;
-  width: 98%;
-  height: 480px;
+  width: 98%;  
   flex: 1 1 auto;  
   background: #97999B;
   padding: 0.838%;
@@ -57,10 +56,17 @@
 .camera-card {
   display: flex;
   margin: 0 auto;  
+  height: 480px;
   border: 1px solid #2D2926;
 }
 
-
+.barcode-wrapper {
+  display: flex;
+  margin: 0 auto;
+  width: 640px;
+  height: 480px;
+  border: 2px solid red;
+}
 
 .camera-control { 
   display: flex;

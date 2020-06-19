@@ -7,6 +7,12 @@ import Instance, { IdentifierType } from 'src/app/models/Instance';
 import Quagga from 'quagga';
 
 
+const CAMERA_MODE = {
+  BARCODE: 0,
+  CAMERA:  1,
+  PREVIEW: 2
+}
+
 @Component({
   selector: 'app-camera',
   templateUrl: './camera.component.html',
@@ -22,6 +28,9 @@ export class CameraComponent implements OnInit {
   displayPreview: boolean;
   device: Device;
   instance: Instance;
+  cameraMode;
+
+  CAMERA_MODE = CAMERA_MODE;
 
   loading = false;
 
@@ -33,7 +42,8 @@ export class CameraComponent implements OnInit {
 
   step = {
     number: 0,
-    name: ''
+    name: '',
+    initial: 0
   };
 
 
@@ -45,18 +55,20 @@ export class CameraComponent implements OnInit {
 
   ngOnInit(): void {
 
+    this.cameraMode = CAMERA_MODE.BARCODE;
+
     this.step.number = 0;
     this.displayPreview = false;
+    this.loading = true;
 
     this._deviceService.get().then(result => {
-
+      this.loading = false;
       this.device = result.device;
       if (result.device.instance == 0) return;
       this.instance = result.instance;
       console.log(result.device);
       console.log(result.instance);
       this.loadOperation(result.instance);
-
     });
 
 
@@ -72,8 +84,7 @@ export class CameraComponent implements OnInit {
     // 0 - Leitura de Barcode 
     // 1 - Leitura de OCR
     // 2 - Classificação de imagem
-    // 3 - Armazenamento de imagem   
-
+    // 3 - Armazenamento de imagem 
 
     // Device type for rendering
 
@@ -84,50 +95,63 @@ export class CameraComponent implements OnInit {
     // 000 - Aproxime o leitor a um codigo de barras
     // 001 - Resultado: (exibir imagem com quadrado sobre a imagem scaneada) / Botao efetuar nova leitura
 
-    // 100 - Fotografe os caracteres que deseja identificar
-    // 101 - Deseja enviar imagem para o servidor?
-    // 102 - Resultado: XXXX / Efetuar nova leitura
+    // 010 - Fotografe os caracteres que deseja identificar
+    // 011 - Deseja enviar imagem para o servidor?
+    // 012 - Resultado: XXXX / Efetuar nova leitura
 
-    // 200 - Realize a leitura do codigo de barras
-    // 201 - Fotografe o objeto desejado para a classificação
-    // 202 - Deseja enviar imagem para o servidor?
-    // 203 - Imagem salva com sucesso (mostrar resultado e botão para a proxima leitura)
-
-
+    // 020 - Realize a leitura do codigo de barras
+    // 021 - Fotografe o objeto desejado para a classificação
+    // 022 - Deseja enviar imagem para o servidor?
+    // 023 - Imagem salva com sucesso (mostrar resultado e botão para a proxima leitura)
 
   }
 
 
-  loadOperation(instance: Instance) {
-
+  loadOperation(instance: Instance) {   
+    
+    
     switch (instance.identifier) {
 
       case IdentifierType.BARCODE:
-        this.identifier.typeString = 'BARCODE';
+        this.identifier.typeString = 'BARCODE';        
+        this.step.initial = CAMERA_MODE.BARCODE;
+        this.openBarcodeScanner();
         break;
 
-      case IdentifierType.OCR: break; // OCR
-      case IdentifierType.NONE: break; // SEM VALIDAÇÃO
+      case IdentifierType.OCR:
+        this.identifier.typeString = 'OCR';
+        this.step.initial = CAMERA_MODE.CAMERA;
+        this.openCamera();
+        break;
+
+      case IdentifierType.NONE:
+        this.identifier.typeString = 'COMUM';
+        this.step.initial = CAMERA_MODE.CAMERA;
+        this.cameraMode = CAMERA_MODE.CAMERA;
+        break; // SEM VALIDAÇÃO
 
     }
 
 
   }
 
-
-
-
   ngAfterViewInit() {
+    // 
+  }
+
+  openCamera() {
+
+    this.cameraMode = CAMERA_MODE.CAMERA;
 
     const constraints = {
 
       video: true,
       width: {
-        min: 640,
+        min: 224,
         max: 640
       },
       height: {
-        min: 480,
+        min: 224,
         max: 480
       },
       advanced: [{
@@ -135,12 +159,10 @@ export class CameraComponent implements OnInit {
       }]
     }
 
-
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: constraints }).then(stream => {
-        this.video.nativeElement.srcObject = stream
+        this.video.nativeElement.srcObject = stream;
         this.video.nativeElement.play();
-        // this.openBarcodeScanner()
       });
     }
 
@@ -153,7 +175,7 @@ export class CameraComponent implements OnInit {
     context.canvas.height = 480;
     context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
     this.picture = this.canvas.nativeElement.toDataURL();
-    this.displayPreview = true;
+    this.cameraMode = this.CAMERA_MODE.PREVIEW;
   }
 
   sendPicture(picture: string = '') {
@@ -176,9 +198,9 @@ export class CameraComponent implements OnInit {
       , this.device.user
     ).then(res => {
       console.log(res);
-      this.response = res;
-      this.displayPreview = false;
+      this.response = res;      
       this.loading = false;
+      this.loadOperation(this.instance);
     });
   }
 
@@ -191,24 +213,28 @@ export class CameraComponent implements OnInit {
 
 
 
-  cancel() {
-    this.identifier.value = '';
-    this.displayPreview = false;
-  }
+
 
   openBarcodeScanner() {
 
-    Quagga.init({
+    this.cameraMode = CAMERA_MODE.BARCODE;
+
+    const quaggaConfig = {
+      debug: false,
       frequency: 2,
       inputStream: {
         name: "Live",
         type: "LiveStream",
-        target: document.querySelector('#video')
+        target: '#barcode'
+        // target: this.video.nativeElement
       },
       decoder: {
         readers: ["code_128_reader"]
       }
-    }, function (err) {
+    }
+
+    Quagga.init(quaggaConfig, (err) => {
+
       if (err) {
         window.alert(err);
         console.log(err);
@@ -222,15 +248,15 @@ export class CameraComponent implements OnInit {
       console.log(data);
       this.identifier.value = data.codeResult.code;
       Quagga.stop();
-      this.step.number = 2;
-      this.step.name = 'Fotografe a Peça Desejada';
-      this.takePicture();
-      const context = this.canvas.nativeElement.getContext('2d');
-      Quagga.ImageDebug.drawPath(data.box, { x: 0, y: 1 }, context, { color: "lime", lineWidth: 3 });
-
-    })
+      this.openCamera();
+      // VALIDAR SE VAI PARA CAMERA OU NAO
+      // this.takePicture();
+    });
 
   }
 
+  cancel() {
+    this.cameraMode = CAMERA_MODE.CAMERA;
+  }
 
 }
