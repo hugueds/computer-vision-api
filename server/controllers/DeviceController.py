@@ -39,8 +39,17 @@ class DeviceController():
 
         return jsonify(d.serialize())
 
-    def update(self):
-        return
+    def update(self, request):
+        d = Device(
+            id=request['id'],
+            user=request['user'],
+            ip=request['ip'],
+            device_id=request['deviceId'],
+            instance_id=request['instanceId'],
+            device_type=request['deviceType']
+        )
+        Device.update(d)
+        return jsonify(d.serialize())
 
     def delete(self, id):
         if id:

@@ -1,31 +1,39 @@
 # TODO
 
+## 2020-06-22
+
+- [ ] Exibir mensagem de Camera indisponível enquanto a camera não é carregada
+- [ ] Adicionar mensagem nome e usuario do dispositvo no header
+- [ ] Desenvolver telas de alteração de configuração
+- [ ] Finalizar API de consulta e cadastro de instancias e equiapamentos
+- [ ] Criar API para os resultados
+
 ## 2020-06-19
 
-- [ ] Adicionar a imagem o numero da peça, data e hora que foi tirada
+- [x] Adicionar a imagem o numero da peça, data e hora que foi tirada no servidor
 
 ## 2020-06-18
 
 - [ ] Adicionar serviço de status de comunicação com o servidor
-- [ ] Alterar o canvas dinamicamente
-- [ ] Adicionar identificador ao resultado
 - [ ] Criar tabela de resultados
+- [ ] Adicionar identificador ao resultado
+- [x] Alterar o canvas dinamicamente
 - [x] Retornar o IP do usuário mesmo que não cadastrado
 
 ## 2020-06-17
 
-- [ ] Corrigir desvio do leitor de codigo de barras para o Ipad
+- [x] Corrigir desvio do leitor de codigo de barras para o Ipad (Adicionado um canvas dedicado)
 - [x] Buscar o nome do modelo do classificador
 - [x] Adicionar nome do modelo na instancia
 
 ## 2020-06-09
 
 - [ ] Add a button to revoke/claim last sent result
-- [x] OnLoad, device request its instance from server
-- [ ] Create a route system in Frontend
-- [ ] History Screen
+- [ ] History/Logs Screen
 - [ ] Home Screen
 - [ ] Create a return arrow button
+- [x] OnLoad, device request its instance from server
+- [x] Create a route system in Frontend
 - [x] Create a menu button
 - [x] Get more empty boxes pictures
 - [x] Create a resizer to make fotos 640x480

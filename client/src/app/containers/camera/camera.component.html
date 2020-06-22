@@ -11,7 +11,7 @@
 
   <div>
     <span style="font-size: 1rem; color: red;">IDENTIFICADOR: {{ identifier.value }}</span>
-  </div>
+  </div>  
 
   <div class="camera-preview">
 
@@ -64,7 +64,7 @@
   <!-- Buscar da API os ultimos resultados para este tipo de classificador -->
   <div class="last-result" [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.BARCODE }">
     <span>
-      ULTIMO RESULTADO: {{ response?.content.result }} -
+      ULTIMO RESULTADO: {{identifier?.value}} {{ response?.content.result }} -
       {{ response?.content.confidence * 100 }}% - {{ 0 }}
     </span>
     <button mat-button>VER MAIS</button>

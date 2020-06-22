@@ -10,12 +10,14 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { NavbarComponent } from './containers/navbar/navbar.component';
 
-
+import {MatTableModule} from '@angular/material/table';
 import {MatMenuModule} from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatTabsModule} from '@angular/material/tabs';
+
 
 import { HomeComponent } from './containers/home/home.component';
 import { ConfigComponent } from './containers/config/config.component';
@@ -41,6 +43,8 @@ import { VideoCameraComponent } from './components/video-camera/video-camera.com
     MatToolbarModule,
     MatCardModule,
     MatButtonModule,
+    MatTabsModule,    
+    MatTableModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule

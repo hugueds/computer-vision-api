@@ -17,7 +17,7 @@ def device(id):
     elif request.method == 'POST':        
         return device_controller.create(request.json)
     elif request.method == 'PUT':
-        return device_controller.update(int(id), request.json)
+        return device_controller.update(request.json)
     elif request.method == 'DELETE':
         return device_controller.delete(int(id))
     

@@ -80,7 +80,7 @@ class Device():
     def save(self):
         print('Creating a new Device ' + self.ip)
         try:
-            sql = ''' INSERT INTO Device(user , device_id, ip ,instance_id, deviceType, created_at) VALUES(?,?,?,?,?, ?) '''
+            sql = ''' INSERT INTO Device(user , device_id, ip ,instance_id, deviceType, created_at) VALUES(?,?,?,?,?,?) '''
             conn = sqlite3.connect(database)
             cursor = conn.cursor()
             d = (self.user, self.device_id, self.ip, self.instance_id,
@@ -94,15 +94,23 @@ class Device():
             print(str(e))
             return False
 
-
-    def update(self, id, device):
+    @staticmethod
+    def update(device):
         try:
-            sql = ''' INSERT INTO Device(user , device_id, ip ,instance_id, deviceType, created_at) VALUES(?,?,?,?,?, ?) '''
+            sql = ''' UPDATE Device
+            SET
+            user = ?, 
+            device_id = ?,  
+            ip = ?,
+            instance_id = ?, 
+            deviceType = ?         
+            WHERE ID = (?)
+                     '''
             conn = sqlite3.connect(database)
             cursor = conn.cursor()
-            d = (self.user, self.device_id, self.ip, self.instance_id,
-                self.device_type, self.created_at)
-            cursor.execute(sql, d)
+            d = (device.user, device.device_id, device.ip, device.instance_id,
+                device.device_type, device.id)
+            cursor.execute(sql, (d))
             conn.commit()
             cursor.close()
             return True

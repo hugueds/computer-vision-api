@@ -1,1 +1,102 @@
-<p>config works!</p>
+<ng-container class="config-container">
+  <div class="header">
+    <h1>CONFIGURAÇÕES</h1>
+  </div>
+
+  <div>
+    <span>ID</span>
+    <span>DEVICE NAME</span>
+    <span>USUARIO</span>
+    <span>IP</span>
+    <span>INSTANCIA</span>
+    <span>CRIADO EM</span>
+  </div>
+
+  <div>
+    <input type="text" />
+    <input type="text" />
+    <input type="text" />
+    <input type="text" />
+    <input type="text" />
+    <button mat-button >CRIAR</button>
+  </div>
+
+  <div *ngFor="let device of devices">
+    <span>
+      {{ device.id }}
+      {{ device.createdAt }}
+      {{ device.deviceId }}
+      {{ device.deviceType }}      
+      {{ device.instance }}
+      {{ device.ip }}
+      {{ device.user }}
+      <button mat-button (click)="update()">EDITAR</button>
+      <button mat-button color="primary"  (click)="delete(device)">EXCLUIR</button>
+    </span>
+  </div>
+
+  <!-- <mat-tab-group mat-stretch-tabs="always" mat-align-tabs="center">
+
+    <mat-tab label="DISPOSITIVOS">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            
+            <ng-container matColumnDef="position">
+              <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+            </ng-container>
+          
+            
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+            </ng-container>
+          
+            
+            <ng-container matColumnDef="weight">
+              <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
+            </ng-container>
+          
+            
+            <ng-container matColumnDef="symbol">
+              <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+            </ng-container>
+          
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+    </mat-tab>
+
+    <mat-tab label="INSTÂNCIAS">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            
+            <ng-container matColumnDef="position">
+              <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
+            </ng-container>
+          
+            
+            <ng-container matColumnDef="name">
+              <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
+            </ng-container>
+          
+            
+            <ng-container matColumnDef="weight">
+              <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
+            </ng-container>
+          
+            
+            <ng-container matColumnDef="symbol">
+              <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
+            </ng-container>
+          
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+    </mat-tab>
+  </mat-tab-group> -->
+</ng-container>

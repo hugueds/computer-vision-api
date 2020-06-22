@@ -1,13 +1,25 @@
 import Instance from './Instance';
 
-export default class Device {    
+export default class Device {
+    
     id: number;
+    instance: number;
     ip: string;
     user: string;
     deviceId: string;
-    instance: number;
     deviceType: DeviceType;
     createdAt: Date;
+
+    constructor({ ...params }) {
+        this.id = params.id
+        this.ip = params.ip
+        this.user = params.user
+        this.deviceId = params.deviceId
+        this.instance = params.instance
+        this.deviceType = params.deviceType
+        this.createdAt = params.createdAt
+    }
+
 }
 
 export class ResultDevice {

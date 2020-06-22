@@ -12,10 +12,19 @@ export class DeviceService {
 
   constructor() { }
 
-  async get(id = ''): Promise<ResultDevice> {
-
+  async get(id=''): Promise<ResultDevice> {
     try {
       const response = await axios.get(`${this.baseURL}/device/{id}`.replace('{id}', id));
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+
+  }
+
+  async getAll(): Promise<Array<Device>> {
+    try {
+      const response = await axios.get(`${this.baseURL}/device/0`);
       return response.data;
     } catch (err) {
       console.error(err);
