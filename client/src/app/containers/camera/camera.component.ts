@@ -53,9 +53,7 @@ export class CameraComponent implements OnInit {
   ) { }
 
 
-  ngOnInit(): void {
-
-    this.cameraMode = CAMERA_MODE.BARCODE;
+  ngOnInit(): void {    
 
     this.step.number = 0;
     this.displayPreview = false;
@@ -69,6 +67,9 @@ export class CameraComponent implements OnInit {
       console.log(result.device);
       console.log(result.instance);
       this.loadOperation(result.instance);
+
+      // IF NOT DEVICE OPEN COMMON IDENTIFIER WITH COCO DATASET
+
     });
 
 
@@ -174,6 +175,10 @@ export class CameraComponent implements OnInit {
     context.canvas.width = 640;
     context.canvas.height = 480;
     context.drawImage(this.video.nativeElement, 0, 0, 640, 480);
+    // context.font = "30px Arial";
+    // context.fillStyle = "red";
+    // context.fillText("Hello World", 10, 50);
+    
     this.picture = this.canvas.nativeElement.toDataURL();
     this.cameraMode = this.CAMERA_MODE.PREVIEW;
   }
@@ -229,7 +234,7 @@ export class CameraComponent implements OnInit {
         // target: this.video.nativeElement
       },
       decoder: {
-        readers: ["code_128_reader"]
+        readers: ["code_128_reader", 'ean_reader', 'ean_8_reader']
       }
     }
 

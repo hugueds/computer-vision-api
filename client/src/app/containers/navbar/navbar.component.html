@@ -4,13 +4,19 @@
     <div>
       <button mat-button [matMenuTriggerFor]="menu">Menu</button>
       <mat-menu #menu="matMenu">
-        <button mat-menu-item>Item 1</button>
-        <button mat-menu-item>Item 2</button>
+        <a mat-menu-item routerLink="/">OPERATION</a>
+        <a mat-menu-item routerLink="/config">CONFIG</a>
+        <a mat-menu-item routerLink="/log">LOGS</a>
       </mat-menu>
     </div>
 
     <!-- <button mat-button>MENU</button> -->
-    <span>Computer Vision API</span>
-    <img src="assets/icons/scania-icon.png" alt="" />
+    <span>Computer Vision API</span>    
+    <div>
+      <div>
+        <!-- <span class="status">STATUS</span>  ONLINE / OFFLINE, circulo para verificacao--> 
+      </div>
+      <img src="assets/icons/scania-icon.png" alt="" />
+    </div>
   </mat-toolbar>
 </div>

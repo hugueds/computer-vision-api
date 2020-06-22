@@ -8,7 +8,7 @@ from PIL import Image
 from models.Instance import Instance
 from models.Device import Device
 from models.Result import Result
-from models.TFModel import TFModel
+# from models.TFModel import TFModel
 
 pyt.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
 
@@ -70,10 +70,12 @@ class ApiController:
             fh.write(base64.b64decode(image))
 
         if save:            
-            image_path = self.save_picture(image, part_id)
+            image_path, file_name = self.get_picture_path(image, part_id)
 
         img_g = cv2.imread(temp_file)
         result = tf.predict(img_g)
+        cv2.putText(img_g, f'{ file_name } - {result["prediction"]} ', ( int(640*0.01), int(480*0.98) ), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,200,0), 1)
+        cv2.imwrite(image_path, img_g)
 
         Result(
             user = user,
@@ -93,7 +95,7 @@ class ApiController:
             }
         }
 
-    def save_picture(self, image, part_id):
+    def get_picture_path(self, image, part_id):
         # Data/Pictures/Ano/Mes/Dia/Identificacao -> Data_Hora_PartId yyyyMMdd_hhmmss_xxxx.png
         y, M, d = (
             datetime.today().year,
@@ -111,14 +113,7 @@ class ApiController:
         path = f"c:/Data/Pictures/{y}/{M}/{d}/{part_id}"
         Path(path).mkdir(parents=True, exist_ok=True)
 
-        try:
-            with open(f"{path}/{file_name}", "wb") as fh:
-                fh.write(base64.b64decode(image))
-            print(f'Picture saved at: {path}/{file_name}')
-        except Exception as e:
-            print(str(e))
-
-        return f'{path}/{file_name}'
+        return [f'{path}/{file_name}', file_name]
 
     def update_temp(self):
         self.temp_file_counter += 1

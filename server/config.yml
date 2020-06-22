@@ -9,6 +9,12 @@ server:
 models:
     emptybox:
         name: 'emptybox'
+        graph: 'boxes_4.h5'
+        size: 128
+        channels: 1
+        labels: ['OK', 'NOT OK']
+    emptybox_bkp:
+        name: 'emptybox'
         graph: 'emptybox.h5'
         size: 128
         channels: 1
@@ -18,7 +24,13 @@ models:
         graph: 'tanklabels.h5'
         size: 70
         channels: 1
-        labels: ['1', '2', 'P', 'T', '1_180', '2_180', 'P_180', 'T_180', '1_90', '2_90', 'P_90', 'T_90']
+        labels: ['1', '2', 'P', 'T', '1_180', '2_180', 'P_180', 'T_180', '1_90', '2_90', 'P_90', 'T_90']        
+    general:
+        name: 'tanklabels'
+        graph: 'tanklabels.h5'
+        size: 70
+        channels: 1
+        labels: ['1', '2', 'P', 'T', '1_180', '2_180', 'P_180', 'T_180', '1_90', '2_90', 'P_90', 'T_90']  
     Model2:
         name: 'Model2'          
         graph: 'model2.h5'

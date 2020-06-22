@@ -28,11 +28,10 @@ class TFModel:
             image = cv.cvtColor(image, cv.COLOR_RGB2GRAY)
             _, image = cv.threshold(
                 image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
-        else:
-            pass
+        else:            
             image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
 
-        image = cv.resize(image, (self.size, self.size), cv.INTER_AREA)
+        image = cv.resize(image, (self.size, self.size), cv.INTER_LINEAR)
         image = image / 255
         image = image.reshape(1, self.size, self.size, self.channels)
 
