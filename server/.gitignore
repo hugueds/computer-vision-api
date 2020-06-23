@@ -4,3 +4,4 @@ temp/
 tensorflow_models/
 cert.pem
 key.pem
+templates/

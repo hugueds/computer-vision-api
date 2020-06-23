@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DeviceService } from 'src/app/services/device.service';
 import { InstanceService } from 'src/app/services/instance.service';
 import Device from 'src/app/models/Device';
+import Instance from 'src/app/models/Instance';
 
 const d =  { 
   createdAt : '',
@@ -21,6 +22,9 @@ export class ConfigComponent implements OnInit {
 
   
   devices: Array<Device>;
+  instances: Array<Instance>;
+
+  displayedColumns = ['id', 'deviceId',  'user', 'ip', 'instance',  'createdAt', 'actions']
 
   dummyDevices = [
     new Device(d),

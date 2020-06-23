@@ -13,8 +13,42 @@
     justify-content: center;    
 }
 
+.table-header {
+    display: flex;
+    width: 97%;
+    margin: 0 auto;
+    font-weight: bold;
+    /* justify-content: space-evenly; */
+}
+
+.table-body {
+    /* display: flex;     */
+    width: 97%;
+    margin: 0 auto;
+}
+
+.table-row {
+    border: 1px solid #000;
+    /* display: flex;
+    justify-content: space-evenly; */
+}
+
 
 mat-tab-group {
-    width: 80%;
+    width: 95%;
+    margin: 0 auto;    
+}
+
+.create-container {
+    display: flex;
+    width: 95%;
     margin: 0 auto;
+    margin-top: 2%;    
+    margin-bottom: 2%;
+}
+
+.create-container mat-form-field {
+    width: 15%;
+    margin-left: 2%;
+    justify-content: space-evenly;
 }
