@@ -3,7 +3,8 @@
     <h1>CONFIGURAÇÕES</h1>
   </div>
 
-  <div>
+  <!--
+  <div class="table-header">
     <span>ID</span>
     <span>DEVICE NAME</span>
     <span>USUARIO</span>
@@ -12,17 +13,10 @@
     <span>CRIADO EM</span>
   </div>
 
-  <div>
-    <input type="text" />
-    <input type="text" />
-    <input type="text" />
-    <input type="text" />
-    <input type="text" />
-    <button mat-button >CRIAR</button>
-  </div>
+  
 
-  <div *ngFor="let device of devices">
-    <span>
+  <div class="table-body">   
+    <div class="table-row" *ngFor="let device of devices">
       {{ device.id }}
       {{ device.createdAt }}
       {{ device.deviceId }}
@@ -32,71 +26,164 @@
       {{ device.user }}
       <button mat-button (click)="update()">EDITAR</button>
       <button mat-button color="primary"  (click)="delete(device)">EXCLUIR</button>
-    </span>
-  </div>
+    </div> 
+  </div> -->
 
-  <!-- <mat-tab-group mat-stretch-tabs="always" mat-align-tabs="center">
-
+  <mat-tab-group mat-stretch-tabs="always" mat-align-tabs="center">
     <mat-tab label="DISPOSITIVOS">
-        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-            
-            <ng-container matColumnDef="position">
-              <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
-            </ng-container>
-          
-            
-            <ng-container matColumnDef="name">
-              <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-            </ng-container>
-          
-            
-            <ng-container matColumnDef="weight">
-              <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
-            </ng-container>
-          
-            
-            <ng-container matColumnDef="symbol">
-              <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
-            </ng-container>
-          
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-          </mat-table>
+
+      
+      <form class="create-container">
+        <mat-form-field class="">
+          <mat-label>NOME</mat-label>
+          <input matInput>               
+        </mat-form-field>
+        <mat-form-field class="">
+          <mat-label>USUARIO</mat-label>
+          <input matInput>               
+        </mat-form-field>
+        <mat-form-field class="">
+          <mat-label>IP</mat-label>
+          <input matInput>               
+        </mat-form-field>
+        <mat-form-field class="">
+          <mat-label>TIPO</mat-label>
+          <input matInput>               
+        </mat-form-field>
+        <mat-form-field class="">
+          <mat-label>INSTANCIA</mat-label>
+          <input matInput>               
+        </mat-form-field>          
+          <button mat-button>CRIAR</button>
+        
+      </form>
+      
+
+      <mat-table [dataSource]="devices" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+          <mat-cell *matCellDef="let device"> {{ device.id }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="deviceId">
+          <mat-header-cell *matHeaderCellDef>NOME</mat-header-cell>
+          <mat-cell *matCellDef="let device"> {{ device.deviceId }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="user">
+          <mat-header-cell *matHeaderCellDef>USUARIO</mat-header-cell>
+          <mat-cell *matCellDef="let device"> {{ device.user }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="ip">
+          <mat-header-cell *matHeaderCellDef>IP</mat-header-cell>
+          <mat-cell *matCellDef="let device"> {{ device.ip }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="deviceType">
+          <mat-header-cell *matHeaderCellDef>TIPO</mat-header-cell>
+          <mat-cell *matCellDef="let device"> {{ device.deviceType }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="instance">
+          <mat-header-cell *matHeaderCellDef>INSTANCE</mat-header-cell>
+          <mat-cell *matCellDef="let device"> {{ device.instance }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="createdAt">
+          <mat-header-cell *matHeaderCellDef>CRIADO EM</mat-header-cell>
+          <mat-cell *matCellDef="let device"> {{ device.createdAt }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button mat-button>EDIT</button>
+            <button mat-button>DELETE</button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
     </mat-tab>
 
     <mat-tab label="INSTÂNCIAS">
-        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-            
-            <ng-container matColumnDef="position">
-              <mat-header-cell *matHeaderCellDef> No. </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.position}} </mat-cell>
-            </ng-container>
-          
-            
-            <ng-container matColumnDef="name">
-              <mat-header-cell *matHeaderCellDef> Name </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.name}} </mat-cell>
-            </ng-container>
-          
-            
-            <ng-container matColumnDef="weight">
-              <mat-header-cell *matHeaderCellDef> Weight </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.weight}} </mat-cell>
-            </ng-container>
-          
-            
-            <ng-container matColumnDef="symbol">
-              <mat-header-cell *matHeaderCellDef> Symbol </mat-header-cell>
-              <mat-cell *matCellDef="let element"> {{element.symbol}} </mat-cell>
-            </ng-container>
-          
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-          </mat-table>
+
+      <form class="create-container">
+        <mat-form-field class="">
+          <mat-label>NOME</mat-label>
+          <input matInput>               
+        </mat-form-field>
+        <mat-form-field class="">
+          <mat-label>USUARIO</mat-label>
+          <input matInput>               
+        </mat-form-field>
+        <mat-form-field class="">
+          <mat-label>IP</mat-label>
+          <input matInput>               
+        </mat-form-field>
+        <mat-form-field class="">
+          <mat-label>TIPO</mat-label>
+          <input matInput>               
+        </mat-form-field>
+        <mat-form-field class="">
+          <mat-label>INSTANCIA</mat-label>
+          <input matInput>               
+        </mat-form-field>          
+          <button mat-button>CRIAR</button>
+        
+      </form>
+
+
+      <mat-table [dataSource]="devices" class="mat-elevation-z8">
+        <ng-container matColumnDef="id">
+          <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+          <mat-cell *matCellDef="let device"> {{ device.id }} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="deviceId">
+          <mat-header-cell *matHeaderCellDef>NOME</mat-header-cell>
+          <mat-cell *matCellDef="let device"> {{ device.deviceId }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="user">
+          <mat-header-cell *matHeaderCellDef>USUARIO</mat-header-cell>
+          <mat-cell *matCellDef="let device"> {{ device.user }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="ip">
+          <mat-header-cell *matHeaderCellDef>IP</mat-header-cell>
+          <mat-cell *matCellDef="let device"> {{ device.ip }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="deviceType">
+          <mat-header-cell *matHeaderCellDef>TIPO</mat-header-cell>
+          <mat-cell *matCellDef="let device"> {{ device.deviceType }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="instance">
+          <mat-header-cell *matHeaderCellDef>INSTANCE</mat-header-cell>
+          <mat-cell *matCellDef="let device"> {{ device.instance }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="createdAt">
+          <mat-header-cell *matHeaderCellDef>CRIADO EM</mat-header-cell>
+          <mat-cell *matCellDef="let device"> {{ device.createdAt }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <mat-cell *matCellDef="let row">
+            <button mat-button>EDIT</button>
+            <button mat-button>DELETE</button>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+    
     </mat-tab>
-  </mat-tab-group> -->
+  </mat-tab-group>
 </ng-container>

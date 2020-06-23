@@ -2,6 +2,7 @@ from flask import Blueprint, request, json
 from controllers.ApiController import api_controller
 from controllers.DeviceController import device_controller
 from controllers.InstanceController import instance_controller
+from controllers.ResultController import result_controller
 
 api_router = Blueprint('api_router', __name__)
 
@@ -36,6 +37,12 @@ def instance(id):
         return instance_controller.update(id, request.json)
     elif request.method == 'DELETE':
         return instance_controller.delete(id)
+
+
+@api_router.route('/api/result/', methods=['GET'])
+def result():    
+    if request.method == 'GET':        
+        return result_controller.get(request)
 
 @api_router.route('/api/classify', methods=['POST'])
 def classify():

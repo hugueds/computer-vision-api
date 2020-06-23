@@ -231,7 +231,6 @@ export class CameraComponent implements OnInit {
         name: "Live",
         type: "LiveStream",
         target: '#barcode'
-        // target: this.video.nativeElement
       },
       decoder: {
         readers: ["code_128_reader", 'ean_reader', 'ean_8_reader']
@@ -253,15 +252,23 @@ export class CameraComponent implements OnInit {
       console.log(data);
       this.identifier.value = data.codeResult.code;
       Quagga.stop();
-      this.openCamera();
-      // VALIDAR SE VAI PARA CAMERA OU NAO
-      // this.takePicture();
+      if (this.instance.type == 0) {
+        this.takePicture();
+      } else {
+        this.openCamera();
+      }
     });
 
   }
 
   cancel() {
     this.cameraMode = CAMERA_MODE.CAMERA;
+  }
+
+  ngOnDestroy(): void {
+    
+    Quagga.stop();
+    
   }
 
 }

@@ -11,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NavbarComponent } from './containers/navbar/navbar.component';
 
 import {MatTableModule} from '@angular/material/table';
+import {MatInputModule} from '@angular/material/input';
 import {MatMenuModule} from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
@@ -39,6 +40,7 @@ import { VideoCameraComponent } from './components/video-camera/video-camera.com
   imports: [
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     MatMenuModule,
+    MatInputModule,
     MatIconModule,
     MatToolbarModule,
     MatCardModule,

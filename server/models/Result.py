@@ -19,6 +19,31 @@ class Result():
         self.file_path = file_path
         self.timestamp = datetime.now()
 
+    @staticmethod
+    def get(offset, quantity):
+        sql = ''' SELECT * FROM Result order by ID DESC LIMIT (?) OFFSET (?)'''
+        conn = sqlite3.connect(database)
+        cursor = conn.cursor()       
+
+        d = (quantity, offset)
+        cursor.execute(sql, (d))
+
+        results = []
+
+        for id, user, device, instance, label, probability, file_path, timestamp in cursor.fetchall():
+            result = Result()
+            result.id = id
+            result.user = user
+            result.device = device
+            result.instance = instance
+            result.label = label
+            result.probability = probability
+            result.file_path = file_path
+            result.timestamp = timestamp
+            results.append(result)
+
+        return results
+
     def save(self):
 
         try:
@@ -43,3 +68,15 @@ class Result():
         except Exception as e:
             print(str(e))
             return False
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "user": self.user,
+            "device": self.device,
+            "instance": self.instance,
+            "label": self.label,
+            "probability": self.probability,
+            "file_path": self.file_path,
+            "timestamp": self.timestamp
+        }
