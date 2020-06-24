@@ -1,31 +1,45 @@
 <ng-container class="camera-container">
   <div class="navbar-wrapper">
-    <mat-toolbar class="navbar">
-      <span>TIPO DE LEITURA: {{ identifier?.typeString }} - MODELO:  {{ instance?.name }} </span>      
-    </mat-toolbar>
+    
+      <span
+        >TIPO DE LEITURA: {{ identifier?.typeString }} - MODELO:
+        {{ instance?.name }}
+      </span>
+    
   </div>
 
-  <div>
-    <span>{{ step.number + 1 }} INSTRUÇÃO: {{ step.name }}</span>
+  <div class="instruction-wrapper">
+    <div class="instruction">
+      <span>{{ step.number + 1 }} INSTRUÇÃO: {{ step.name }}</span>
+    </div>
+    <div class="identifier">
+      <span style="font-size: 1rem; color: red;"
+        >IDENTIFICADOR: {{ identifier.value }}</span
+      >
+    </div>
   </div>
-
-  <div>
-    <span style="font-size: 1rem; color: red;">IDENTIFICADOR: {{ identifier.value }}</span>
-  </div>  
 
   <div class="camera-preview">
-
-    <div class="camera-card" [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.BARCODE }">
+    <div
+      class="camera-card"
+      [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.BARCODE }"
+    >
       <div class="barcode-wrapper">
         <div id="barcode"></div>
       </div>
-    </div>    
+    </div>
 
-    <div class="camera-card" [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.CAMERA }">
+    <div
+      class="camera-card"
+      [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.CAMERA }"
+    >
       <video #video id="video" autoplay="true"></video>
     </div>
 
-    <div class="camera-control" [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.CAMERA }">
+    <div
+      class="camera-control"
+      [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.CAMERA }"
+    >
       <button
         mat-fab
         [hidden]="cameraMode != CAMERA_MODE.CAMERA"
@@ -36,13 +50,20 @@
       </button>
     </div>
 
-    <div class="camera-card" [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.PREVIEW }">
-      <canvas #canvas id="canvas" ></canvas>      
+    <div
+      class="camera-card"
+      [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.PREVIEW }"
+    >
+      <canvas #canvas id="canvas"></canvas>
     </div>
-
   </div>
 
-  <div class="button-control" [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.PREVIEW  && !loading }">
+  <div
+    class="button-control"
+    [ngClass]="{
+      'display-preview': cameraMode != CAMERA_MODE.PREVIEW && !loading
+    }"
+  >
     <button
       mat-button
       color="primary"
@@ -55,18 +76,23 @@
       mat-button
       color="secondary"
       class="button-control--ok"
+      [disabled]="loading"
       (click)="classify()"
     >
       OK
     </button>
   </div>
 
-  <!-- Buscar da API os ultimos resultados para este tipo de classificador -->
-  <div class="last-result" [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.BARCODE }">
+  
+  <div
+    class="last-result"
+    [ngClass]="{ 'display-preview': cameraMode == CAMERA_MODE.PREVIEW }"
+  >
     <span>
-      ULTIMO RESULTADO: {{identifier?.value}} {{ response?.content.result }} -
+      ULTIMO RESULTADO: {{ identifier?.lastValue }} {{ response?.content.result }} -
       {{ response?.content.confidence * 100 }}% - {{ 0 }}
     </span>
     <button mat-button>VER MAIS</button>
   </div>
+
 </ng-container>

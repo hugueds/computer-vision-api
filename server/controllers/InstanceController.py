@@ -34,8 +34,17 @@ class InstanceController():
         instance._save()
         return jsonify(instance.serialize())
 
-    def update(self):
-        pass
+    def update(self, request):
+        instance = Instance(
+            name=request['name'],
+            description=request['description'],
+            _type=request['type'],
+            identifier=request['identifier'],
+            save=request['save'],
+            id=request['id']
+        )
+        Instance.update(instance)
+        return jsonify(instance.serialize())
 
     def delete(self, id):
         if id:

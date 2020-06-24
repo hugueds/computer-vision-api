@@ -37,7 +37,8 @@ export class CameraComponent implements OnInit {
   identifier = {
     value: '',
     typeString: '',
-    isReading: true
+    isReading: true,
+    lastValue: ''
   };
 
   step = {
@@ -64,6 +65,7 @@ export class CameraComponent implements OnInit {
       this.device = result.device;
       if (result.device.instance == 0) return;
       this.instance = result.instance;
+      // this.instance.identifier = 2;
       console.log(result.device);
       console.log(result.instance);
       this.loadOperation(result.instance);
@@ -129,6 +131,7 @@ export class CameraComponent implements OnInit {
         this.identifier.typeString = 'COMUM';
         this.step.initial = CAMERA_MODE.CAMERA;
         this.cameraMode = CAMERA_MODE.CAMERA;
+        this.openCamera();
         break; // SEM VALIDAÇÃO
 
     }
@@ -206,6 +209,8 @@ export class CameraComponent implements OnInit {
       this.response = res;      
       this.loading = false;
       this.loadOperation(this.instance);
+      this.identifier.lastValue = this.identifier.value;
+      this.identifier.value = '';
     });
   }
 
@@ -215,9 +220,6 @@ export class CameraComponent implements OnInit {
     link.href = this.picture;
     link.click();
   }
-
-
-
 
 
   openBarcodeScanner() {

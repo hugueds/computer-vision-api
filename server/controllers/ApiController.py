@@ -8,14 +8,14 @@ from PIL import Image
 from models.Instance import Instance
 from models.Device import Device
 from models.Result import Result
-# from models.TFModel import TFModel
+from models.TFModel import TFModel
 
-pyt.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+pyt.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe' # TODO: Colocar no config ou .env
 
 class ApiController:
 
     MAX_TEMP_FILES = 10
-    IMAGE_PATH = 'C:\Pictures'
+    IMAGE_PATH = 'C:\Pictures'  # TODO: Colocar no config ou .env
     temp_file_counter = 0
 
     def __init__(self):
@@ -74,7 +74,7 @@ class ApiController:
 
         img_g = cv2.imread(temp_file)
         result = tf.predict(img_g)
-        cv2.putText(img_g, f'{ file_name } - {result["prediction"]} ', ( int(640*0.01), int(480*0.98) ), cv2.FONT_HERSHEY_SIMPLEX, 0.4, (0,200,0), 1)
+        cv2.putText(img_g, f'{ file_name } - {result["prediction"]} ', ( int(640*0.01), int(480*0.98) ), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0,220,50), 1)
         cv2.imwrite(image_path, img_g)
 
         Result(
