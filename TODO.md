@@ -1,5 +1,10 @@
 # TODO
 
+## 2020-06-23
+
+- [ ] Abrir uma nova thread para processar as imagens
+- [ ] Destruir a camera ao sair de um menu
+
 ## 2020-06-22
 
 - [ ] Exibir mensagem de Camera indisponível enquanto a camera não é carregada

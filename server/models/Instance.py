@@ -8,13 +8,13 @@ class Instance():
 
     def __init__(self, id=0, name='', description='', _type=0, identifier=0, save=0):
 
+        self.id = id
         self.name = name
         self.description = description
         self._type = _type
         self.identifier = identifier
         self.save = save
-        self.created_at = datetime.datetime.now()
-                
+        self.created_at = datetime.datetime.now()                
 
     @staticmethod
     def get(id=0, only_one=False):

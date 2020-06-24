@@ -34,7 +34,7 @@ def instance(id):
     elif request.method == 'POST':        
         return instance_controller.create(request.json)
     elif request.method == 'PUT':
-        return instance_controller.update(id, request.json)
+        return instance_controller.update(request.json)
     elif request.method == 'DELETE':
         return instance_controller.delete(id)
 

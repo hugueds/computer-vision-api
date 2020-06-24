@@ -2,14 +2,15 @@
   display: flex;
   margin: 0 auto;
   align-items: flex-start;  
-  flex-direction: column;
+  flex-direction: column;  
 }
 
 .navbar-wrapper {
   display: flex;
   margin: 0 auto;
-  flex: 1 1 auto;  
+  flex: 1 1 auto;
   width: 100%;
+  padding: -5%;
 }
 
 .navbar {
@@ -110,8 +111,9 @@
   justify-content: space-around;
   justify-self: center; 
   align-items: center; 
-  flex: 1 auto;
+  flex: 1 0 auto;
   background-color: #94A596;
+  border: 1px solid #000;
 }
 
 .last-result > button {
