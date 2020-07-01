@@ -2,6 +2,7 @@ import os
 import cv2
 import base64
 import pytesseract as pyt
+import numpy as np
 from pathlib import Path
 from datetime import datetime
 from PIL import Image
@@ -15,7 +16,7 @@ pyt.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe
 class ApiController:
 
     MAX_TEMP_FILES = 10
-    IMAGE_PATH = 'C:\Pictures'  # TODO: Colocar no config ou .env
+    IMAGE_PATH = r'\\\\10.33.22.113/Data'  # TODO: Colocar no config ou .env
     temp_file_counter = 0
 
     def __init__(self):
@@ -56,73 +57,77 @@ class ApiController:
         }
         # Buscar lista de strings para modelo conhecido
 
-    def classify(self, image, model, part_id="not_provided", save=False, instance="", user="", device=""):
+    def classify(self, image, model, part_id="", save=False, instance="", user="", device=""):
+
+        if part_id == '':
+            part_id = 'not_defined'
 
         temp_file = f'temp/classify_test_{str(self.temp_file_counter)}.png'
         self.update_temp()
+                
+        img = data_uri_to_cv2_img(image)      
 
         image_path = ''
+        if save:
+            image_path, file_name = get_picture_path(image, part_id)
 
-        tf = TFModel(model)
-        image = image.split('base64,')[-1].strip()
-
-        with open(temp_file, "wb") as fh:
-            fh.write(base64.b64decode(image))
-
-        if save:            
-            image_path, file_name = self.get_picture_path(image, part_id)
-
-        img_g = cv2.imread(temp_file)
-        result = tf.predict(img_g)
-        cv2.putText(img_g, f'{ file_name } - {result["prediction"]} ', ( int(640*0.01), int(480*0.98) ), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0,220,50), 1)
-        cv2.imwrite(image_path, img_g)
+        tf = TFModel(model)    
+        result = tf.predict(img)
+        cv2.putText(img, f'{ file_name } - {result["label"]} ', ( int(640*0.01), int(480*0.98) ), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0,230,50), 2)
+        cv2.imwrite(image_path, img)
 
         Result(
             user = user,
             device= device,
             instance=instance,
             file_path=image_path,
-            label= result['prediction'],
-            probability=str(round(result['confidence'], 2))).save()
+            label= result['label'],
+            confidence=str(round(result['confidence'], 2))
+        ).save()
 
         return {
             "error": False,
             "message": "OK",
             "content": {
-                "result": result['prediction'],
+                "result": result['label'],
                 "confidence": str(round(result['confidence'], 2)),
                 "imagePath": image_path
             }
-        }
-
-    def get_picture_path(self, image, part_id):
-        # Data/Pictures/Ano/Mes/Dia/Identificacao -> Data_Hora_PartId yyyyMMdd_hhmmss_xxxx.png
-        y, M, d = (
-            datetime.today().year,
-            "%02d" % datetime.today().month,
-            "%02d" % datetime.today().day,
-        )
-
-        h, m, s = (
-            datetime.today().hour,
-            "%02d" % datetime.today().minute,
-            "%02d" % datetime.today().second,
-        )
-
-        file_name = f"{y}{M}{d}_{h}{m}{s}_{part_id}.png"  # png?
-        path = f"c:/Data/Pictures/{y}/{M}/{d}/{part_id}"
-        Path(path).mkdir(parents=True, exist_ok=True)
-
-        return [f'{path}/{file_name}', file_name]
+        }    
 
     def update_temp(self):
         self.temp_file_counter += 1
         if self.temp_file_counter > self.MAX_TEMP_FILES:
             self.temp_file_counter = 0
 
-    def save_results(self):
-        r = Result()
-        r.save()
+def data_uri_to_cv2_img(uri):
+    image_string = uri.split('base64,')[-1].strip()    
+    nparr = np.fromstring(base64.b64decode(image_string), np.uint8)
+    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
+    return img
+
+def get_picture_path(image, part_id):
+
+
+
+    y, M, d = (
+        datetime.today().year,
+        "%02d" % datetime.today().month,
+        "%02d" % datetime.today().day,
+    )
+
+    h, m, s = (
+        datetime.today().hour,
+        "%02d" % datetime.today().minute,
+        "%02d" % datetime.today().second,
+    )
+
+    file_name = f"{y}{M}{d}_{h}{m}{s}_{part_id}.png"  # png?
+    # Data/Pictures/Ano/Mes/Dia/Identificacao -> Data_Hora_PartId yyyyMMdd_hhmmss_xxxx.png
+    path = f"\\\\10.33.22.113/Data/Pictures/{y}/{M}/{d}/{part_id}"
+    Path(path).mkdir(parents=True, exist_ok=True)
+
+    return [f'{path}/{file_name}', file_name]
         
 
 

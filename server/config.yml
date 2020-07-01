@@ -5,30 +5,28 @@ database:
     name: 'cv_service.db'
 server:
     address: '0.0.0.0'
+    address_b: '10.33.22.113'
     port: 5000
+    pytesseract_path: 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+image:
+    default_size: '640x480'
 models:
     emptybox:
         name: 'emptybox'
-        graph: 'boxes_4.h5'
-        size: 50
+        graph: 'emptybox'
+        size: 224
         channels: 3
-        labels: ['CONFIANCA_CHEIA']
-    emptybox_bkp:
-        name: 'emptybox'
-        graph: 'emptybox.h5'
-        size: 128
-        channels: 1
-        labels: ['OK', 'NOT OK']
+        labels: ['OK', 'NOT_OK']   
     tanklabels:
         name: 'tanklabels'
-        graph: 'tanklabels.h5'
+        graph: 'tanklabels'
         size: 70
         channels: 1
         labels: ['1', '2', 'P', 'T', '1_180', '2_180', 'P_180', 'T_180', '1_90', '2_90', 'P_90', 'T_90']        
     default:
         name: 'default'
         graph: 'imagenet'
-        size: 128
+        size: 224
         channels: 3
         labels: []  
     Model2:

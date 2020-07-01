@@ -14,7 +14,8 @@ export default class Instance {
 export enum InstanceType {
     BARCODE,
     OCR,
-    CLASSIFIER
+    CLASSIFIER,
+    CLASSIFIER_OFFLINE
 }
 
 export enum IdentifierType {

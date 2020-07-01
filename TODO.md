@@ -1,9 +1,24 @@
 # TODO
 
+## 2020-07-01
+
+- [ ] Avaliar a imagem sem ter que salvar uma copia antes
+- [ ] Melhorar a visualização para celulares
+- [ ] Adicionar tipo de operação offline
+- [ ] Salvar os modelos no servidor
+- [ ] Servir arquivos no servidor
+- [ ] Paginar a tela de resultados
+- [ ] Ao invés de C:\, utilizar como prefixo o endereço do servidor no armazenamento
+- [x] Implementar modelos de tensorflow offline
+
+## 2020-06-24
+
+- [ ] Carregar todos os modelos de uma vez no servidor e verificar a performance
+
 ## 2020-06-23
 
-- [ ] Abrir uma nova thread para processar as imagens
 - [ ] Destruir a camera ao sair de um menu
+- [x] Abrir uma nova thread para processar as imagens
 
 ## 2020-06-22
 
@@ -34,9 +49,9 @@
 ## 2020-06-09
 
 - [ ] Add a button to revoke/claim last sent result
-- [ ] History/Logs Screen
 - [ ] Home Screen
 - [ ] Create a return arrow button
+- [x] History/Logs Screen
 - [x] OnLoad, device request its instance from server
 - [x] Create a route system in Frontend
 - [x] Create a menu button
