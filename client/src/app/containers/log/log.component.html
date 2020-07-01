@@ -39,7 +39,7 @@
 
         <ng-container matColumnDef="file_path">
           <mat-header-cell *matHeaderCellDef>CAMINHO</mat-header-cell>
-          <mat-cell *matCellDef="let result"> <a href="{{ result.file_path }}"> {{ result.file_path }} </a></mat-cell>
+          <mat-cell *matCellDef="let result"> <a target="_blank" rel="noopener noreferrer" href="file://{{ result.file_path.replace('\\\\', '') }}"> {{ result.file_path }} </a></mat-cell>          
         </ng-container>
 
       
@@ -47,7 +47,7 @@
         <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
       </mat-table>
     
-
+      
 
 </ng-container>
 

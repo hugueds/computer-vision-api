@@ -4,12 +4,10 @@ import tensorflow as tf
 from tensorflow.keras.applications.mobilenet_v2 import decode_predictions
 
 model = tf.keras.applications.MobileNetV2(
-    input_shape=(128,128,3),
-    alpha=1.0,
-    include_top=True,
-    weights="imagenet",    
-    pooling=None,
-    classes=1000,    
+    input_shape=(128,128,3),    
+    weights=None,    
+    pooling=None,    
+    include_top=False
 )
 
 cap = cv.VideoCapture(0)

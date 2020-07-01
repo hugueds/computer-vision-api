@@ -1,11 +1,12 @@
 {
   "name": "cv-client",
   "short_name": "cv-client",
-  "theme_color": "#1976d2",
+  "theme_color": "#041E42",
   "background_color": "#fafafa",
-  "display": "standalone",
+  "display": "minimal-ui",
   "scope": "./",
   "start_url": "./",
+  "orientation": "landscape-primary",
   "icons": [
     {
       "src": "assets/icons/icon-72x72.png",
