@@ -1,10 +1,8 @@
 <ng-container class="camera-container">
+
   <div class="navbar-wrapper">
     
-      <span
-        >TIPO DE LEITURA: {{ identifier?.typeString }} - MODELO:
-        {{ instance?.name }}
-      </span>      
+      <span>LEITURA {{ identifier?.typeString }} / MODELO {{ instance?.name }}</span>      
     
   </div>
 
@@ -13,50 +11,43 @@
       <span>{{ step.number + 1 }} INSTRUÇÃO: {{ step.name }}</span>
     </div>
     <div class="identifier">
-      <span>IDENTIFICADOR: {{ identifier.value }} </span>
+      <span>ID: {{ identifier.value }} </span>
     </div>
   </div>
 
   <div class="camera-preview" [style.background]="preview.background">
-    <div
-      class="camera-card"
-      [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.BARCODE }"
-    >
-      <div class="barcode-wrapper">
+
+    <div class="camera-card" [ngClass]="{ 'hidden': cameraMode != CAMERA_MODE.BARCODE }">
+      <div class="barcode-wrapper--mobile">
         <div id="barcode"></div>
       </div>
     </div>
 
-    <div
-      class="camera-card"
-      [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.CAMERA }"
-    >
-      <video #video id="video" autoplay="true" ></video>
+    <div class="camera-card" [ngClass]="{ 'hidden': cameraMode != CAMERA_MODE.CAMERA }">      
+        <video #video id="video" autoplay="true" width="640" height="480" ></video>      
     </div>
 
-    <div
-      class="camera-control"
-      [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.CAMERA }"
-    >
+    <div class="camera-control" [ngClass]="{ 'hidden': (isMobile || cameraMode == CAMERA_MODE.PREVIEW) }">
       <button mat-fab id="camera-button" (click)="takePicture()">
         <img class="camera-icon" src="assets/icons/camera.png" />
       </button>
     </div>
 
-    <div
-      class="camera-card"
-      [ngClass]="{ 'display-preview': cameraMode != CAMERA_MODE.PREVIEW }"
-    >
+    <div class="camera-card" [ngClass]="{ 'hidden': cameraMode != CAMERA_MODE.PREVIEW }">
       <canvas #canvas id="canvas"></canvas>
     </div>
+
   </div>
 
-  <div
-    class="button-control"
-    [ngClass]="{
-      'display-preview': cameraMode != CAMERA_MODE.PREVIEW && !loading
-    }"
-  >
+  <div class="camera-button-container--mobile" [ngClass]="{'hidden' : (!isMobile) }">
+    <button mat-button id="camera-button--mobile" (click)="takePicture()">
+      <img class="camera-icon" src="assets/icons/camera.png" />
+    </button>
+  </div>
+
+
+
+  <div class="button-control" [ngClass]="{ 'hidden': cameraMode != CAMERA_MODE.PREVIEW && !loading}">
     <button
       mat-button
       color="primary"
@@ -85,14 +76,14 @@
   
   <div
     class="last-result"
-    [ngClass]="{ 'display-preview': cameraMode == CAMERA_MODE.PREVIEW }"
+    [ngClass]="{ 'hidden': cameraMode == CAMERA_MODE.PREVIEW }"
   >
   
     <span>
       RESULTADO: {{ identifier?.lastValue }} {{ response?.content.result }} -
       {{ response?.content.confidence * 100 }}% - {{ 0 }}
     </span>
-    <button mat-button>VER MAIS</button>
+    <button mat-button (click)="offlinePredict()">VER MAIS</button>
   </div>
 
 </ng-container>

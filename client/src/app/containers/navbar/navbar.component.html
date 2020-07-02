@@ -1,7 +1,7 @@
-<div class="navbar-container">
-  <mat-toolbar class="navbar">
-
-    <div>
+<ng-container class="navbar-container">
+  <mat-toolbar class="navbar">  
+    
+    <div class="navbar-menu">
       <button mat-button [matMenuTriggerFor]="menu">Menu</button>
       <mat-menu #menu="matMenu">
         <a mat-menu-item routerLink="/">OPERATION</a>
@@ -10,13 +10,18 @@
       </mat-menu>
     </div>
 
-    <!-- <button mat-button>MENU</button> -->
-    <span>Computer Vision API</span>    
-    <div>
-      <div>
-        <!-- <span class="status">STATUS</span>  ONLINE / OFFLINE, circulo para verificacao--> 
-      </div>
+    <div class="navbar-title">
+      <span>COMPUTER VISION APP</span>
+    </div>
+  
+    
+    <div class="navbar-icon">      
       <img src="assets/icons/scania-icon.png" alt="" />
     </div>
+
+    <!-- <div>
+      <span class="status">STATUS</span>  ONLINE / OFFLINE, circulo para verificacao 
+    </div> -->
+
   </mat-toolbar>
-</div>
+</ng-container>

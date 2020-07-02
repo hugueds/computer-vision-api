@@ -73,7 +73,11 @@ class ApiController:
 
         tf = TFModel(model)    
         result = tf.predict(img)
-        cv2.putText(img, f'{ file_name } - {result["label"]} ', ( int(640*0.01), int(480*0.98) ), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (0,230,50), 2)
+        h, w = img.shape[:2]        
+        
+        img[int(h*0.90):,:,:] = 0
+        cv2.putText(img, f'{result["label"]} ', ( int(w*0.01), int(h*0.95) ), cv2.FONT_HERSHEY_SIMPLEX, w/1000, (0,217,217), 1)
+        cv2.putText(img, f'{ file_name }',      ( int(w*0.01), int(h*0.99)),  cv2.FONT_HERSHEY_SIMPLEX, w/1000, (0,217,217), 1)
         cv2.imwrite(image_path, img)
 
         Result(
@@ -107,8 +111,6 @@ def data_uri_to_cv2_img(uri):
     return img
 
 def get_picture_path(image, part_id):
-
-
 
     y, M, d = (
         datetime.today().year,

@@ -1,17 +1,29 @@
 .navbar-container {
-    display: flex;
-    max-width: 100%;
-    width: 100%;
-    padding: 0;
-    margin: 0;
+  display: flex;
+  padding: 0%;
+  margin: 0;
 }
 
 .navbar {
-    justify-content: space-between;
-    color: #FAFAFA;
-    background-color: #041E42;
+  justify-content: space-between;
+  color: #fafafa;
+  background-color: #041e42;
+  font-size: 12pt;
 }
 
-img {
-    height: 2em;
+.navbar-menu {
+  display: flex;
+}
+
+.navbar-title {
+  display: flex;
+}
+
+.navbar-icon {
+  display: flex;
+  max-width: 10%;
+}
+
+.navbar-icon img {
+  width: 100%;
 }

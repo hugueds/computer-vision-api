@@ -3,9 +3,9 @@ import Instance from './Instance';
 export default class Device {
     
     id: number;
-    instance: number;
     ip: string;
     user: string;
+    instanceId: number;
     deviceId: string;
     deviceType: DeviceType;
     createdAt: Date;
@@ -15,7 +15,7 @@ export default class Device {
         this.ip = params.ip
         this.user = params.user
         this.deviceId = params.deviceId
-        this.instance = params.instance
+        this.instanceId = params.instanceId
         this.deviceType = params.deviceType
         this.createdAt = params.createdAt
     }
