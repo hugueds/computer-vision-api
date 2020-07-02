@@ -140,7 +140,7 @@ class Device():
             'user': self.user,
             'deviceId': self.device_id,
             'ip': self.ip,
-            'instance': self.instance_id,
+            'instanceId': self.instance_id,
             'deviceType': self.device_type,
             'createdAt': self.created_at
         }

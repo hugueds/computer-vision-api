@@ -79,17 +79,24 @@ export class CameraComponent implements OnInit {
       .then(result => {
         this.loading = false;
         this.device = result.device;
-        if (result.device.instance == 0) return;
+        if (result.device.instanceId == 0) return;
         this.instance = result.instance;
         // this.instance.identifier = 2;
         console.log(result.device);
         console.log(result.instance);
-        this.loadOperation(result.instance);        
+        this.loadOperation(result.instance);
         // GET THE MODEL FROM SERVER
-        const url = 'static/models/' + result.instance.name;
-        // this.net = ml5.imageClassifier(url, () => this.modelLoaded());
+        // const url = 'https://10.33.22.113:5000/static/' //+ result.instance.name;
+        // let url = 'assets/models/' + result.instance.name + '/model.json';
+        let url = 'https://10.33.22.113:5000/assets/models/' + result.instance.name + '/model.json';
+        if (result.instance.name == 'default') {
+          url = 'MobileNet'
+        }
+        this.net = ml5.imageClassifier(url, () => this.modelLoaded())
+        // this.net.model  = 
+        // ;
       })
-      .catch(err => {        
+      .catch(err => {
         this.instance = new Instance();
         this.instance.identifier = IdentifierType.NONE;
         this.instance.type = 3;
@@ -98,11 +105,9 @@ export class CameraComponent implements OnInit {
         // this.net = ml5.imageClassifier(`assets/models/model.json`, () => this.modelLoaded());
       });
 
-    // IF NOT DEVICE OPEN COMMON IDENTIFIER WITH COCO DATASET
     // LOAD PREVIEW PREDICTOR
 
     // Simular configuração do device / instancia
-
 
     // Verificar tipo de validação inicial
     // 0 - Leitura de barcode
@@ -136,7 +141,7 @@ export class CameraComponent implements OnInit {
 
   }
 
-  modelLoaded() {
+  modelLoaded(): void {
     console.log('Model loaded');
     // setInterval(() => this.loop(), 500)
     window.requestAnimationFrame(() => this.loop())
@@ -148,20 +153,20 @@ export class CameraComponent implements OnInit {
   }
 
   async offlinePredict() {
-    const res = await this.net.classify(this.video.nativeElement, 1);
+
+    const vid = document.getElementById('video')
+    const res = await this.net.classify(vid, 1);
     this.preview = res[0];
-    if (this.preview.label == 'OK') { 
+
+    if (this.preview.label == 'OK') {
       this.preview.background = 'lime';
-    } else if (this.preview.label == 'NOT_OK') { 
+    } else if (this.preview.label == 'NOT_OK') {
       this.preview.background = 'red';
     }
-    
 
   }
 
-
   loadOperation(instance: Instance) {
-
 
     switch (instance.identifier) {
 
@@ -200,14 +205,12 @@ export class CameraComponent implements OnInit {
 
     const constraints = {
 
-      video: true,
-      width: {
-        min: 300,
-        max: 640
-      },
-      height: {
-        min: 240,
-        max: 480
+      audio: false,
+      video: {
+        width: { min: 320, ideal: 640 },
+        height: { min: 360, ideal: 480 },
+        // width: { ideal: 320 },
+        // height: {  ideal: 360 },
       },
       advanced: [{
         facingMode: "environment"
@@ -224,10 +227,10 @@ export class CameraComponent implements OnInit {
   }
 
 
-  takePicture() {
+  takePicture(): void {
 
     const context = this.canvas.nativeElement.getContext('2d');
-    
+
     context.canvas.width = 640;
     context.canvas.height = 480;
 
@@ -235,13 +238,13 @@ export class CameraComponent implements OnInit {
       context.canvas.width = 300;
       context.canvas.height = 300;
     }
-    
-    context.drawImage(this.video.nativeElement, 0, 0, context.canvas.width , context.canvas.height);    
+
+    context.drawImage(this.video.nativeElement, 0, 0, context.canvas.width, context.canvas.height);
     this.picture = this.canvas.nativeElement.toDataURL();
     this.cameraMode = this.CAMERA_MODE.PREVIEW;
   }
 
-  sendPicture(picture: string = '') {
+  sendOCR(picture: string = ''): void {
     this._cvService.sendOCR(this.picture).then(res => {
       const strings = res.result.label.split(' ');
       this.response = res;
@@ -249,7 +252,7 @@ export class CameraComponent implements OnInit {
     });
   }
 
-  classify() {
+  classify(): void {
     this.loading = true;
     this._cvService.classify(
       this.picture
@@ -277,9 +280,11 @@ export class CameraComponent implements OnInit {
   }
 
 
-  openBarcodeScanner() {
+  openBarcodeScanner(): void {
 
     this.cameraMode = CAMERA_MODE.BARCODE;
+
+
 
     const quaggaConfig = {
       debug: false,
@@ -287,7 +292,11 @@ export class CameraComponent implements OnInit {
       inputStream: {
         name: "Live",
         type: "LiveStream",
-        target: '#barcode'
+        target: '#barcode',
+        constraints: {
+          width: 320,
+          height: 360,
+        }
       },
       decoder: {
         readers: ["code_128_reader", 'ean_reader', 'ean_8_reader']
@@ -295,11 +304,10 @@ export class CameraComponent implements OnInit {
     }
 
     Quagga.init(quaggaConfig, (err) => {
-
       if (err) {
         window.alert(err);
         console.log(err);
-        return
+        return;
       }
       console.log("Initialization finished. Ready to start");
       Quagga.start();
@@ -318,14 +326,13 @@ export class CameraComponent implements OnInit {
 
   }
 
-  cancel() {
+  cancel(): void {
     this.cameraMode = CAMERA_MODE.CAMERA;
   }
 
   ngOnDestroy(): void {
 
     // this.video.nativeElement.stop();
-    
 
   }
 

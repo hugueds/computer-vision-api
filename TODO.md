@@ -1,5 +1,11 @@
 # TODO
 
+## 2020-07-02
+
+- [ ] Arrumar criated_at no metodo PUT
+- [ ] Adicionar mensagem com os dizeres de modelo carregando
+- [ ]
+
 ## 2020-07-01
 
 - [ ] Avaliar a imagem sem ter que salvar uma copia antes
