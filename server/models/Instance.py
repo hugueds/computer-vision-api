@@ -8,13 +8,13 @@ class Instance():
 
     def __init__(self, id=0, name='', description='', _type=0, identifier=0, save=0):
 
+        self.id = id
         self.name = name
         self.description = description
         self._type = _type
         self.identifier = identifier
         self.save = save
-        self.created_at = datetime.datetime.now()
-                
+        self.created_at = datetime.datetime.now()                
 
     @staticmethod
     def get(id=0, only_one=False):
@@ -66,7 +66,46 @@ class Instance():
             return True
         except Exception as e:
             print(str(e))
-            return False        
+            return False       
+
+    @staticmethod
+    def update(instance):
+        try:
+            sql = ''' UPDATE Instance
+            SET
+            name = ?
+            , description = ?
+            , type= ?
+            , identifier= ?
+            , save = (?)
+            WHERE ID = ?
+            '''
+            conn = sqlite3.connect(database)
+            cursor = conn.cursor()
+            inst = (instance.name, instance.description, instance._type, instance.identifier,
+                instance.save, instance.id)
+            cursor.execute(sql, (inst))
+            conn.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print(str(e))
+            return False  
+
+    @staticmethod
+    def delete(id):
+        print('Deleting Instance ID ' + str(id))
+        try:
+            sql = ''' DELETE FROM INSTANCE WHERE ID = ? '''
+            conn = sqlite3.connect(database)
+            cursor = conn.cursor()            
+            cursor.execute(sql, (id,))
+            conn.commit()
+            cursor.close()
+            return True
+        except Exception as e:
+            print(str(e))
+            return False
 
     def serialize(self):
         return {

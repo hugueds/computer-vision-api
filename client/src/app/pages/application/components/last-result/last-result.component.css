@@ -1,0 +1,17 @@
+.last-result {
+  display: flex;
+  margin: auto;  
+  justify-content: space-around;
+  align-items: center;
+  background-color: #94a596;
+  border: 1px solid #000;
+  font-size: small;
+}
+
+.last-result > button {
+  font-weight: bold;
+  color: #fafafa;
+  background-color: #005d6d;
+  margin: 1% 0% 1% 0%;
+  padding: 0.33rem;
+}

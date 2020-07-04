@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
 import { environment } from '../../environments/environment';
-import Device from '../models/Device';
+import Device, { ResultDevice } from '../models/Device';
 
 @Injectable({
   providedIn: 'root'
@@ -12,10 +12,19 @@ export class DeviceService {
 
   constructor() { }
 
-  async get(id = ''): Promise<Device> {
-
+  async get(id=''): Promise<ResultDevice> {
     try {
       const response = await axios.get(`${this.baseURL}/device/{id}`.replace('{id}', id));
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+
+  }
+
+  async getAll(): Promise<Array<Device>> {
+    try {
+      const response = await axios.get(`${this.baseURL}/device/0`);
       return response.data;
     } catch (err) {
       console.error(err);

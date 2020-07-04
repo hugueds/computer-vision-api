@@ -1,20 +1,66 @@
 # TODO
 
+## 2020-07-02
+
+- [ ] Arrumar criated_at no metodo PUT
+- [ ] Adicionar mensagem com os dizeres de modelo carregando
+- [ ] Add a Get By IP method
+
+## 2020-07-01
+
+- [ ] Avaliar a imagem sem ter que salvar uma copia antes
+- [ ] Melhorar a visualização para celulares
+- [ ] Adicionar tipo de operação offline
+- [ ] Salvar os modelos no servidor
+- [ ] Servir arquivos no servidor
+- [ ] Paginar a tela de resultados
+- [ ] Ao invés de C:\, utilizar como prefixo o endereço do servidor no armazenamento
+- [x] Implementar modelos de tensorflow offline
+
+## 2020-06-24
+
+- [ ] Carregar todos os modelos de uma vez no servidor e verificar a performance
+
+## 2020-06-23
+
+- [ ] Destruir a camera ao sair de um menu
+- [x] Abrir uma nova thread para processar as imagens
+
+## 2020-06-22
+
+- [ ] Exibir mensagem de Camera indisponível enquanto a camera não é carregada
+- [ ] Adicionar mensagem nome e usuario do dispositvo no header
+- [ ] Desenvolver telas de alteração de configuração
+- [ ] Finalizar API de consulta e cadastro de instancias e equiapamentos
+- [ ] Criar API para os resultados
+
+## 2020-06-19
+
+- [x] Adicionar a imagem o numero da peça, data e hora que foi tirada no servidor
+
+## 2020-06-18
+
+- [ ] Adicionar serviço de status de comunicação com o servidor
+- [ ] Criar tabela de resultados
+- [ ] Adicionar identificador ao resultado
+- [x] Alterar o canvas dinamicamente
+- [x] Retornar o IP do usuário mesmo que não cadastrado
+
 ## 2020-06-17
 
-- [ ] Corrigir desvio do leitor de codigo de barras para o Ipad
-- [ ] Adicionar nome do modelo na instancia
-- [ ] Buscar o nome do modelo do classificador
+- [x] Corrigir desvio do leitor de codigo de barras para o Ipad (Adicionado um canvas dedicado)
+- [x] Buscar o nome do modelo do classificador
+- [x] Adicionar nome do modelo na instancia
 
 ## 2020-06-09
 
 - [ ] Add a button to revoke/claim last sent result
-- [ ] OnLoad, device request its instance from server
-- [ ] Create a route system in Frontend
-- [ ] History Screen
 - [ ] Home Screen
 - [ ] Create a return arrow button
-- [ ] Create a menu button
+- [x] History/Logs Screen
+- [x] OnLoad, device request its instance from server
+- [x] Create a route system in Frontend
+- [x] Create a menu button
 - [x] Get more empty boxes pictures
 - [x] Create a resizer to make fotos 640x480
 

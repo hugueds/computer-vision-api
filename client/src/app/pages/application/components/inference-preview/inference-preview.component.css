@@ -1,0 +1,11 @@
+.inference-preview {
+  display: flex;
+  margin: 0 auto;
+  border: 1px solid #000;
+  justify-content: space-evenly;
+  justify-self: center;
+  align-items: center;
+  font-size: medium;
+  color: #fafafa;
+  background-color: #005d6d;  
+}

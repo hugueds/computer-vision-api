@@ -1,0 +1,11 @@
+.instruction-wrapper {
+    display: flex;
+    font-size: small;
+    border: 1px solid #000;
+}
+
+.instruction {
+    flex: 1 1 auto;
+    text-align: center;
+    justify-content: center;
+}

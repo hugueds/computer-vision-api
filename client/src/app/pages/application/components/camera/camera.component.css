@@ -1,0 +1,46 @@
+.camera-preview {
+  display: flex;
+  margin: 0 auto;
+  border: 3px solid magenta;
+  background: #C8C9C7;
+  flex-wrap: wrap;
+}
+
+.camera-wrapper {
+  display: flex;
+  margin: 0 auto;
+  flex: 1 1 auto;
+  width: 80%;
+  justify-content: center;
+  border: 3px solid orange;
+}
+
+.capture-button {
+  /* display: none; */
+  width: 15%;
+  flex: 1 1 auto;
+  margin: 0 auto;
+  border: 1px solid aqua;
+  min-height: 100%;
+  height: 480px;
+  align-self: center;
+}
+
+.capture-button--mobile {
+  /* display: none; */
+  flex-basis: 100%;
+  width: 100%;
+  margin: 0 auto;
+  border: 1px solid aqua;
+  align-self: center;
+}
+
+#video {
+  width: 640px;
+  height: 480px;
+  border: 3px solid red;
+}
+
+#canvas {
+  border: 2px solid navy;
+}
