@@ -9,6 +9,7 @@ class Device():
 
     def __init__(self, id=0, device_id='', user='SSB', ip='0.0.0.0', instance_id=0, device_type=0):
 
+        self.id = id
         self.ip = ip
         self.device_id = device_id
         self.user = user
@@ -76,10 +77,10 @@ class Device():
 
         return device
 
-    def save(self):  # TODO nao deixar salvar se IP for igual
+    def save(self):
         print('Creating a new Device ' + self.ip)
         try:
-            sql = ''' INSERT INTO Device(user , device_id, ip ,instance_id, deviceType, created_at) VALUES(?,?,?,?,?, ?) '''
+            sql = ''' INSERT INTO Device(user , device_id, ip ,instance_id, deviceType, created_at) VALUES(?,?,?,?,?,?) '''
             conn = sqlite3.connect(database)
             cursor = conn.cursor()
             d = (self.user, self.device_id, self.ip, self.instance_id,
@@ -93,22 +94,31 @@ class Device():
             print(str(e))
             return False
 
-    def update(id, device):
+    @staticmethod
+    def update(device):
         try:
-            sql = ''' INSERT INTO Device(user , device_id, ip ,instance_id, deviceType, created_at) VALUES(?,?,?,?,?, ?) '''
+            sql = ''' UPDATE Device
+            SET
+            user = ?, 
+            device_id = ?,  
+            ip = ?,
+            instance_id = ?, 
+            deviceType = ?         
+            WHERE ID = (?)
+                     '''
             conn = sqlite3.connect(database)
             cursor = conn.cursor()
-            d = (self.user, self.device_id, self.ip, self.instance_id,
-                self.device_type, self.created_at)
-            cursor.execute(sql, d)
+            d = (device.user, device.device_id, device.ip, device.instance_id,
+                device.device_type, device.id)
+            cursor.execute(sql, (d))
             conn.commit()
             cursor.close()
             return True
         except Exception as e:
             print(str(e))
-            return False
-        pass
+            return False        
 
+    @staticmethod
     def delete(id):
         print('Deleting device ID ' + str(id))
         try:
@@ -124,13 +134,13 @@ class Device():
             return False
         
 
-    def serialize(self):
+    def serialize(self):        
         return {
             'id': self.id,
             'user': self.user,
             'deviceId': self.device_id,
             'ip': self.ip,
-            'instance': self.instance_id,
+            'instanceId': self.instance_id,
             'deviceType': self.device_type,
             'createdAt': self.created_at
         }

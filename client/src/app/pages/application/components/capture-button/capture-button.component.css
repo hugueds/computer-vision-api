@@ -1,0 +1,11 @@
+.capture-button--container {
+    display: flex;
+    margin: 0 auto;
+    flex: 1 1 auto;
+    justify-content: center;
+    min-height: 100%;
+}
+
+.capture-button--container > button {
+  align-self: center;
+}
