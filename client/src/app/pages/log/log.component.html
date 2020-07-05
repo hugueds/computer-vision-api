@@ -1,6 +1,11 @@
 <ng-container>
 
-<!--
+  <!-- TODO: Adicionar filtros -->
+    <div class="header">
+      <h1>ULTIMOS RESULTADOS</h1>
+    </div>
+
+
     <mat-table [dataSource]="results" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
           <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
@@ -46,7 +51,7 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
       </mat-table>
-     -->
+
 
 
 </ng-container>

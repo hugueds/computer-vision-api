@@ -1,16 +1,9 @@
-.config-container {
-    display: flex;
-    border: 1px solid #000;    
-    margin: 0 auto;
-    flex-direction: column;
-}
-
 .header {
     display: flex;
     margin: 0 auto;
-    /* flex: 1 1 auto; */
+    flex: 1 1 auto;
     width: 100%;
-    justify-content: center;    
+    justify-content: center;
 }
 
 .table-header {
@@ -36,14 +29,14 @@
 
 mat-tab-group {
     width: 95%;
-    margin: 0 auto;    
+    margin: 0 auto;
 }
 
 .create-container {
     display: flex;
     width: 95%;
     margin: 0 auto;
-    margin-top: 2%;    
+    margin-top: 2%;
     margin-bottom: 2%;
 }
 

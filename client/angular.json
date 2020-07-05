@@ -70,7 +70,7 @@
           "options": {
             "browserTarget": "cv-client:build",
             "sslKey": "key.pem",
-            "ssl": true,
+            "ssl": false,
             "sslCert": "cert.pem"
           },
           "configurations": {

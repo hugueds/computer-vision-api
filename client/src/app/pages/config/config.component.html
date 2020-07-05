@@ -1,4 +1,4 @@
-<ng-container class="config-container">
+<ng-container>
   <div class="header">
     <h1>CONFIGURAÇÕES</h1>
   </div>
@@ -11,10 +11,10 @@
     <span>IP</span>
     <span>INSTANCIA</span>
     <span>CRIADO EM</span>
-  </div>
+  </div> -->
 
 
-
+<!--
   <div class="table-body">
     <div class="table-row" *ngFor="let device of devices">
       {{ device.id }}
@@ -29,7 +29,9 @@
     </div>
   </div> -->
 
-  <!-- <mat-tab-group mat-stretch-tabs="always" mat-align-tabs="center">
+
+
+  <mat-tab-group mat-stretch-tabs="always" mat-align-tabs="center">
     <mat-tab label="DISPOSITIVOS">
 
 
@@ -133,10 +135,10 @@
         </mat-form-field>
           <button mat-button>CRIAR</button>
 
-      </form> -->
+      </form>
 
 
-      <!-- <mat-table [dataSource]="devices" class="mat-elevation-z8">
+      <mat-table [dataSource]="devices" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
           <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
           <mat-cell *matCellDef="let device"> {{ device.id }} </mat-cell>
@@ -185,5 +187,5 @@
       </mat-table>
 
     </mat-tab>
-  </mat-tab-group> -->
+  </mat-tab-group>
 </ng-container>

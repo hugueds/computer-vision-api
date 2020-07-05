@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { EventEmitter, Component, OnInit, Output } from '@angular/core';
+
 
 @Component({
   selector: 'app-confirmation-buttons',
@@ -7,9 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConfirmationButtonsComponent implements OnInit {
 
+  @Output('submit') submitEmitter = new EventEmitter();
+  @Output('cancel') cancelEmitter = new EventEmitter();
+
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  submit() {
+    this.submitEmitter.emit();
+  }
+
+  cancel() {
+    this.cancelEmitter.emit();
   }
 
 }

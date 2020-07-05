@@ -13,7 +13,7 @@ def create(database):
             device VARCHAR(30),
             instance VARCHAR(30),
             label VARCHAR(30),
-            probability REAL,
+            confidence REAL,
             filePath TEXT,
             timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
         );
@@ -52,10 +52,10 @@ def create(database):
 
         CREATE TABLE IF NOT EXISTS Device (
             id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+            name VARCHAR(20),
             user VARCHAR(6),
-            device_id VARCHAR(20),
             ip VARCHAR(15),
-            deviceType INTEGER,
+            model INTEGER,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
             instance_id INTEGER,
             FOREIGN KEY(instance_id) REFERENCES Instance(id)

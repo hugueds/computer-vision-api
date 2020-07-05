@@ -1,41 +1,44 @@
 import datetime
 import json
 import sqlite3
+# from database import database
 
-database = 'cv_service.db'
+
+database = 'cv_service.db' # Import database name from database folder
 
 class Instance():   
 
-    def __init__(self, id=0, name='', description='', _type=0, identifier=0, save=0):
+    def __init__(self, id_=0, name='', description='', type_=0, identifier_mode=0, save=0):
 
-        self.id = id
+        self.id_ = id_
         self.name = name
         self.description = description
-        self._type = _type
-        self.identifier = identifier
+        self.type_ = type_
+        self.identifier_mode = identifier_mode
         self.save = save
         self.created_at = datetime.datetime.now()                
 
     @staticmethod
-    def get(id=0, only_one=False):
+    def get(id_ = 0):
 
         instances = []
+
         sql = ''' SELECT * FROM INSTANCE WHERE ID > ? '''
 
-        if id > 0:
+        if id_ != 0:
             sql = ''' SELECT * FROM INSTANCE WHERE ID = ? '''
 
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
         cursor.execute(sql, (id,))
 
-        for id, name, description, _type, identifier, save, created_at in cursor.fetchall():
+        for id_, name, description, type_, identifier, save, created_at in cursor.fetchall():
 
             instance = Instance()
-            instance.id = id
+            instance.id_ = id_
             instance.name = name
             instance.description = description
-            instance._type = _type         
+            instance.type_ = type_
             instance.identifier = identifier            
             instance.save = save
             instance.created_at = created_at    
@@ -44,11 +47,8 @@ class Instance():
 
         cursor.close()
 
-        if only_one:
-            if len(instances) > 0:
-                return instances[0]
-            else:
-                return None
+        if id_ == 0:
+            return instances[0]        
 
         return instances
 
@@ -108,6 +108,17 @@ class Instance():
             return False
 
     def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "type": self._type,
+            "identifier": self.identifier,
+            "save": self.save,
+            "created_at": self.created_at
+        }
+
+    def to_json(self):
         return {
             "id": self.id,
             "name": self.name,
