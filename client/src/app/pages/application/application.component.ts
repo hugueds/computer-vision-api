@@ -45,6 +45,10 @@ export class ApplicationComponent implements OnInit {
   }
 
   getDevice() {
+    // se nao registrado, atribuir os valores de "default"
+    // para a instancia e o identificador (NONE)
+    // atribur o valor "MobileNet" ou "default" para o classificador
+
     this._deviceService.get()
       .then()
       .catch()
@@ -61,6 +65,11 @@ export class ApplicationComponent implements OnInit {
 
   onResult(result) {
     this.lastResult = result;
+  }
+
+  onSubmit(picture: string) {
+
+
   }
 
 }

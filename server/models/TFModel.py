@@ -1,9 +1,9 @@
 import cv2 as cv
 import numpy as np
 import yaml
-from time import sleep
 import concurrent.futures
 import logging
+from time import sleep
 from multiprocessing.pool import ThreadPool
 from threading import Thread
 from tensorflow.keras.applications import MobileNetV2

@@ -2,6 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, Output, EventEmitter } from '
 import Inference from 'src/app/models/Inference';
 import Quagga from 'quagga';
 import Result from 'src/app/models/Result';
+import { ThrowStmt } from '@angular/compiler';
 
 declare let ml5: any;
 
@@ -19,12 +20,13 @@ export class CameraComponent implements OnInit {
 
   @Output('inference') inferenceEmitter = new EventEmitter<Inference>();
   @Output('barcode')   barcodeEmitter = new EventEmitter<string>();
-  @Output('result')    resultEmitter = new EventEmitter<Result>();
+  @Output('submit')    submitEmitter = new EventEmitter<any>();
 
   net: any;
   modelLoaded = false;
   isReading = true;
   isMobile = false;
+  counter = 0;
 
   constraints = {
     audio: false,
@@ -68,9 +70,15 @@ export class CameraComponent implements OnInit {
     }
   }
 
+  resumeStream() {
+    this.isReading = true;
+    window.requestAnimationFrame(() => this.getFrames());
+  }
+
   openBarcodeScanner(): void {
 
     const quaggaConfig = {
+
       debug: false,
       frequency: 2,
       inputStream: {
@@ -118,7 +126,12 @@ export class CameraComponent implements OnInit {
     const canvasHeight = this.canvas.nativeElement.height;
 
     ctx.drawImage(this.video.nativeElement, 0, 0, canvasWidth, canvasHeight);
-    await this.classify();
+    if(this.counter >= 15) {
+      await this.classify();
+      this.counter = 0;
+    }
+    this.counter++;
+
     window.requestAnimationFrame(() => this.getFrames());
   }
 
@@ -135,6 +148,18 @@ export class CameraComponent implements OnInit {
     this.isReading = !this.isReading;
     if (this.isReading)
       window.requestAnimationFrame(() => this.getFrames());
+  }
+
+  onCancel() {
+    this.resumeStream();
+  }
+
+  onSubmit() {
+    const ctx = this.canvas.nativeElement.getContext('2d');
+    ctx.drawImage(this.video.nativeElement, 0, 0, 640, 480);
+    const frame = this.canvas.nativeElement.toDataURL();
+    this.submitEmitter.emit(frame);
+    this.resumeStream();
   }
 
   ngOnDestroy() {

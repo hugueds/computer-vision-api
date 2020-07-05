@@ -4,9 +4,18 @@
       <video #video id="video" autoplay muted width="640" height="480"></video>
       <canvas #canvas id="canvas" width="640" height="480"></canvas>
     </div>
-    <div [className]="isMobile ? 'capture-button--mobile' : 'capture-button'">
-      <app-capture-button (capture)="onCapture()"></app-capture-button>
+    <!-- hidden if Barcode First -->
+    <div
+    [hidden]="!isReading"
+    [className]="isMobile ? 'capture-button--mobile' : 'capture-button'">
+      <app-capture-button
+        (capture)="onCapture()">
+      </app-capture-button>
     </div>
   </div>
-  <app-confirmation-buttons></app-confirmation-buttons>
+  <app-confirmation-buttons
+    [hidden]="isReading"
+    (submit)="onSubmit()"
+    (cancel)="onCancel()">
+  </app-confirmation-buttons>
 </ng-container>

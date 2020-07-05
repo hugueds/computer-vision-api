@@ -13,8 +13,8 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
+import {MatTabsModule} from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatTabsModule } from '@angular/material/tabs';
 
 
 import { AppComponent } from './app.component';
@@ -27,6 +27,8 @@ import { InferencePreviewComponent } from './pages/application/components/infere
 import { ConfirmationButtonsComponent } from './pages/application/components/confirmation-buttons/confirmation-buttons.component';
 import { CameraComponent } from './pages/application/components/camera/camera.component';
 import { CaptureButtonComponent } from './pages/application/components/capture-button/capture-button.component';
+import { ConfigComponent } from './pages/config/config.component';
+import { LogComponent } from './pages/log/log.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -38,7 +40,10 @@ import { CaptureButtonComponent } from './pages/application/components/capture-b
     InferencePreviewComponent,
     ConfirmationButtonsComponent,
     CameraComponent,
-    CaptureButtonComponent],
+    CaptureButtonComponent,
+    ConfigComponent,
+    LogComponent
+  ],
   imports: [
     // ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     MatMenuModule,
