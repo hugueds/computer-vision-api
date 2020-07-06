@@ -3,41 +3,36 @@ import cv2
 import base64
 import pytesseract as pyt
 import numpy as np
+import yaml
 from pathlib import Path
 from datetime import datetime
 from PIL import Image
 from models.Instance import Instance
 from models.Device import Device
 from models.Result import Result
-from models.TFModel import TFModel
+from ..models.TFModel import TFModel
 
 pyt.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe' # TODO: Colocar no config ou .env
 
-class ApiController:
-
-    MAX_TEMP_FILES = 10
-    IMAGE_PATH = r'\\\\10.33.22.113/Data'  # TODO: Colocar no config ou .env
-    temp_file_counter = 0
-
+class ApiController:   
+    
     def __init__(self):
-        pass
+        try:
+            with open('config.yml', 'r') as f:
+                config = yaml.safe_load(f)
+            self.image_save_path = config['image_save_path']
+            pyt.pytesseract.tesseract_cmd = config['server']['pytesseract_path']
+        except Exception as e:
+            print(str(e))
 
     def index(self):
         self.counter += 1
-        return "ApiController"
-    
+        return "ApiController"    
 
-    def get_ocr(self, imagestring, knowledgeList=[]):
-
-        temp_file = f"temp/ocr_test_{str(self.temp_file_counter)}.png"
-        self.update_temp()
+    def get_ocr(self, base64_image, knowledgeList=[]):        
 
         image_path = ''
-
-        image = imagestring.split('base64,')[-1].strip()
-
-        with open(temp_file, "wb") as fh:
-            fh.write(base64.b64decode(image))
+        image = base64_image.split('base64,')[-1].strip()        
 
         image = cv2.imread('ocr_test.png', 0)
         _, image = cv2.threshold(
@@ -57,52 +52,55 @@ class ApiController:
         }
         # Buscar lista de strings para modelo conhecido
 
-    def classify(self, image, model, part_id="", save=False, instance="", user="", device=""):
+    def classify(self, content):
+        
+        base64_image = content['picture']
+        part_id = content['partId']
+        model = content['model']
+        save = content['save']
+        instance = content['instance']
+        user = content['user']
+        device = content['device']
 
         if part_id == '':
             part_id = 'not_defined'
-
-        temp_file = f'temp/classify_test_{str(self.temp_file_counter)}.png'
-        self.update_temp()
                 
-        img = data_uri_to_cv2_img(image)      
+        image = data_uri_to_cv2_img(base64_image)      
 
         image_path = ''
         if save:
-            image_path, file_name = get_picture_path(image, part_id)
+            image_path  = get_picture_path(self.image_save_path, part_id)
+            file_name = image_path.split('/')[-1]
 
         tf = TFModel(model)    
-        result = tf.predict(img)
-        h, w = img.shape[:2]        
+        prediction = tf.predict(image)
+        h, w = image.shape[:2]        
         
-        img[int(h*0.90):,:,:] = 0
-        cv2.putText(img, f'{result["label"]} ', ( int(w*0.01), int(h*0.95) ), cv2.FONT_HERSHEY_SIMPLEX, w/1000, (0,217,217), 1)
-        cv2.putText(img, f'{ file_name }',      ( int(w*0.01), int(h*0.99)),  cv2.FONT_HERSHEY_SIMPLEX, w/1000, (0,217,217), 1)
-        cv2.imwrite(image_path, img)
+        img[int(h*0.90):,:,:] = 0 # Creates a black stripe at the bottom of the image
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        cv2.putText(image, f'{prediction["label"]}', ( int(w*0.01), int(h*0.95) ), font, w/1000, (0,217,217), 1)
+        cv2.putText(image, f'{ file_name }',      ( int(w*0.01), int(h*0.99)), font, w/1000, (0,217,217), 1)
+        cv2.imwrite(image_path, image)
 
-        Result(
+        result = Result(
             user = user,
             device= device,
             instance=instance,
             file_path=image_path,
-            label= result['label'],
-            confidence=str(round(result['confidence'], 2))
-        ).save()
+            label= prediction['label'],
+            confidence=str(round(prediction['confidence'], 2))
+        )
+        result.save()
 
         return {
             "error": False,
             "message": "OK",
             "content": {
-                "result": result['label'],
-                "confidence": str(round(result['confidence'], 2)),
+                "result": prediction['label'],
+                "confidence": str(round(prediction['confidence'], 2)),
                 "imagePath": image_path
             }
         }    
-
-    def update_temp(self):
-        self.temp_file_counter += 1
-        if self.temp_file_counter > self.MAX_TEMP_FILES:
-            self.temp_file_counter = 0
 
 def data_uri_to_cv2_img(uri):
     image_string = uri.split('base64,')[-1].strip()    
@@ -110,28 +108,23 @@ def data_uri_to_cv2_img(uri):
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     return img
 
-def get_picture_path(image, part_id):
+def get_picture_path(path, part_id):
 
-    y, M, d = (
+    y, M, d, h, m, s = (
         datetime.today().year,
         "%02d" % datetime.today().month,
         "%02d" % datetime.today().day,
-    )
-
-    h, m, s = (
         datetime.today().hour,
         "%02d" % datetime.today().minute,
         "%02d" % datetime.today().second,
     )
 
-    file_name = f"{y}{M}{d}_{h}{m}{s}_{part_id}.png"  # png?
-    # Data/Pictures/Ano/Mes/Dia/Identificacao -> Data_Hora_PartId yyyyMMdd_hhmmss_xxxx.png
-    path = f"\\\\10.33.22.113/Data/Pictures/{y}/{M}/{d}/{part_id}"
+    file_name = f"{y}{M}{d}_{h}{m}{s}_{part_id}.png"    
+    path = f"{path}/{y}/{M}/{d}/{part_id}"
+    
     Path(path).mkdir(parents=True, exist_ok=True)
 
-    return [f'{path}/{file_name}', file_name]
-        
-
+    return f'{path}/{file_name}'        
 
 
 api_controller = ApiController()

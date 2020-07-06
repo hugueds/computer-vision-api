@@ -3,58 +3,55 @@ import json
 import sqlite3
 from models.Instance import Instance
 
-database = 'cv_service.db'
+database = 'cv_service.db' #   TODO: Pegar do config ou classe database
 
 class Device():
 
-    def __init__(self, id=0, device_id='', user='SSB', ip='0.0.0.0', instance_id=0, device_type=0):
+    def __init__(self, id_=None, name='', user='', ip='0.0.0.0', model=0, instance_id=0):
 
-        self.id = id
+        self.id_ = id_
         self.ip = ip
-        self.device_id = device_id
+        self.name = name
         self.user = user
-        self.instance_id = instance_id
-        self.device_type = device_type
+        self.model = model
+        self.instance_id_ = instance_id_
         self.created_at = datetime.datetime.now()
 
 
     @staticmethod
-    def get(id=0, only_one=False):
+    def get(id_=0):
 
-        devices = []
-        sql = ''' SELECT * FROM DEVICE WHERE ID > ?'''
+        sql = ''' SELECT * FROM DEVICE WHERE ID > ?;'''
 
-        if id > 0:
-            sql = ''' SELECT * FROM DEVICE WHERE ID = ? '''
+        if id_ != 0:
+            sql = ''' SELECT * FROM DEVICE WHERE ID = ?; '''
 
         conn = sqlite3.connect(database)
         cursor = conn.cursor()
-        cursor.execute(sql, (id,))        
+        cursor.execute(sql, (id_,))        
 
-        for id, user, device_id, ip, device_type, created_at, instance_id in cursor.fetchall():
+        devices = []
+        for id_, user, name, ip, device_type, created_at, instance_id_ in cursor.fetchall():
             device = Device()
-            device.id = id
+            device.id_ = id_
             device.user = user
-            device.device_id = device_id
+            device.name = name
             device.ip = ip
             device.device_type = device_type
             device.created_at = created_at
-            device.instance_id = instance_id
+            device.instance_id_ = instance_id_
             devices.append(device)
 
         cursor.close()
 
-        if only_one:
-            if len(devices):
-                return devices[0]
-            else:
-                return None
+        if id_ != 0:
+            return devices[0]
 
         return devices
 
     @staticmethod
     def get_by_ip(ip):
-
+        print('Getting Device with IP ' + ip)
         sql = ''' SELECT * FROM DEVICE WHERE IP = ?; '''
 
         conn = sqlite3.connect(database)
@@ -63,10 +60,12 @@ class Device():
 
         device = None        
 
-        for id, user, device_id, ip, device_type, created_at, instance_id in cursor.fetchall():
-            device = Device()
-            device.id = id            
-            device.device_id = device_id
+        device = Device()
+
+        for id_, user, name, ip, device_type, created_at, instance_id in cursor.fetchall():
+            
+            device.id_ = id_            
+            device.name = name
             device.user = user
             device.ip = ip
             device.device_type = device_type
@@ -80,68 +79,66 @@ class Device():
     def save(self):
         print('Creating a new Device ' + self.ip)
         try:
-            sql = ''' INSERT INTO Device(user , device_id, ip ,instance_id, deviceType, created_at) VALUES(?,?,?,?,?,?) '''
+            sql = ''' INSERT INTO Device(user , name, ip ,instance_id_, deviceType, created_at) VALUES(?,?,?,?,?,?) '''
             conn = sqlite3.connect(database)
             cursor = conn.cursor()
-            d = (self.user, self.device_id, self.ip, self.instance_id,
-                self.device_type, self.created_at)
+            d = (self.user, self.name, self.ip,
+                self.model, self.created_at, self.instance_id)
             cursor.execute(sql, d)
             conn.commit()
-            self.id = cursor.lastrowid
+            self.id_ = cursor.lastrowid
             cursor.close()
-            return True
+            
         except Exception as e:
             print(str(e))
-            return False
+            
 
     @staticmethod
     def update(device):
         try:
             sql = ''' UPDATE Device
-            SET
-            user = ?, 
-            device_id = ?,  
-            ip = ?,
-            instance_id = ?, 
-            deviceType = ?         
-            WHERE ID = (?)
-                     '''
+                SET
+                    user = ?, 
+                    name = ?,  
+                    ip = ?,
+                    instance_id_ = ?, 
+                    deviceType = ?         
+                WHERE ID = (?)
+            '''
             conn = sqlite3.connect(database)
             cursor = conn.cursor()
-            d = (device.user, device.device_id, device.ip, device.instance_id,
-                device.device_type, device.id)
+            d = (device.user, device.name, device.ip, device.instance_id,
+                device.device_type, device.id_)
             cursor.execute(sql, (d))
             conn.commit()
             cursor.close()
-            return True
+            
         except Exception as e:
             print(str(e))
-            return False        
+                    
 
     @staticmethod
-    def delete(id):
-        print('Deleting device ID ' + str(id))
+    def delete(id_):
+        print('Deleting device ID_ ' + str(id_))
         try:
             sql = ''' DELETE FROM DEVICE WHERE ID = ? '''
             conn = sqlite3.connect(database)
             cursor = conn.cursor()            
-            cursor.execute(sql, (id,))
+            cursor.execute(sql, (id_,))
             conn.commit()
             cursor.close()
-            return True
+            
         except Exception as e:
             print(str(e))
-            return False
-        
 
-    def serialize(self):        
+    def to_json(self):        
         return {
-            'id': self.id,
-            'user': self.user,
-            'deviceId': self.device_id,
+            'id_': self.id_,
+            'name': self.name,
             'ip': self.ip,
+            'user': self.user,
             'instanceId': self.instance_id,
-            'deviceType': self.device_type,
+            'model': self.model,
             'createdAt': self.created_at
         }
  
