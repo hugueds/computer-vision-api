@@ -1,14 +1,14 @@
 import sqlite3
 from datetime import datetime
-import database
+# import database
 
 
-database = 'cv_service.db'
+database = 'cv_service.db' # buscar da classe database
 
 
 class Result():
 
-    def __init__(self, id=0, user="", device="", instance="", label="", confidence=0, file_path=""):
+    def __init__(self, id=0, user='', device='', instance='', label='', confidence=0, file_path=''):
 
         self.id = id
         self.user = user

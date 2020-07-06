@@ -1,8 +1,9 @@
 import sqlite3
+from connect import connect
 
 def create(database):
 
-    conn = sqlite3.connect(database)
+    conn = connect(database)
     cursor = conn.cursor()
 
     cursor.execute("""
@@ -62,9 +63,6 @@ def create(database):
         );
 
     """)
-
-
-
 
     print('Tables Created')
 

@@ -36,12 +36,10 @@ def classify_thread(image, model, labels):
 
 class TFModel:
 
-    def __init__(self, name):
-
-        with open('config.yml', 'r') as f:
-            config = yaml.safe_load(f)
-
+    def __init__(self, name):       
         try:            
+            with open('config.yml', 'r') as f:
+                config = yaml.safe_load(f)
             c = config['models'][name]
             self.name = c['name']
             self.labels = c['labels']
