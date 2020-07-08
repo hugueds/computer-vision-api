@@ -1,6 +1,7 @@
 import os
 import cv2
 import base64
+import logging
 import pytesseract as pyt
 import numpy as np
 import yaml
@@ -10,7 +11,7 @@ from PIL import Image
 from models.Instance import Instance
 from models.Device import Device
 from models.Result import Result
-from ..models.TFModel import TFModel
+from models.TFModel import TFModel
 
 pyt.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe' # TODO: Colocar no config ou .env
 
@@ -20,10 +21,10 @@ class ApiController:
         try:
             with open('config.yml', 'r') as f:
                 config = yaml.safe_load(f)
-            self.image_save_path = config['image_save_path']
+            self.image_save_path = config['server']['image_save_path']
             pyt.pytesseract.tesseract_cmd = config['server']['pytesseract_path']
-        except Exception as e:
-            print(str(e))
+        except Exception as e:                        
+            logging.error('APIController::' + str(e))
 
     def index(self):
         self.counter += 1
