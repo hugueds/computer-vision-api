@@ -6,15 +6,19 @@ from controllers.ResultController import result_controller
 
 api_router = Blueprint('api_router', __name__)
 
+@api_router.route('/api/device/ip', methods=['GET'])
+def device_by_ip():
+    ip = request.remote_addr
+    return device_controller.get_by_ip(ip)
+
 @api_router.route('/api/device/', methods=['GET', 'POST', 'PUT', 'DELETE'], defaults={'id_': None})
 @api_router.route('/api/device/<id_>/', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def device(id_):
-    ip = request.remote_addr
     if request.method == 'GET':
         if id_:
-            return device_controller.get(id_)
+            return device_controller.get_by_id(id_)
         else:
-            return device_controller.get_by_ip(ip)
+            return device_controller.get()
     elif request.method == 'POST':
         return device_controller.create(request.json)
     elif request.method == 'PUT':
@@ -23,7 +27,7 @@ def device(id_):
         return device_controller.delete(id_)
 
 
-@api_router.route('/api/instance/', methods=['GET', 'POST', 'PUT', 'DELETE'], defaults={'id_': None})
+@api_router.route('/api/instance/', methods=['GET', 'POST', 'PUT', 'DELETE'], defaults={'id_': 0})
 @api_router.route('/api/instance/<id_>/', methods=['GET', 'POST', 'PUT', 'DELETE'])
 def instance(id_):
     if request.method == 'GET':

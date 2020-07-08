@@ -1,4 +1,29 @@
-from app import app
+import mimetypes
+from database.Database import db
+from flask import Flask, send_from_directory
+from flask_cors import CORS, cross_origin
+from routes import router, api_router
 
-if __name__ == '__main__':
-    pass
+mimetypes.add_type("application/javascript", ".js", True)
+
+# TODO: Start the database
+
+db_name = 'cv_service.db'
+db.set_name(db_name)
+db.create()
+
+app = Flask(__name__, static_folder='../static', static_url_path="")
+
+app.url_map.strict_slashes = False
+app.config['CORS_HEADERS'] = 'Content-Type'
+app.register_blueprint(api_router)
+
+CORS(app)
+
+@app.route('/', methods=['GET'])
+def index():    
+    return send_from_directory('../static', 'index.html')   
+
+@app.route('/<file>', methods=['GET'])
+def index_files(file):    
+    return send_from_directory('../static', file)    

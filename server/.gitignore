@@ -5,3 +5,6 @@ tensorflow_models/
 cert.pem
 key.pem
 templates/
+./**/__pycache__
+./*/__pycache__
+

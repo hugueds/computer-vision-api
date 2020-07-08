@@ -1,10 +1,9 @@
 import sqlite3
-from connect import connect
+import logging
 
-def create(database):
-
-    conn = connect(database)
-    cursor = conn.cursor()
+def create(connection):
+    
+    cursor = connection.cursor()
 
     cursor.execute("""
 
@@ -64,10 +63,10 @@ def create(database):
 
     """)
 
-    print('Tables Created')
+    logging.info('Tables Created')
 
 
-    conn.close()
+    connection.close()
 
 if __name__ == '__main__':
     database = 'cv_service.db'

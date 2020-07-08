@@ -8,21 +8,30 @@ class DeviceController():
     def __init__(self):
         pass
 
-    def get(self, id_=0):
-        devices = Device.get(id_)
+    def get(self):
+        devices = Device.get()
         response = []
         for d in devices:
             response.append(d.to_json())
+        if len(response) == 0:
+            return jsonify({"error": True, "message": "There are no devices yet"})
         return jsonify(response)
+
+    def get_by_id(self, id_):
+        device = Device.get_by_id(id_)
+        if device:
+            return jsonify(device.to_json())
+        return jsonify({ "error": "True", "message": "Device ID not found"})
+
 
     def get_by_ip(self, ip):
         print('Searching for device with IP: ' + ip)
         device = Device.get_by_ip(ip)
         if device:
-            instance = Instance.get(device.instance_id)            
+            instance = Instance.get(device.instance_id)
             return jsonify({
                 "device" : device.to_json(),
-                "instance": instance.to_json()
+                "instance": instance.to_json() if instance else None
             })        
         return jsonify({ "error": "True", "message": "Device IP not registered"})
 

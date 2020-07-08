@@ -1,16 +1,11 @@
 import datetime
 import json
-import sqlite3
-# from database import database
-
-
-database = 'cv_service.db'  # Import database name from database folder
-
+import logging
+from database.Database import db
 
 class Instance():
 
     def __init__(self, id_=None, name='', description='', type_=0, identifier_mode=0, save=False):
-
         self.id_ = id_
         self.name = name
         self.description = description
@@ -21,20 +16,25 @@ class Instance():
 
     @staticmethod
     def get(id_=0):
+        sql = ''' SELECT * FROM INSTANCE WHERE ID > ? '''            
+        instances = Instance.__get(sql)
+        return instances
+
+    @staticmethod
+    def get_by_id(id_):
+        sql = ''' SELECT * FROM INSTANCE WHERE ID = ? '''   
+        instances = Instance.__get(sql, id_)
+        return instances[0] if len(instances) else None        
+
+    @staticmethod
+    def __get(query, id_=0):
+
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute(query, (id_,))
 
         instances = []
-
-        sql = ''' SELECT * FROM INSTANCE WHERE ID > ? '''
-
-        if id_ != 0:
-            sql = ''' SELECT * FROM INSTANCE WHERE ID = ? '''
-
-        conn = sqlite3.connect(database)
-        cursor = conn.cursor()
-        cursor.execute(sql, (id,))
-
         for id_, name, description, type_, identifier_mode, save, created_at in cursor.fetchall():
-
             instance = Instance()
             instance.id_ = id_
             instance.name = name
@@ -43,30 +43,27 @@ class Instance():
             instance.identifier_mode = identifier_mode
             instance.save = True if save == 1 else False
             instance.created_at = created_at
-
             instances.append(instance)
 
         cursor.close()
-
-        if id_ != 0:
-            return instances[0]
-
         return instances
 
     def save(self):
-        print('Creating a new Instance')
         try:
-            conn = sqlite3.connect(database)
+            print('Creating a new Instance')
+            conn = db.connect()
             cursor = conn.cursor()
             d = (self.name, self.description, self.type_,
                  self.identifier_mode, self.save, self.created_at)
-            sql = ''' INSERT INTO Instance( name , description , type, identifier_mode, save, created_at) VALUES (?,?,?,?,?,?) '''
+            sql = ''' 
+                INSERT INTO Instance( name , description , type, identifier_mode, save, created_at) 
+                VALUES (?,?,?,?,?,?) '''
             cursor.execute(sql, d)
             conn.commit()
             self.id_ = cursor.lastrowid
             cursor.close()            
         except Exception as e:
-            print(str(e))
+            logging.error('Instance::save::'+str(e))
             
 
     @staticmethod
@@ -83,7 +80,7 @@ class Instance():
                         , save = (?)
                 WHERE ID = ?
             '''
-            conn = sqlite3.connect(database)
+            conn = db.connect()
             cursor = conn.cursor()
             new_instance = (instance.name, instance.description, instance.type_,
                             instance.identifier_mode, instance.save, instance.id_)
@@ -92,7 +89,7 @@ class Instance():
             cursor.close()
             
         except Exception as e:
-            print(str(e))
+            logging.error('Instance::update::'+str(e))
             
 
     @staticmethod
@@ -100,14 +97,14 @@ class Instance():
         try:
             print('Deleting Instance id_ ' + str(id_))
             sql = ''' DELETE FROM INSTANCE WHERE ID = ? '''
-            conn = sqlite3.connect(database)
+            conn = db.connect()
             cursor = conn.cursor()
             cursor.execute(sql, (id_,))
             conn.commit()
             cursor.close()
             
         except Exception as e:
-            print(str(e))
+            logging.error('Instance::delete::'+str(e))
 
     def to_json(self):
         return {
@@ -115,7 +112,7 @@ class Instance():
             "name": self.name,
             "description": self.description,
             "type": self.type_,
-            "identifier": self.identifier_mode,
+            "identifierMode": self.identifier_mode,
             "save": self.save,
             "created_at": self.created_at
         }
