@@ -1,12 +1,9 @@
-import { Component, OnInit, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter } from '@angular/core';
 import { Inference } from 'src/app/models/Inference';
-import Quagga from 'quagga';
 import { Result } from 'src/app/models/Result';
-
-
+import { quaggaConfig, cameraConstraints, MOBILE_WIDTH } from "src/environments/environment";
+import Quagga from 'quagga';
 declare let ml5: any;
-
-const MOBILE_WIDTH = 600;
 
 @Component({
   selector: 'app-camera',
@@ -18,6 +15,8 @@ export class CameraComponent implements OnInit {
   @ViewChild('video', { static: true }) public video: ElementRef;
   @ViewChild('canvas', { static: true }) public canvas: ElementRef;
 
+  @Input('instanceModel') instanceModel = 'MobileNet';
+
   @Output('inference') inferenceEmitter = new EventEmitter<Inference>();
   @Output('barcode') barcodeEmitter = new EventEmitter<string>();
   @Output('submit') submitEmitter = new EventEmitter<any>();
@@ -28,28 +27,18 @@ export class CameraComponent implements OnInit {
   isMobile = false;
   counter = 0;
 
-  constraints = {
-    audio: false,
-    video: {
-      width: { ideal: 640 },
-      height: { ideal: 480 },
-    },
-    advanced: [{
-      facingMode: "environment"
-    }]
-  }
 
   ngOnInit(): void {
     if (document.documentElement.clientWidth <= MOBILE_WIDTH) {
       this.isMobile = true;
       this.resizeCameraRegion();
     }
-    this.net = ml5.imageClassifier('MobileNet', () => this.modelReady());
   }
 
   ngAfterViewInit() {
     this.openCamera();
     this.openBarcodeScanner();
+    this.net = ml5.imageClassifier('MobileNet', () => this.modelReady());
   }
 
   modelReady() {
@@ -59,7 +48,7 @@ export class CameraComponent implements OnInit {
 
   openCamera() {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices.getUserMedia({ video: this.constraints }).then(stream => {
+      navigator.mediaDevices.getUserMedia({ video: cameraConstraints }).then(stream => {
         this.video.nativeElement.srcObject = stream;
         this.video.nativeElement.play();
         this.video.nativeElement.addEventListener('loadedmetadata', () => {
@@ -77,19 +66,7 @@ export class CameraComponent implements OnInit {
 
   openBarcodeScanner(): void {
 
-    const quaggaConfig = {
-
-      debug: false,
-      frequency: 2,
-      inputStream: {
-        name: "Live",
-        type: "LiveStream",
-        target: this.video.nativeElement,
-      },
-      decoder: {
-        readers: ["code_128_reader", 'ean_reader', 'ean_8_reader']
-      }
-    }
+    quaggaConfig.inputStream.target = this.video.nativeElement;
 
     Quagga.init(quaggaConfig, (err) => {
       if (err) {
@@ -156,7 +133,9 @@ export class CameraComponent implements OnInit {
 
   onSubmit() {
     const ctx = this.canvas.nativeElement.getContext('2d');
-    ctx.drawImage(this.video.nativeElement, 0, 0, 640, 480);
+    const videoWidth = 640;
+    const videoHeight = 480;
+    ctx.drawImage(this.video.nativeElement, 0, 0, videoWidth, videoHeight);
     const frame = this.canvas.nativeElement.toDataURL();
     this.submitEmitter.emit(frame);
     this.resumeStream();

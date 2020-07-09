@@ -56,8 +56,7 @@ class ApiController:
         base64_image = content['picture']
         part_id = content['partId']
         model = content['model']
-        save = content['save']
-        instance = content['instance']
+        save = content['save']        
         user = content['user']
         device = content['device']
 
@@ -67,6 +66,7 @@ class ApiController:
         image = data_uri_to_cv2_img(base64_image)      
 
         image_path = ''
+        file_name = ''
         if save:
             image_path  = get_picture_path(self.image_save_path, part_id)
             file_name = image_path.split('/')[-1]
@@ -75,7 +75,7 @@ class ApiController:
         prediction = tf.predict(image)
         h, w = image.shape[:2]        
         
-        img[int(h*0.90):,:,:] = 0 # Creates a black stripe at the bottom of the image
+        image[int(h*0.90):,:,:] = 0 # Creates a black stripe at the bottom of the image
         font = cv2.FONT_HERSHEY_SIMPLEX
         cv2.putText(image, f'{prediction["label"]}', ( int(w*0.01), int(h*0.95) ), font, w/1000, (0,217,217), 1)
         cv2.putText(image, f'{ file_name }',      ( int(w*0.01), int(h*0.99)), font, w/1000, (0,217,217), 1)
@@ -84,7 +84,7 @@ class ApiController:
         result = Result(
             user = user,
             device= device,
-            instance=instance,
+            instance=model,
             file_path=image_path,
             label= prediction['label'],
             confidence=str(round(prediction['confidence'], 2))

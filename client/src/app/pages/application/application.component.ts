@@ -4,6 +4,8 @@ import { Device } from 'src/app/models/Device';
 import { Inference } from 'src/app/models/Inference';
 import { DeviceService } from 'src/app/services/device.service';
 import { InstanceService } from 'src/app/services/instance.service';
+import { InstanceDevice } from 'src/app/models/InstanceDevice';
+import { ComputerVisionService } from 'src/app/services/computer-vision.service';
 
 @Component({
   selector: 'app-application',
@@ -12,11 +14,9 @@ import { InstanceService } from 'src/app/services/instance.service';
 })
 export class ApplicationComponent implements OnInit {
 
-  instance: Instance;
-  device: Device;
 
-  cameraMode: number;
-  identifierMode: number;
+
+  instanceDevice: InstanceDevice;
 
   instruction = {
     step: 0,
@@ -37,10 +37,13 @@ export class ApplicationComponent implements OnInit {
 
   constructor(
     private _deviceService: DeviceService
-    , private _instanceService: InstanceService) { }
+    , private _instanceService: InstanceService
+    , private _computerVisionService: ComputerVisionService
+    ) { }
 
   ngOnInit(): void {
     // ver o tamanho do device
+    this.getDevice();
   }
 
   getDevice() {
@@ -49,8 +52,13 @@ export class ApplicationComponent implements OnInit {
     // atribur o valor "MobileNet" ou "default" para o classificador
 
     this._deviceService.get_by_ip()
-      .then()
-      .catch()
+      .then(instanceDevice => this.instanceDevice = instanceDevice)
+      .catch(this.deviceNotFound)
+  }
+
+  deviceNotFound(a) {
+    console.log(a);
+
   }
 
   onInference(inference: Inference) {
@@ -67,7 +75,16 @@ export class ApplicationComponent implements OnInit {
   }
 
   onSubmit(picture: string) {
-
+    this._computerVisionService.classify(
+      picture
+      // , this.instanceDevice.instance.name || 'default'
+      , 'default'
+      , this.instruction.identifier
+      // , this.instanceDevice.instance.save || false
+      , false
+      , this.instanceDevice.device.user
+      , this.instanceDevice.device.name
+    )
 
   }
 
