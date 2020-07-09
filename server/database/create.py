@@ -70,4 +70,5 @@ def create(connection):
 
 if __name__ == '__main__':
     database = 'cv_service.db'
-    create(database)
+    connection = sqlite3.connect(database)
+    create(connection)

@@ -5,7 +5,7 @@ from .create import create
 class Database():
 
     def __init__(self):
-        pass
+        self.__db_name = 'default.db'
 
     def set_name(self, db_name):
         self.__db_name = db_name
