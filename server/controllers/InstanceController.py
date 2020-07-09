@@ -1,5 +1,5 @@
 from flask import jsonify
-from models.Instance import Instance
+from models import Instance
 import json
 
 
