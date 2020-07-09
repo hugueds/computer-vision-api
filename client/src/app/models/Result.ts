@@ -1,5 +1,5 @@
-export default class Result {    
-        id: number; 
+export class Result {
+        id: number;
         instance: number;
         confidence: number;
         label: string;

@@ -1,4 +1,4 @@
-export default class Instance {
+export class Instance {
     id: number;
     name: string;
     save: number;

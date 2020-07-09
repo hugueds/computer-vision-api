@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import Instance from 'src/app/models/Instance';
-import Device from 'src/app/models/Device';
+import { Instance } from 'src/app/models/Instance';
+import { Device } from 'src/app/models/Device';
 import { ClassGetter } from '@angular/compiler/src/output/output_ast';
-import Inference from 'src/app/models/Inference';
+import { Inference } from 'src/app/models/Inference';
 import { DeviceService } from 'src/app/services/device.service';
 import { InstanceService } from 'src/app/services/instance.service';
 
@@ -37,8 +37,8 @@ export class ApplicationComponent implements OnInit {
   }
 
   constructor(
-     private _deviceService: DeviceService
-    ,private _instanceService: InstanceService){  }
+    private _deviceService: DeviceService
+    , private _instanceService: InstanceService) { }
 
   ngOnInit(): void {
     // ver o tamanho do device

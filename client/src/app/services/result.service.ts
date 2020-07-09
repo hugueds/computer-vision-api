@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
+import { Result } from '../models/Result';
 import axios from 'axios';
-import Result from '../models/Result';
 
 @Injectable({
   providedIn: 'root'
 })
-export class ResultService {  
+export class ResultService {
 
   baseURL = environment.server;
 
