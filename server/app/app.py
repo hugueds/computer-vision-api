@@ -6,9 +6,7 @@ from routes import router, api_router
 
 mimetypes.add_type("application/javascript", ".js", True)
 
-# TODO: Start the database
-
-db_name = 'cv_service.db'
+db_name = 'cv_service.db' # Read from config
 db.set_name(db_name)
 db.create()
 
