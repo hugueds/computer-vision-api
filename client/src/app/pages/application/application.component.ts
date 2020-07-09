@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Instance } from 'src/app/models/Instance';
 import { Device } from 'src/app/models/Device';
-import { ClassGetter } from '@angular/compiler/src/output/output_ast';
 import { Inference } from 'src/app/models/Inference';
 import { DeviceService } from 'src/app/services/device.service';
 import { InstanceService } from 'src/app/services/instance.service';
@@ -49,7 +48,7 @@ export class ApplicationComponent implements OnInit {
     // para a instancia e o identificador (NONE)
     // atribur o valor "MobileNet" ou "default" para o classificador
 
-    this._deviceService.get()
+    this._deviceService.get_by_ip()
       .then()
       .catch()
   }

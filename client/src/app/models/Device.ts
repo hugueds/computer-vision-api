@@ -6,18 +6,13 @@ export class Device {
   name: string;
   ip: string;
   user: string;
+  model: DeviceModel;
   instanceId: number;
-  deviceType: DeviceType;
   createdAt: Date;
 
 }
 
-export class ResultDevice {
-  device: Device;
-  instance: Instance;
-}
-
-export enum DeviceType {
+export enum DeviceModel {
   TABLET = 0,
   MOBILE,
   PC

@@ -5,10 +5,10 @@ from database.Database import db
 
 class Device():
 
-    def __init__(self, id_=None, name='', user='', ip='0.0.0.0', model=0, instance_id=0):
+    def __init__(self, id_=None, name='', ip='0.0.0.0', user='',  model=0, instance_id=0):
         self.id_ = id_
-        self.ip = ip
         self.name = name
+        self.ip = ip
         self.user = user
         self.model = model
         self.instance_id = instance_id
