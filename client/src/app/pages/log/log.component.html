@@ -37,7 +37,7 @@
 
         <ng-container matColumnDef="confidence">
           <mat-header-cell *matHeaderCellDef>PRECISAO</mat-header-cell>
-          <mat-cell *matCellDef="let result"> {{ result.confidence * 100 }}% </mat-cell>
+          <mat-cell *matCellDef="let result"> {{ (result.confidence * 100).toFixed(2) }}% </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="timestamp">
