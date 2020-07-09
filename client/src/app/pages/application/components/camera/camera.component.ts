@@ -37,12 +37,12 @@ export class CameraComponent implements OnInit {
 
   ngAfterViewInit() {
     this.openCamera();
-    this.openBarcodeScanner();
+    this.openBarcodeScanner(); // Only IF Barcode is needed
     this.net = ml5.imageClassifier('MobileNet', () => this.modelReady());
   }
 
   modelReady() {
-    console.log('model loaded');
+    console.log('model {model name} loaded');
     this.modelLoaded = true;
   }
 
@@ -143,6 +143,14 @@ export class CameraComponent implements OnInit {
 
   ngOnDestroy() {
     this.isReading = false;
+    const stream = this.video.nativeElement.srcObject;
+    const tracks = stream.getTracks();
+
+    tracks.forEach(function(track) {
+      track.stop();
+    });
+
+    this.video.nativeElement.srcObject = null;
     Quagga.stop();
   }
 
