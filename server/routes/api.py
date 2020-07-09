@@ -1,8 +1,8 @@
 from flask import Blueprint, request, json
-from controllers.ApiController import api_controller
-from controllers.DeviceController import device_controller
-from controllers.InstanceController import instance_controller
-from controllers.ResultController import result_controller
+from controllers import api_controller
+from controllers import device_controller
+from controllers import instance_controller
+from controllers import result_controller
 
 api_router = Blueprint('api_router', __name__)
 

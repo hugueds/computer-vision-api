@@ -1,7 +1,5 @@
 from flask import jsonify
-from models.Device import Device
-from models.Instance import Instance
-
+from models import Device, Instance
 
 class DeviceController():
 

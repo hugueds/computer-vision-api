@@ -8,10 +8,8 @@ import yaml
 from pathlib import Path
 from datetime import datetime
 from PIL import Image
-from models.Instance import Instance
-from models.Device import Device
-from models.Result import Result
-from models.TFModel import TFModel
+from models import Instance, Device, Result, TFModel
+
 
 pyt.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe' # TODO: Colocar no config ou .env
 

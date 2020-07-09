@@ -1,4 +1,4 @@
-from models.Result import Result
+from models import Result
 from flask import jsonify
 
 class ResultController():
