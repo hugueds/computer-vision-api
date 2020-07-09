@@ -24,7 +24,14 @@ class Device():
     def get_by_id(id_):
         sql = ''' SELECT * FROM DEVICE WHERE ID = ?; '''
         devices = Device.__get(sql, id_)
-        return devices[0] if len(devices) else None        
+        return devices[0] if len(devices) else None      
+         
+    @staticmethod
+    def get_by_ip(ip):
+        print('Getting Device with IP ' + ip)
+        sql = ''' SELECT * FROM DEVICE WHERE IP = ?; '''
+        devices = Device.__get(sql, ip)
+        return devices[0] if len(devices) else None
 
     @staticmethod
     def __get(query, id_=0):
@@ -46,31 +53,8 @@ class Device():
 
         cursor.close()
 
-        return devices    
-
-    @staticmethod
-    def get_by_ip(ip):
-        print('Getting Device with IP ' + ip)
-        sql = ''' SELECT * FROM DEVICE WHERE IP = ?; '''
-        
-        cursor = db.connect().cursor()
-        cursor.execute(sql, (ip,))           
-
-        device = Device()
-
-        for id_, user, name, ip, device_type, created_at, instance_id in cursor.fetchall():
-            
-            device.id_ = id_            
-            device.name = name
-            device.user = user
-            device.ip = ip
-            device.device_type = device_type
-            device.created_at = created_at
-            device.instance_id = instance_id
-
-        cursor.close()
-
-        return device
+        return devices
+   
 
     def save(self):        
         try:

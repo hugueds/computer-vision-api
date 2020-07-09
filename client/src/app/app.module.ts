@@ -13,8 +13,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
-import {MatTabsModule} from '@angular/material/tabs';
+import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 import { AppComponent } from './app.component';
@@ -56,6 +57,7 @@ import { LogComponent } from './pages/log/log.component';
     MatTableModule,
     BrowserModule,
     AppRoutingModule,
+    MatPaginatorModule,
     BrowserAnimationsModule
   ],
   providers: [],
