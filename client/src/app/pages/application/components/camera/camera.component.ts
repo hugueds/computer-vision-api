@@ -26,6 +26,7 @@ export class CameraComponent implements OnInit {
   isReading = true;
   isMobile = false;
   counter = 0;
+  background = 'gray';
 
 
   ngOnInit(): void {
@@ -117,8 +118,17 @@ export class CameraComponent implements OnInit {
     const res: Array<Inference> = await this.net.classify(this.video.nativeElement);
     const inference = res[0]
     inference.label = inference.label.split(',')[0];
+    this.changeBackgroundColor(inference.label);
     this.inferenceEmitter.emit(inference);
     // Rise event with the result
+  }
+
+  changeBackgroundColor(label) {
+    if (label == 'OK') {
+      this.background = 'lime';
+    } else if (label == 'NOT_OK') {
+      this.background = 'red';
+    }
   }
 
   onCapture() {
