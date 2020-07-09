@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-import Inference from '../models/Inference';
+import { Inference } from '../models/Inference';
 
 @Injectable({
   providedIn: 'root'

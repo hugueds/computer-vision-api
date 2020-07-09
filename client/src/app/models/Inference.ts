@@ -1,4 +1,4 @@
-export default class Inference {
+export class Inference {
     label: string;
     confidence: number;
 }

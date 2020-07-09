@@ -1,8 +1,8 @@
 import { Component, OnInit, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core';
-import Inference from 'src/app/models/Inference';
+import { Inference } from 'src/app/models/Inference';
 import Quagga from 'quagga';
-import Result from 'src/app/models/Result';
-import { ThrowStmt } from '@angular/compiler';
+import { Result } from 'src/app/models/Result';
+
 
 declare let ml5: any;
 
@@ -15,12 +15,12 @@ const MOBILE_WIDTH = 600;
 })
 export class CameraComponent implements OnInit {
 
-  @ViewChild('video',  { static: true }) public video: ElementRef;
+  @ViewChild('video', { static: true }) public video: ElementRef;
   @ViewChild('canvas', { static: true }) public canvas: ElementRef;
 
   @Output('inference') inferenceEmitter = new EventEmitter<Inference>();
-  @Output('barcode')   barcodeEmitter = new EventEmitter<string>();
-  @Output('submit')    submitEmitter = new EventEmitter<any>();
+  @Output('barcode') barcodeEmitter = new EventEmitter<string>();
+  @Output('submit') submitEmitter = new EventEmitter<any>();
 
   net: any;
   modelLoaded = false;
@@ -31,7 +31,7 @@ export class CameraComponent implements OnInit {
   constraints = {
     audio: false,
     video: {
-      width:  { ideal: 640 },
+      width: { ideal: 640 },
       height: { ideal: 480 },
     },
     advanced: [{
@@ -126,7 +126,7 @@ export class CameraComponent implements OnInit {
     const canvasHeight = this.canvas.nativeElement.height;
 
     ctx.drawImage(this.video.nativeElement, 0, 0, canvasWidth, canvasHeight);
-    if(this.counter >= 15) {
+    if (this.counter >= 15) {
       await this.classify();
       this.counter = 0;
     }

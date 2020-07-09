@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import Result from 'src/app/models/Result';
+import { Result } from 'src/app/models/Result';
 import { ResultService } from 'src/app/services/result.service';
 
 @Component({

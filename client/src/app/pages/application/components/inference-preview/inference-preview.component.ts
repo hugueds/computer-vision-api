@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import Inference from 'src/app/models/Inference';
+import { Inference } from 'src/app/models/Inference';
 import { DataService } from 'src/app/services/data.service';
 
 @Component({
@@ -10,11 +10,11 @@ import { DataService } from 'src/app/services/data.service';
 export class InferencePreviewComponent implements OnInit {
 
   @Input('inference') inference: Inference;
-  
-  constructor(private _dataService: DataService) {  }
 
-  ngOnInit(): void {   
-    
+  constructor(private _dataService: DataService) { }
+
+  ngOnInit(): void {
+
     // this._dataService.currentMessage.subscribe(m => console.log('OK ' + m ));
   }
 
