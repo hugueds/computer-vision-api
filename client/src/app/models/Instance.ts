@@ -1,7 +1,7 @@
 export class Instance {
     id: number;
     name: string;
-    save: number;
+    save: boolean;
     type: InstanceType;
     identifierMode: IdentifierMode;
     createdAt: Date;
