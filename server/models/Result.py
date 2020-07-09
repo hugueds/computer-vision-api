@@ -8,7 +8,7 @@ database = 'cv_service.db' # buscar da classe database
 
 class Result():
 
-    def __init__(self, id=0, user='', device='', instance='', label='', confidence=0, file_path=''):
+    def __init__(self, id=0, user='', device='', instance='', label='', confidence=0, path=''):
 
         self.id = id
         self.user = user
@@ -16,7 +16,7 @@ class Result():
         self.instance = instance
         self.label = label
         self.confidence = confidence
-        self.file_path = file_path
+        self.path = path
         self.timestamp = datetime.now()
 
     @staticmethod
@@ -30,7 +30,7 @@ class Result():
 
         results = []
 
-        for id, user, device, instance, label, confidence, file_path, timestamp in cursor.fetchall():
+        for id, user, device, instance, label, confidence, path, timestamp in cursor.fetchall():
             result = Result()
             result.id = id
             result.user = user
@@ -38,7 +38,7 @@ class Result():
             result.instance = instance
             result.label = label
             result.confidence = confidence
-            result.file_path = file_path
+            result.path = path
             result.timestamp = timestamp
             results.append(result)
 
@@ -47,7 +47,7 @@ class Result():
     def save(self):
 
         try:
-            sql = ''' INSERT INTO Result(user, device, instance, label, confidence, filePath, timestamp) VALUES(?,?,?,?,?,?,?) '''
+            sql = ''' INSERT INTO Result(user, device, instance, label, confidence, path, timestamp) VALUES(?,?,?,?,?,?,?) '''
             conn = sqlite3.connect(database)
             cursor = conn.cursor()
 
@@ -56,7 +56,7 @@ class Result():
                  self.instance,
                  self.label,
                  self.confidence,
-                 self.file_path,
+                 self.path,
                  self.timestamp)
 
             cursor.execute(sql, d)
@@ -77,6 +77,6 @@ class Result():
             "instance": self.instance,
             "label": self.label,
             "confidence": self.confidence,
-            "file_path": self.file_path,
+            "path": self.path,
             "timestamp": self.timestamp
         }

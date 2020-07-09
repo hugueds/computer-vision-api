@@ -5,6 +5,9 @@
       <h1>ULTIMOS RESULTADOS</h1>
     </div>
 
+    <mat-paginator [length]="length" [pageSize]="pageSize" (page)="update($event)">
+    </mat-paginator>
+
 
     <mat-table [dataSource]="results" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
@@ -12,29 +15,29 @@
           <mat-cell *matCellDef="let result"> {{ result.id }} </mat-cell>
         </ng-container>
 
+        <ng-container matColumnDef="user">
+          <mat-header-cell *matHeaderCellDef>USUARIO</mat-header-cell>
+          <mat-cell *matCellDef="let result"> {{ result.user }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="device">
+          <mat-header-cell *matHeaderCellDef>DISPOSITIVO</mat-header-cell>
+          <mat-cell *matCellDef="let result"> {{ result.device}}</mat-cell>
+        </ng-container>
+
         <ng-container matColumnDef="instance">
           <mat-header-cell *matHeaderCellDef>INSTANCIA</mat-header-cell>
           <mat-cell *matCellDef="let result"> {{ result.instance }}</mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="probability">
-          <mat-header-cell *matHeaderCellDef>USUARIO</mat-header-cell>
-          <mat-cell *matCellDef="let result"> {{ result.probability }}</mat-cell>
-        </ng-container>
-
         <ng-container matColumnDef="label">
-          <mat-header-cell *matHeaderCellDef>IP</mat-header-cell>
+          <mat-header-cell *matHeaderCellDef>ROTULO</mat-header-cell>
           <mat-cell *matCellDef="let result"> {{ result.label }}</mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="user">
-          <mat-header-cell *matHeaderCellDef>TIPO</mat-header-cell>
-          <mat-cell *matCellDef="let result"> {{ result.user }}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="device">
-          <mat-header-cell *matHeaderCellDef>INSTANCE</mat-header-cell>
-          <mat-cell *matCellDef="let result"> {{ result.device }}</mat-cell>
+        <ng-container matColumnDef="confidence">
+          <mat-header-cell *matHeaderCellDef>PRECISAO</mat-header-cell>
+          <mat-cell *matCellDef="let result"> {{ result.confidence * 100 }}% </mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="timestamp">
@@ -42,15 +45,21 @@
           <mat-cell *matCellDef="let result"> {{ result.timestamp }}</mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="file_path">
+        <ng-container matColumnDef="path">
           <mat-header-cell *matHeaderCellDef>CAMINHO</mat-header-cell>
-          <mat-cell *matCellDef="let result"> <a target="_blank" rel="noopener noreferrer" href="file://{{ result.file_path.replace('\\\\', '') }}"> {{ result.file_path }} </a></mat-cell>
+          <mat-cell *matCellDef="let result">
+             <!-- <a target="_blank" rel="noopener noreferrer" href="file://{{ result.path.replace('\\\\', '') }}"> {{ result.path }} </a> -->
+             <a target="_blank" rel="noopener noreferrer"> {{ result.path }} </a>
+            </mat-cell>
         </ng-container>
 
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
       </mat-table>
+
+
+
 
 
 

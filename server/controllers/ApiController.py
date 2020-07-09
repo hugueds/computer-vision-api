@@ -10,9 +10,6 @@ from datetime import datetime
 from PIL import Image
 from models import Instance, Device, Result, TFModel
 
-
-pyt.pytesseract.tesseract_cmd = 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe' # TODO: Colocar no config ou .env
-
 class ApiController:   
     
     def __init__(self):
@@ -67,25 +64,26 @@ class ApiController:
 
         image_path = ''
         file_name = ''
-        if save:
-            image_path  = get_picture_path(self.image_save_path, part_id)
-            file_name = image_path.split('/')[-1]
 
         tf = TFModel(model)    
         prediction = tf.predict(image)
         h, w = image.shape[:2]        
         
-        image[int(h*0.90):,:,:] = 0 # Creates a black stripe at the bottom of the image
-        font = cv2.FONT_HERSHEY_SIMPLEX
-        cv2.putText(image, f'{prediction["label"]}', ( int(w*0.01), int(h*0.95) ), font, w/1000, (0,217,217), 1)
-        cv2.putText(image, f'{ file_name }',      ( int(w*0.01), int(h*0.99)), font, w/1000, (0,217,217), 1)
-        cv2.imwrite(image_path, image)
+        save=True
+        if save:
+            image_path  = get_picture_path(self.image_save_path, part_id)
+            file_name = image_path.split('/')[-1]
+            image[int(h*0.90):,:,:] = 0 # Creates a black stripe at the bottom of the image
+            font = cv2.FONT_HERSHEY_SIMPLEX
+            cv2.putText(image, f'{prediction["label"]}', ( int(w*0.01), int(h*0.95) ), font, w/1000, (0,217,217), 1)
+            cv2.putText(image, f'{ file_name }',      ( int(w*0.01), int(h*0.99)), font, w/1000, (0,217,217), 1)
+            cv2.imwrite(image_path, image)
 
         result = Result(
             user = user,
             device= device,
             instance=model,
-            file_path=image_path,
+            path=image_path,
             label= prediction['label'],
             confidence=str(round(prediction['confidence'], 2))
         )
@@ -118,7 +116,7 @@ def get_picture_path(path, part_id):
         "%02d" % datetime.today().second,
     )
 
-    file_name = f"{y}{M}{d}_{h}{m}{s}_{part_id}.png"    
+    file_name = f"{y}{M}{d}_{h}{m}{s}_{part_id}.jpg"    
     path = f"{path}/{y}/{M}/{d}/{part_id}"
     
     Path(path).mkdir(parents=True, exist_ok=True)
