@@ -8,6 +8,8 @@ server:
     address_b: '10.33.22.113'
     port: 5000
     pytesseract_path: 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+    image_save_path: '/tmp/Data/'
+    image_save_path2: '\\\\10.33.22.113/Data'
 image:
     default_size: '640x480'
 models:

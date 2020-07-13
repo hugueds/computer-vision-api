@@ -1,147 +1,127 @@
 import datetime
 import json
-import sqlite3
-from models.Instance import Instance
-
-database = 'cv_service.db'
+import logging
+from database.Database import db
 
 class Device():
 
-    def __init__(self, id=0, device_id='', user='SSB', ip='0.0.0.0', instance_id=0, device_type=0):
-
-        self.id = id
+    def __init__(self, id_=None, name='', ip='0.0.0.0', user='',  model=0, instance_id=0):
+        self.id_ = id_
+        self.name = name
         self.ip = ip
-        self.device_id = device_id
         self.user = user
+        self.model = model
         self.instance_id = instance_id
-        self.device_type = device_type
         self.created_at = datetime.datetime.now()
 
+    @staticmethod
+    def get():
+        sql = ''' SELECT * FROM DEVICE WHERE ID >= ?;'''
+        devices = Device.__get(sql)
+        return devices
+    
+    @staticmethod
+    def get_by_id(id_):
+        sql = ''' SELECT * FROM DEVICE WHERE ID = ?; '''
+        devices = Device.__get(sql, id_)
+        return devices[0] if len(devices) else None      
+         
+    @staticmethod
+    def get_by_ip(ip):
+        print('Getting Device with IP ' + ip)
+        sql = ''' SELECT * FROM DEVICE WHERE IP = ?; '''
+        devices = Device.__get(sql, ip)
+        return devices[0] if len(devices) else None
 
     @staticmethod
-    def get(id=0, only_one=False):
+    def __get(query, id_=0):
+
+        cursor = db.connect().cursor()
+        cursor.execute(query, (id_,))
 
         devices = []
-        sql = ''' SELECT * FROM DEVICE WHERE ID > ?'''
-
-        if id > 0:
-            sql = ''' SELECT * FROM DEVICE WHERE ID = ? '''
-
-        conn = sqlite3.connect(database)
-        cursor = conn.cursor()
-        cursor.execute(sql, (id,))        
-
-        for id, user, device_id, ip, device_type, created_at, instance_id in cursor.fetchall():
+        for id_, user, name, ip, model, created_at, instance_id in cursor.fetchall():
             device = Device()
-            device.id = id
+            device.id_ = id_
             device.user = user
-            device.device_id = device_id
+            device.name = name
             device.ip = ip
-            device.device_type = device_type
+            device.model = model
             device.created_at = created_at
-            device.instance_id = instance_id
+            device.instance_id = instance_id            
             devices.append(device)
 
         cursor.close()
 
-        if only_one:
-            if len(devices):
-                return devices[0]
-            else:
-                return None
-
         return devices
+   
 
-    @staticmethod
-    def get_by_ip(ip):
-
-        sql = ''' SELECT * FROM DEVICE WHERE IP = ?; '''
-
-        conn = sqlite3.connect(database)
-        cursor = conn.cursor()
-        cursor.execute(sql, (ip,))
-
-        device = None        
-
-        for id, user, device_id, ip, device_type, created_at, instance_id in cursor.fetchall():
-            device = Device()
-            device.id = id            
-            device.device_id = device_id
-            device.user = user
-            device.ip = ip
-            device.device_type = device_type
-            device.created_at = created_at
-            device.instance_id = instance_id
-
-        cursor.close()
-
-        return device
-
-    def save(self):
-        print('Creating a new Device ' + self.ip)
+    def save(self):        
         try:
-            sql = ''' INSERT INTO Device(user , device_id, ip ,instance_id, deviceType, created_at) VALUES(?,?,?,?,?,?) '''
-            conn = sqlite3.connect(database)
-            cursor = conn.cursor()
-            d = (self.user, self.device_id, self.ip, self.instance_id,
-                self.device_type, self.created_at)
+            print('Creating a new Device ' + self.ip)
+            sql = ''' 
+                INSERT INTO Device(user, name, ip ,instance_id, model, created_at) 
+                VALUES(?,?,?,?,?,?) 
+            '''
+            
+            connection = db.connect()
+            cursor = connection.cursor()
+            d = (self.user, self.name, self.ip, self.instance_id, self.model, self.created_at)
             cursor.execute(sql, d)
-            conn.commit()
-            self.id = cursor.lastrowid
+            connection.commit()
+            self.id_ = cursor.lastrowid
             cursor.close()
-            return True
+            
         except Exception as e:
-            print(str(e))
-            return False
+            logging.error('Device::save::'+str(e))
+            
 
     @staticmethod
     def update(device):
         try:
             sql = ''' UPDATE Device
-            SET
-            user = ?, 
-            device_id = ?,  
-            ip = ?,
-            instance_id = ?, 
-            deviceType = ?         
-            WHERE ID = (?)
-                     '''
-            conn = sqlite3.connect(database)
-            cursor = conn.cursor()
-            d = (device.user, device.device_id, device.ip, device.instance_id,
-                device.device_type, device.id)
+                SET
+                    user = ?, 
+                    name = ?,  
+                    ip = ?,
+                    instance_id_ = ?, 
+                    model = ?         
+                WHERE ID = (?)
+            '''
+            connection = db.connect()
+            cursor = connection.cursor()
+            d = (device.user, device.name, device.ip, device.instance_id,
+                device.model, device.id_)
             cursor.execute(sql, (d))
-            conn.commit()
+            connection.commit()
             cursor.close()
-            return True
+            
         except Exception as e:
-            print(str(e))
-            return False        
+            logging.error('Device::update::'+str(e))
+                    
 
     @staticmethod
-    def delete(id):
-        print('Deleting device ID ' + str(id))
+    def delete(id_):
         try:
+            print('Deleting device ID_ ' + str(id_))
             sql = ''' DELETE FROM DEVICE WHERE ID = ? '''
-            conn = sqlite3.connect(database)
+            conn = db.connect()
             cursor = conn.cursor()            
-            cursor.execute(sql, (id,))
+            cursor.execute(sql, (id_,))
             conn.commit()
             cursor.close()
-            return True
+            
         except Exception as e:
-            print(str(e))
-            return False
-        
+            logging.error('Device::delete::'+str(e))
 
-    def serialize(self):        
+    def to_json(self):        
         return {
-            'id': self.id,
-            'user': self.user,
-            'deviceId': self.device_id,
-            'ip': self.ip,
-            'instanceId': self.instance_id,
-            'deviceType': self.device_type,
-            'createdAt': self.created_at
+            "id": self.id_,
+            "name": self.name,
+            "ip": self.ip,
+            "user": self.user,
+            "model": self.model,
+            "instanceId": self.instance_id,
+            "createdAt": self.created_at
         }
  

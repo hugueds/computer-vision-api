@@ -1,2 +1,2 @@
-from routes.api import *
-from routes.index import *
+from .api import *
+from .index import *

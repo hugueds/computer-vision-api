@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import axios from 'axios';
-import {environment} from '../../environments/environment';
-import Instance from '../models/Instance';
+import { Instance } from '../models/Instance';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +23,9 @@ export class InstanceService {
 
   }
 
-  async create(){}
-  async update(){}
-  async delete(){}
+  async create() { }
+  async update() { }
+  async delete() { }
 
 
 

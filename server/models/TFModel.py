@@ -1,10 +1,9 @@
 import cv2 as cv
 import numpy as np
-from PIL import Image
 import yaml
-from time import sleep
 import concurrent.futures
 import logging
+from time import sleep
 from multiprocessing.pool import ThreadPool
 from threading import Thread
 from tensorflow.keras.applications import MobileNetV2
@@ -13,7 +12,7 @@ from tensorflow.keras.applications.mobilenet_v2 import decode_predictions
 
 default_net = MobileNetV2(input_shape=(224, 224, 3), include_top=True, weights="imagenet")
 
-pre_loadnet = load_model(f'tensorflow_models/emptybox/emptybox.h5', compile=False)
+# pre_loadnet = load_model(f'tensorflow_models/emptybox/emptybox.h5', compile=False)
 
 def classify_thread(image, model, labels):
 
@@ -26,8 +25,8 @@ def classify_thread(image, model, labels):
         label, confidence = pred[1].upper(), round(pred[2], 2)
         res = (label, confidence)        
     else:
-        # net = load_model(f'tensorflow_models/{model.graph}/{model.graph}.h5', compile=False)
-        net = pre_loadnet
+        net = load_model(f'tensorflow_models/{model.graph}/{model.graph}.h5', compile=False)
+        # net = pre_loadnet
         pred = net.predict(image)        
         index = int(pred.argmax(axis=1)[0])        
         label, confidence = labels[index].upper(),  pred[0][index]        
@@ -37,12 +36,11 @@ def classify_thread(image, model, labels):
 
 class TFModel:
 
-    def __init__(self, name):
-
-        with open('config.yml', 'r') as f:
-            config = yaml.safe_load(f)
-
+    def __init__(self, name):       
         try:            
+            with open('config.yml', 'r') as f:
+                config = yaml.safe_load(f)
+                
             c = config['models'][name]
             self.name = c['name']
             self.labels = c['labels']
@@ -58,8 +56,9 @@ class TFModel:
 
         if self.channels == 1:
             image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-            _, image = cv.threshold(image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)        
+            _, image = cv.threshold(image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
 
+        image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
         image = cv.resize(image, (self.size, self.size), cv.INTER_AREA)
         image = image / 255
         image = image.reshape(1, self.size, self.size, self.channels)

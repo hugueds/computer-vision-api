@@ -1,119 +1,118 @@
 import datetime
 import json
-import sqlite3
+import logging
+from database.Database import db
 
-database = 'cv_service.db'
+class Instance():
 
-class Instance():   
-
-    def __init__(self, id=0, name='', description='', _type=0, identifier=0, save=0):
-
-        self.id = id
+    def __init__(self, id_=None, name='', description='', type_=0, identifier_mode=0, save=False):
+        self.id_ = id_
         self.name = name
         self.description = description
-        self._type = _type
-        self.identifier = identifier
+        self.type_ = type_
+        self.identifier_mode = identifier_mode
         self.save = save
-        self.created_at = datetime.datetime.now()                
+        self.created_at = datetime.datetime.now()
 
     @staticmethod
-    def get(id=0, only_one=False):
+    def get(id_=0):
+        sql = ''' SELECT * FROM INSTANCE WHERE ID > ? '''            
+        instances = Instance.__get(sql)
+        return instances
+
+    @staticmethod
+    def get_by_id(id_):
+        sql = ''' SELECT * FROM INSTANCE WHERE ID = ? '''   
+        instances = Instance.__get(sql, id_)
+        return instances[0] if len(instances) else None        
+
+    @staticmethod
+    def __get(query, id_=0):
+
+        conn = db.connect()
+        cursor = conn.cursor()
+        cursor.execute(query, (id_,))
 
         instances = []
-        sql = ''' SELECT * FROM INSTANCE WHERE ID > ? '''
-
-        if id > 0:
-            sql = ''' SELECT * FROM INSTANCE WHERE ID = ? '''
-
-        conn = sqlite3.connect(database)
-        cursor = conn.cursor()
-        cursor.execute(sql, (id,))
-
-        for id, name, description, _type, identifier, save, created_at in cursor.fetchall():
-
+        for id_, name, description, type_, identifier_mode, save, created_at in cursor.fetchall():
             instance = Instance()
-            instance.id = id
+            instance.id_ = id_
             instance.name = name
             instance.description = description
-            instance._type = _type         
-            instance.identifier = identifier            
-            instance.save = save
-            instance.created_at = created_at    
-
+            instance.type_ = type_
+            instance.identifier_mode = identifier_mode
+            instance.save = True if save == 1 else False
+            instance.created_at = created_at
             instances.append(instance)
 
         cursor.close()
-
-        if only_one:
-            if len(instances) > 0:
-                return instances[0]
-            else:
-                return None
-
         return instances
 
-    def _save(self):
-        print('Creating a new Instance')
+    def save(self):
         try:
-            conn = sqlite3.connect(database)
-            cursor = conn.cursor()            
-            d = (self.name, self.description, self._type, self.identifier, self.save, self.created_at)
-            sql = ''' INSERT INTO Instance( name , description , type, identifier, save, created_at) VALUES (?,?,?,?,?,?) '''
+            print('Creating a new Instance')
+            conn = db.connect()
+            cursor = conn.cursor()
+            d = (self.name, self.description, self.type_,
+                 self.identifier_mode, self.save, self.created_at)
+            sql = ''' 
+                INSERT INTO Instance( name , description , type, identifier_mode, save, created_at) 
+                VALUES (?,?,?,?,?,?) '''
             cursor.execute(sql, d)
             conn.commit()
-            self.id = cursor.lastrowid
-            cursor.close()
-            return True
+            self.id_ = cursor.lastrowid
+            cursor.close()            
         except Exception as e:
-            print(str(e))
-            return False       
+            logging.error('Instance::save::'+str(e))
+            
 
     @staticmethod
     def update(instance):
         try:
-            sql = ''' UPDATE Instance
-            SET
-            name = ?
-            , description = ?
-            , type= ?
-            , identifier= ?
-            , save = (?)
-            WHERE ID = ?
+            print('Updating Instance ID ' + str(instance.id_))
+            sql = ''' 
+                UPDATE Instance
+                    SET
+                        name = ?
+                        , description = ?
+                        , type= ?
+                        , identifier= ?
+                        , save = (?)
+                WHERE ID = ?
             '''
-            conn = sqlite3.connect(database)
+            conn = db.connect()
             cursor = conn.cursor()
-            inst = (instance.name, instance.description, instance._type, instance.identifier,
-                instance.save, instance.id)
-            cursor.execute(sql, (inst))
+            new_instance = (instance.name, instance.description, instance.type_,
+                            instance.identifier_mode, instance.save, instance.id_)
+            cursor.execute(sql, (new_instance))
             conn.commit()
             cursor.close()
-            return True
+            
         except Exception as e:
-            print(str(e))
-            return False  
+            logging.error('Instance::update::'+str(e))
+            
 
     @staticmethod
-    def delete(id):
-        print('Deleting Instance ID ' + str(id))
+    def delete(id_):
         try:
+            print('Deleting Instance id_ ' + str(id_))
             sql = ''' DELETE FROM INSTANCE WHERE ID = ? '''
-            conn = sqlite3.connect(database)
-            cursor = conn.cursor()            
-            cursor.execute(sql, (id,))
+            conn = db.connect()
+            cursor = conn.cursor()
+            cursor.execute(sql, (id_,))
             conn.commit()
             cursor.close()
-            return True
+            
         except Exception as e:
-            print(str(e))
-            return False
+            logging.error('Instance::delete::'+str(e))
 
-    def serialize(self):
+    def to_json(self):
         return {
             "id": self.id,
             "name": self.name,
             "description": self.description,
-            "type": self._type,
-            "identifier": self.identifier,
+            "type": self.type_,
+            "identifierMode": self.identifier_mode,
             "save": self.save,
             "created_at": self.created_at
         }

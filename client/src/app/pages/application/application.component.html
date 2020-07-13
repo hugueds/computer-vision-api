@@ -1,0 +1,12 @@
+<ng-container>
+    <app-instance-info></app-instance-info>
+    <app-instructions [instruction]="instruction"></app-instructions>
+    <app-camera
+      (inference)="onInference($event)"
+      (barcode)="onBarcode($event)"
+      (submit)="onSubmit($event)"
+      >
+    </app-camera>
+    <app-inference-preview [inference]="inferencePreview" ></app-inference-preview>
+    <app-last-result [lastResult]="lastResult"></app-last-result>
+</ng-container>

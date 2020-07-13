@@ -1,0 +1,21 @@
+.btn-wrapper {
+    display: flex;
+}
+
+.btn {
+    display: flex;
+    flex: 1 1 auto;
+    text-align: center;
+    justify-content: center;
+    font-size: large;
+    font-weight: bold;
+    color: #FAFAFA;    
+}
+
+.btn--cancel {
+    background: red;
+}
+
+.btn--send {
+    background: limegreen;
+}

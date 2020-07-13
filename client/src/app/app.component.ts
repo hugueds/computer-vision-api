@@ -9,13 +9,14 @@ export class AppComponent {
   
   title = 'cv-client';
 
+  // TODO:
   // Carregar as informações do Device
   // Passar as informações para o APPBAR e possivel footer
   // Gerenciar os intervals da aplicação
+  // Iniciar serviço que pinga o sistema para ver se esta online e manda para o navbar
 
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
+  ngOnInit(): void {       
+    
     
   }
 
