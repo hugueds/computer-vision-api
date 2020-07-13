@@ -1,14 +1,10 @@
-export default class Instance {
-
+export class Instance {
     id: number;
     name: string;
-    save: number;
+    save: boolean;
     type: InstanceType;
-    identifier: IdentifierType;
+    identifierMode: IdentifierMode;
     createdAt: Date;
-    partList: Array<string>;
-    typeString: string;    
-
 }
 
 export enum InstanceType {
@@ -18,7 +14,7 @@ export enum InstanceType {
     CLASSIFIER_OFFLINE
 }
 
-export enum IdentifierType {
+export enum IdentifierMode {
     BARCODE,
     OCR,
     NONE,

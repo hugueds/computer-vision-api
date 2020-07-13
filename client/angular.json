@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "../server/templates",
+            "outputPath": "../server/static",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -70,7 +70,7 @@
           "options": {
             "browserTarget": "cv-client:build",
             "sslKey": "key.pem",
-            "ssl": true,
+            "ssl": false,
             "sslCert": "cert.pem"
           },
           "configurations": {
