@@ -4,7 +4,10 @@
 
 - [ ] Arrumar criated_at no metodo PUT
 - [ ] Adicionar mensagem com os dizeres de modelo carregando
-- [ ]
+- [ ] Update the server URL Address
+- [ ] Render camera within a canvas
+- [ ] Remove some files in gitignore (static)
+- [ ] 
 
 ## 2020-07-01
 
@@ -31,8 +34,8 @@
 - [ ] Exibir mensagem de Camera indisponível enquanto a camera não é carregada
 - [ ] Adicionar mensagem nome e usuario do dispositvo no header
 - [ ] Desenvolver telas de alteração de configuração
-- [ ] Finalizar API de consulta e cadastro de instancias e equiapamentos
-- [ ] Criar API para os resultados
+- [x] Finalizar API de consulta e cadastro de instancias e equipamentos
+- [x] Criar API para os resultados
 
 ## 2020-06-19
 
@@ -41,8 +44,8 @@
 ## 2020-06-18
 
 - [ ] Adicionar serviço de status de comunicação com o servidor
-- [ ] Criar tabela de resultados
-- [ ] Adicionar identificador ao resultado
+- [x] Criar tabela de resultados
+- [x] Adicionar identificador ao resultado
 - [x] Alterar o canvas dinamicamente
 - [x] Retornar o IP do usuário mesmo que não cadastrado
 
@@ -54,9 +57,9 @@
 
 ## 2020-06-09
 
-- [ ] Add a button to revoke/claim last sent result
-- [ ] Home Screen
-- [ ] Create a return arrow button
+- [-] Add a button to revoke/claim last sent result
+- [-] Home Screen
+- [-] Create a return arrow button
 - [x] History/Logs Screen
 - [x] OnLoad, device request its instance from server
 - [x] Create a route system in Frontend
