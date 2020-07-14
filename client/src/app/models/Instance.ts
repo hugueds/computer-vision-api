@@ -1,9 +1,10 @@
 export class Instance {
     id: number;
     name: string;
-    save: boolean;
+    description: string;
     type: InstanceType;
     identifierMode: IdentifierMode;
+    save: boolean;
     createdAt: Date;
 }
 

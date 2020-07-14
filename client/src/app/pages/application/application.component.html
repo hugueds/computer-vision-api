@@ -5,6 +5,7 @@
       (inference)="onInference($event)"
       (barcode)="onBarcode($event)"
       (submit)="onSubmit($event)"
+      [instance]="instanceDevice"
       >
     </app-camera>
     <app-inference-preview [inference]="inferencePreview" ></app-inference-preview>

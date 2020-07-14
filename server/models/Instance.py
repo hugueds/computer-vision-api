@@ -76,7 +76,7 @@ class Instance():
                         name = ?
                         , description = ?
                         , type= ?
-                        , identifier= ?
+                        , identifier_mode= ?
                         , save = (?)
                 WHERE ID = ?
             '''
@@ -114,5 +114,5 @@ class Instance():
             "type": self.type_,
             "identifierMode": self.identifier_mode,
             "save": self.save,
-            "created_at": self.created_at
+            "createdAt": self.created_at
         }

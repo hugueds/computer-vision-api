@@ -77,11 +77,9 @@ export class ApplicationComponent implements OnInit {
   onSubmit(picture: string) {
     this._computerVisionService.classify(
       picture
-      // , this.instanceDevice.instance.name || 'default'
-      , 'default'
+      , this.instanceDevice.instance.name || 'default'
       , this.instruction.identifier
-      // , this.instanceDevice.instance.save || false
-      , false
+      , this.instanceDevice.instance.save || false
       , this.instanceDevice.device.user
       , this.instanceDevice.device.name
     )
