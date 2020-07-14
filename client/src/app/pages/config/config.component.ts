@@ -4,25 +4,16 @@ import { DeviceService } from 'src/app/services/device.service';
 import { InstanceService } from 'src/app/services/instance.service';
 import { Device } from 'src/app/models/Device';
 import { Instance } from 'src/app/models/Instance';
-
-const d = {
-  createdAt: '',
-  deviceId: '',
-  deviceType: '',
-  id: 1,
-  instance: 1,
-  ip: '0.0.0.0',
-  user: 'TEST',
-}
 @Component({
   selector: 'app-config',
   templateUrl: './config.component.html',
   styleUrls: ['./config.component.css']
 })
-export class ConfigComponent implements OnInit {  
+export class ConfigComponent implements OnInit {
 
-  
+
   deviceForm: any;
+  instanceForm: any;
 
   devices: Array<Device>;
   instances: Array<Instance>;
@@ -30,7 +21,7 @@ export class ConfigComponent implements OnInit {
   editMode = false;
 
   displayedColumns = ['id', 'name', 'user', 'ip', 'model', 'instanceId', 'createdAt', 'actions']
-
+  displayedInstanceColumns = []
   dummyDevices = [
 
   ]
@@ -52,7 +43,7 @@ export class ConfigComponent implements OnInit {
 
   onSubmit(f: NgForm) {
     console.log(f.value);
-    
+
   }
 
   getDevices() {
@@ -63,30 +54,30 @@ export class ConfigComponent implements OnInit {
     .catch(e => console.error(e));
   }
 
-  create($event, device) {    
+  create($event, device) {
     this._deviceService.create(device)
     .then(res => {
       console.log(res);
       this.getDevices();
     })
     .catch(e => console.error(e))
-    
+
     // Atualizar lista
   }
 
-  update($event, device) {    
+  update($event, device) {
     console.log(device)
     this._deviceService.update(device)
     .then(res => {
       console.log(res);
       this.getDevices();
     })
-    .catch(e => console.error(e))  
+    .catch(e => console.error(e))
   }
 
   cancel() {
     this.editMode = false;
-    this.clearForm();    
+    this.clearForm();
   }
 
 
@@ -95,7 +86,7 @@ export class ConfigComponent implements OnInit {
     this.deviceForm = {...device};
   }
 
-  delete($event, device) {    
+  delete($event, device) {
     const confirm= window.confirm('Deseja excluir este dispositivo?');
     if (!confirm)
       return;
@@ -105,10 +96,11 @@ export class ConfigComponent implements OnInit {
       console.log(res);
       this.getDevices();
     })
-    .catch(e => console.error(e))    
+    .catch(e => console.error(e))
   }
 
   clearForm() {
+
     this.deviceForm = {
       id: 0,
       name: '',
@@ -117,6 +109,18 @@ export class ConfigComponent implements OnInit {
       model: '',
       instanceId: ''
     }
+
+    this.instanceForm = {
+      id: 0,
+      name: '',
+      user: '',
+      ip: '',
+      model: '',
+      instanceId: ''
+    }
+
+
+
   }
 
 
