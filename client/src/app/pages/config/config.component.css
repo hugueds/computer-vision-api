@@ -45,3 +45,40 @@ mat-tab-group {
     margin-left: 2%;
     justify-content: space-evenly;
 }
+
+
+.config-button {
+    color: #FAFAFA;
+    margin-left: 5%;
+    padding: 0;
+    font-size: 0.75rem;    
+}
+
+.config-button--create {
+    background-color: limegreen;
+    font-weight: bold;
+    padding: 0 1.5% 0 1.5%;
+}
+
+.config-button--update {
+    background-color: limegreen;
+    margin-left: 1.5%;
+    font-weight: bold;
+    padding: 0 1.5% 0 1.5%;
+}
+
+.config-button--cancel {
+    background-color: red;
+    margin-left: 1.5%;
+    padding: 0 1.5% 0 1.5%;
+    font-weight: bold;
+}
+
+.config-button--edit {
+    background-color: darkorange;
+}
+
+.config-button--delete {
+    background-color: red;    
+}
+

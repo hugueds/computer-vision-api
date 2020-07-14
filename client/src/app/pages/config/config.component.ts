@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {NgForm} from '@angular/forms';
 import { DeviceService } from 'src/app/services/device.service';
 import { InstanceService } from 'src/app/services/instance.service';
 import { Device } from 'src/app/models/Device';
@@ -18,13 +19,17 @@ const d = {
   templateUrl: './config.component.html',
   styleUrls: ['./config.component.css']
 })
-export class ConfigComponent implements OnInit {
+export class ConfigComponent implements OnInit {  
 
+  
+  deviceForm: any;
 
   devices: Array<Device>;
   instances: Array<Instance>;
 
-  displayedColumns = ['id', 'deviceId', 'user', 'ip', 'instance', 'createdAt', 'actions']
+  editMode = false;
+
+  displayedColumns = ['id', 'name', 'user', 'ip', 'model', 'instanceId', 'createdAt', 'actions']
 
   dummyDevices = [
 
@@ -41,37 +46,77 @@ export class ConfigComponent implements OnInit {
   // On Load?
 
   ngOnInit(): void {
+    this.clearForm();
+    this.getDevices();
+  }
 
-    this._deviceService.getAll().then(devices => {
-      this.devices = devices;
-    })
-      .catch(() => this.devices = this.dummyDevices)
-      ;
-
+  onSubmit(f: NgForm) {
+    console.log(f.value);
+    
   }
 
   getDevices() {
-
+    this._deviceService.getAll()
+    .then(devices => {
+      this.devices = devices;
+    })
+    .catch(e => console.error(e));
   }
 
-  create() {
+  create($event, device) {    
+    this._deviceService.create(device)
+    .then(res => {
+      console.log(res);
+      this.getDevices();
+    })
+    .catch(e => console.error(e))
+    
     // Atualizar lista
   }
 
-
-  update() {
-
-    // Atualizar lista
-    // isUpdate?
-
+  update($event, device) {    
+    console.log(device)
+    this._deviceService.update(device)
+    .then(res => {
+      console.log(res);
+      this.getDevices();
+    })
+    .catch(e => console.error(e))  
   }
 
-  delete(device) {
+  cancel() {
+    this.editMode = false;
+    this.clearForm();    
+  }
 
-    console.log(device);
 
-    // Atualizar lista
+  edit($event, device) {
+    this.editMode = true;
+    this.deviceForm = {...device};
+  }
 
+  delete($event, device) {    
+    const confirm= window.confirm('Deseja excluir este dispositivo?');
+    if (!confirm)
+      return;
+
+    this._deviceService.delete(device)
+    .then(res => {
+      console.log(res);
+      this.getDevices();
+    })
+    .catch(e => console.error(e))    
+  }
+
+  clearForm() {
+    this.deviceForm = {
+      id: 0,
+      name: '',
+      user: '',
+      ip: '',
+      model: '',
+      instanceId: ''
+    }
   }
 
 

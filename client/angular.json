@@ -69,8 +69,8 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "cv-client:build",
+            "ssl": true,
             "sslKey": "key.pem",
-            "ssl": false,
             "sslCert": "cert.pem"
           },
           "configurations": {

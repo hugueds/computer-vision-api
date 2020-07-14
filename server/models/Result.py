@@ -1,9 +1,7 @@
 import sqlite3
 from datetime import datetime
-# import database
+from database.Database import db
 
-
-database = 'cv_service.db' # buscar da classe database
 
 
 class Result():
@@ -22,8 +20,9 @@ class Result():
     @staticmethod
     def get(offset, quantity):
         sql = ''' SELECT * FROM Result order by ID DESC LIMIT (?) OFFSET (?)'''
-        conn = sqlite3.connect(database)
-        cursor = conn.cursor()       
+        
+        cursor = db.connect().cursor()
+        
 
         d = (quantity, offset)
         cursor.execute(sql, (d))
@@ -47,9 +46,8 @@ class Result():
     def save(self):
 
         try:
-            sql = ''' INSERT INTO Result(user, device, instance, label, confidence, path, timestamp) VALUES(?,?,?,?,?,?,?) '''
-            conn = sqlite3.connect(database)
-            cursor = conn.cursor()
+            sql = ''' INSERT INTO Result(user, device, instance, label, confidence, path, timestamp) VALUES(?,?,?,?,?,?,?) '''            
+            cursor = db.connect().cursor()
 
             d = (self.user,
                  self.device,

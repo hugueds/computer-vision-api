@@ -33,8 +33,7 @@ class DeviceController():
             })        
         return jsonify({ "error": "True", "message": "Device IP not registered"})
 
-    def create(self, request):
-
+    def create(self, request):       
         d = Device(
             name=request['name'],
             user=request['user'],
@@ -60,7 +59,7 @@ class DeviceController():
 
     def delete(self, id_):        
         if id_:
-            device = Device.get(id_)
+            device = Device.get_by_id(id_)
             if device:
                 Device.delete(device.id_)
                 return jsonify({ "error": False, "message": 'Device ID ' + str(id_) + ' Deleted'})

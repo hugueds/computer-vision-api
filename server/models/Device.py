@@ -3,15 +3,16 @@ import json
 import logging
 from database.Database import db
 
+
 class Device():
 
-    def __init__(self, id_=None, name='', ip='0.0.0.0', user='',  model=0, instance_id=0):
+    def __init__(self, id_=None, user='', name='', ip='0.0.0.0',  model=0, instance_id=0):
         self.id_ = id_
+        self.user = user
         self.name = name
         self.ip = ip
-        self.user = user
-        self.model = model
-        self.instance_id = instance_id
+        self.model = int(model)
+        self.instance_id = int(instance_id)
         self.created_at = datetime.datetime.now()
 
     @staticmethod
@@ -19,13 +20,13 @@ class Device():
         sql = ''' SELECT * FROM DEVICE WHERE ID >= ?;'''
         devices = Device.__get(sql)
         return devices
-    
+
     @staticmethod
     def get_by_id(id_):
         sql = ''' SELECT * FROM DEVICE WHERE ID = ?; '''
         devices = Device.__get(sql, id_)
-        return devices[0] if len(devices) else None      
-         
+        return devices[0] if len(devices) else None
+
     @staticmethod
     def get_by_ip(ip):
         print('Getting Device with IP ' + ip)
@@ -48,57 +49,56 @@ class Device():
             device.ip = ip
             device.model = model
             device.created_at = created_at
-            device.instance_id = instance_id            
+            device.instance_id = instance_id
             devices.append(device)
 
         cursor.close()
 
         return devices
-   
 
-    def save(self):        
+    def save(self):
         try:
             print('Creating a new Device ' + self.ip)
             sql = ''' 
                 INSERT INTO Device(user, name, ip ,instance_id, model, created_at) 
                 VALUES(?,?,?,?,?,?) 
             '''
-            
+
             connection = db.connect()
             cursor = connection.cursor()
-            d = (self.user, self.name, self.ip, self.instance_id, self.model, self.created_at)
+            d = (self.user, self.name, self.ip,
+                 self.instance_id, self.model, self.created_at)
             cursor.execute(sql, d)
             connection.commit()
             self.id_ = cursor.lastrowid
             cursor.close()
-            
+
         except Exception as e:
             logging.error('Device::save::'+str(e))
-            
 
     @staticmethod
     def update(device):
         try:
+            print(device.to_json())
             sql = ''' UPDATE Device
                 SET
                     user = ?, 
                     name = ?,  
                     ip = ?,
-                    instance_id_ = ?, 
-                    model = ?         
-                WHERE ID = (?)
+                    model = ?,         
+                    instance_id = ?
+                WHERE ID = ?
             '''
             connection = db.connect()
             cursor = connection.cursor()
-            d = (device.user, device.name, device.ip, device.instance_id,
-                device.model, device.id_)
+            d = (device.user, device.name, device.ip,
+                 device.model, device.instance_id, device.id_)
             cursor.execute(sql, (d))
             connection.commit()
             cursor.close()
-            
+
         except Exception as e:
             logging.error('Device::update::'+str(e))
-                    
 
     @staticmethod
     def delete(id_):
@@ -106,22 +106,21 @@ class Device():
             print('Deleting device ID_ ' + str(id_))
             sql = ''' DELETE FROM DEVICE WHERE ID = ? '''
             conn = db.connect()
-            cursor = conn.cursor()            
+            cursor = conn.cursor()
             cursor.execute(sql, (id_,))
             conn.commit()
             cursor.close()
-            
+
         except Exception as e:
             logging.error('Device::delete::'+str(e))
 
-    def to_json(self):        
+    def to_json(self):
         return {
             "id": self.id_,
+            "user": self.user,
             "name": self.name,
             "ip": self.ip,
-            "user": self.user,
             "model": self.model,
             "instanceId": self.instance_id,
             "createdAt": self.created_at
         }
- 

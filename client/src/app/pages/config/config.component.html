@@ -3,62 +3,36 @@
     <h1>CONFIGURAÇÕES</h1>
   </div>
 
-  <!--
-  <div class="table-header">
-    <span>ID</span>
-    <span>DEVICE NAME</span>
-    <span>USUARIO</span>
-    <span>IP</span>
-    <span>INSTANCIA</span>
-    <span>CRIADO EM</span>
-  </div> -->
-
-
-<!--
-  <div class="table-body">
-    <div class="table-row" *ngFor="let device of devices">
-      {{ device.id }}
-      {{ device.createdAt }}
-      {{ device.deviceId }}
-      {{ device.deviceType }}
-      {{ device.instance }}
-      {{ device.ip }}
-      {{ device.user }}
-      <button mat-button (click)="update()">EDITAR</button>
-      <button mat-button color="primary"  (click)="delete(device)">EXCLUIR</button>
-    </div>
-  </div> -->
-
-
-
+  
   <mat-tab-group mat-stretch-tabs="always" mat-align-tabs="center">
     <mat-tab label="DISPOSITIVOS">
 
-
-      <form class="create-container">
+      <div class="create-container">        
         <mat-form-field class="">
           <mat-label>NOME</mat-label>
-          <input matInput>
+          <input name="name" matInput [(ngModel)]="deviceForm.name">
         </mat-form-field>
         <mat-form-field class="">
           <mat-label>USUARIO</mat-label>
-          <input matInput>
+          <input name="user" matInput [(ngModel)]="deviceForm.user" >
         </mat-form-field>
         <mat-form-field class="">
           <mat-label>IP</mat-label>
-          <input matInput>
+          <input name="ip" matInput [(ngModel)]="deviceForm.ip" >
         </mat-form-field>
         <mat-form-field class="">
           <mat-label>TIPO</mat-label>
-          <input matInput>
+          <input name="model" matInput [(ngModel)]="deviceForm.model" >
         </mat-form-field>
         <mat-form-field class="">
           <mat-label>INSTANCIA</mat-label>
-          <input matInput>
-        </mat-form-field>
-          <button mat-button>CRIAR</button>
+          <input name="instanceId" matInput [(ngModel)]="deviceForm.instanceId" >
+        </mat-form-field>        
+          <button *ngIf="!editMode"class="config-button config-button--create"  (click)="create($event, deviceForm)">CRIAR</button>
+          <button *ngIf="editMode" class="config-button config-button--update" (click)="update($event, deviceForm)">ATUALIZAR</button>
+          <button *ngIf="editMode" class="config-button config-button--cancel" (click)="cancel()">X</button>
 
-      </form>
+      </div>
 
 
       <mat-table [dataSource]="devices" class="mat-elevation-z8">
@@ -67,9 +41,9 @@
           <mat-cell *matCellDef="let device"> {{ device.id }} </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="deviceId">
+        <ng-container matColumnDef="name">
           <mat-header-cell *matHeaderCellDef>NOME</mat-header-cell>
-          <mat-cell *matCellDef="let device"> {{ device.deviceId }}</mat-cell>
+          <mat-cell *matCellDef="let device"> {{ device.name }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="user">
@@ -82,14 +56,14 @@
           <mat-cell *matCellDef="let device"> {{ device.ip }}</mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="deviceType">
+        <ng-container matColumnDef="model">
           <mat-header-cell *matHeaderCellDef>TIPO</mat-header-cell>
-          <mat-cell *matCellDef="let device"> {{ device.deviceType }}</mat-cell>
+          <mat-cell *matCellDef="let device"> {{ device.model }}</mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="instance">
+        <ng-container matColumnDef="instanceId">
           <mat-header-cell *matHeaderCellDef>INSTANCE</mat-header-cell>
-          <mat-cell *matCellDef="let device"> {{ device.instance }}</mat-cell>
+          <mat-cell *matCellDef="let device"> {{ device.instanceId }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="createdAt">
@@ -99,9 +73,9 @@
 
         <ng-container matColumnDef="actions">
           <mat-header-cell *matHeaderCellDef></mat-header-cell>
-          <mat-cell *matCellDef="let row">
-            <button mat-button>EDIT</button>
-            <button mat-button>DELETE</button>
+          <mat-cell *matCellDef="let device">
+            <button class="config-button config-button--edit"   (click)="edit($event, device)" mat-button>EDIT</button>
+            <button class="config-button config-button--delete" (click)="delete($event, device)" mat-button>DELETE</button>
           </mat-cell>
         </ng-container>
 
@@ -138,7 +112,7 @@
       </form>
 
 
-      <mat-table [dataSource]="devices" class="mat-elevation-z8">
+      <!-- <mat-table [dataSource]="devices" class="mat-elevation-z8">
         <ng-container matColumnDef="id">
           <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
           <mat-cell *matCellDef="let device"> {{ device.id }} </mat-cell>
@@ -184,7 +158,7 @@
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-      </mat-table>
+      </mat-table> -->
 
     </mat-tab>
   </mat-tab-group>

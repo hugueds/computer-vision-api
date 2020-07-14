@@ -1,23 +1,26 @@
 # TODO
 
+## 2020-07-13
+
+- [ ] Criar serviço no Cliente para identificar comunicação com o servidor
+
 ## 2020-07-02
 
 - [ ] Arrumar criated_at no metodo PUT
 - [ ] Adicionar mensagem com os dizeres de modelo carregando
-- [ ] Update the server URL Address
-- [ ] Render camera within a canvas
-- [ ] Remove some files in gitignore (static)
-- [ ] 
+- [x] Update the server URL Address
+- [x] Render camera within a canvas
+- [x] Remove some files in gitignore (static)
 
 ## 2020-07-01
 
 - [ ] Avaliar a imagem sem ter que salvar uma copia antes
 - [ ] Melhorar a visualização para celulares
 - [ ] Adicionar tipo de operação offline
-- [ ] Salvar os modelos no servidor
-- [ ] Servir arquivos no servidor
-- [ ] Paginar a tela de resultados
-- [ ] Ao invés de C:\, utilizar como prefixo o endereço do servidor no armazenamento
+- [x] Salvar os modelos no servidor
+- [x] Servir arquivos no servidor
+- [x] Paginar a tela de resultados
+- [x] Ao invés de C:\, utilizar como prefixo o endereço do servidor no armazenamento
 - [x] Implementar modelos de tensorflow offline
 
 ## 2020-06-24
@@ -26,14 +29,14 @@
 
 ## 2020-06-23
 
-- [ ] Destruir a camera ao sair de um menu
+- [x] Destruir a camera ao sair de um menu
 - [x] Abrir uma nova thread para processar as imagens
 
 ## 2020-06-22
 
 - [ ] Exibir mensagem de Camera indisponível enquanto a camera não é carregada
 - [ ] Adicionar mensagem nome e usuario do dispositvo no header
-- [ ] Desenvolver telas de alteração de configuração
+- [x] Criar telas de alteração de configuração dos dispositivos e instâncias
 - [x] Finalizar API de consulta e cadastro de instancias e equipamentos
 - [x] Criar API para os resultados
 
@@ -43,7 +46,7 @@
 
 ## 2020-06-18
 
-- [ ] Adicionar serviço de status de comunicação com o servidor
+- [x] Adicionar serviço de status de comunicação com o servidor
 - [x] Criar tabela de resultados
 - [x] Adicionar identificador ao resultado
 - [x] Alterar o canvas dinamicamente

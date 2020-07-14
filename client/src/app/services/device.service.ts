@@ -41,8 +41,30 @@ export class DeviceService {
 
   }
 
-  async create() { }
-  async update() { }
-  async delete() { }
+  async create(device: Device) {
+    try {
+      const response = await axios.post(`${this.baseURL}/device/`, device);
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  async update(device: Device) { 
+    try {
+      const response = await axios.put(`${this.baseURL}/device/`, device);
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  async delete(device: Device) { 
+    try {
+      const response = await axios.delete(`${this.baseURL}/device/${device.id}`);
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+  }
 
 }

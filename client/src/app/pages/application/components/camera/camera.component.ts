@@ -4,6 +4,7 @@ import { Result } from 'src/app/models/Result';
 import { quaggaConfig, cameraConstraints, MOBILE_WIDTH } from "src/environments/environment";
 import Quagga from 'quagga';
 declare let ml5: any;
+// import * as mob from "@tensorflow-models/mobilenet"
 
 @Component({
   selector: 'app-camera',
@@ -27,7 +28,9 @@ export class CameraComponent implements OnInit {
   isMobile = false;
   counter = 0;
   background = 'gray';
+  capturedFrame: any;
 
+  md;
 
   ngOnInit(): void {
     if (document.documentElement.clientWidth <= MOBILE_WIDTH) {
@@ -38,8 +41,15 @@ export class CameraComponent implements OnInit {
 
   ngAfterViewInit() {
     this.openCamera();
-    this.openBarcodeScanner(); // Only IF Barcode is needed
-    this.net = ml5.imageClassifier('MobileNet', () => this.modelReady());
+    // this.openBarcodeScanner(); // Only IF Barcode is needed
+    // this.net = ml5.imageClassifier('MobileNet', () => this.modelReady());    
+    // this.net = ml5.imageClassifier('https://storage.googleapis.com/tfjs-models/tfjs/mobilenet_v1_1.0_224/model.json', () => this.modelReady());  
+    // mob.load().then(a => {
+    //   this.net = a
+    //   this.modelLoaded = true;
+    // })
+    // this.net = ml5.imageClassifier('assets/models/emptybox/model.json', () => this.modelReady());
+    
   }
 
   modelReady() {
@@ -47,13 +57,14 @@ export class CameraComponent implements OnInit {
     this.modelLoaded = true;
   }
 
-  openCamera() {
+  openCamera() {    
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: cameraConstraints }).then(stream => {
         this.video.nativeElement.srcObject = stream;
         this.video.nativeElement.play();
         this.video.nativeElement.addEventListener('loadedmetadata', () => {
           this.video.nativeElement.style.display = 'none';
+          this.getFrames();
           window.requestAnimationFrame(() => this.getFrames());
         });
       });
@@ -109,18 +120,23 @@ export class CameraComponent implements OnInit {
       this.counter = 0;
     }
     this.counter++;
-
-    window.requestAnimationFrame(() => this.getFrames());
+    window.requestAnimationFrame( () =>  this.getFrames());
+    // setInterval(() => this.getFrames(), 100);
   }
 
 
   async classify() {
-    const res: Array<Inference> = await this.net.classify(this.video.nativeElement);
+    if (!this.modelLoaded) return;
+    
+    // const res: Array<Inference> = await this.net.classify(this.video.nativeElement);       
+    const res = await this.net.classify(this.video.nativeElement);       
+    console.log(res);    
     const inference = res[0]
+    inference.label = inference.className;
+    inference.confidence = inference.probability;
     inference.label = inference.label.split(',')[0];
     this.changeBackgroundColor(inference.label);
-    this.inferenceEmitter.emit(inference);
-    // Rise event with the result
+    this.inferenceEmitter.emit(inference);    
   }
 
   changeBackgroundColor(label) {
@@ -133,21 +149,19 @@ export class CameraComponent implements OnInit {
 
   onCapture() {
     this.isReading = !this.isReading;
-    if (this.isReading)
-      window.requestAnimationFrame(() => this.getFrames());
+    const ctx = this.canvas.nativeElement.getContext('2d');
+    const videoWidth = 640;
+    const videoHeight = 480;
+    ctx.drawImage(this.video.nativeElement, 0, 0, videoWidth, videoHeight);
+    this.capturedFrame = this.canvas.nativeElement.toDataURL();
   }
 
   onCancel() {
     this.resumeStream();
   }
 
-  onSubmit() {
-    const ctx = this.canvas.nativeElement.getContext('2d');
-    const videoWidth = 640;
-    const videoHeight = 480;
-    ctx.drawImage(this.video.nativeElement, 0, 0, videoWidth, videoHeight);
-    const frame = this.canvas.nativeElement.toDataURL();
-    this.submitEmitter.emit(frame);
+  onSubmit() {    
+    this.submitEmitter.emit(this.capturedFrame);
     this.resumeStream();
   }
 
