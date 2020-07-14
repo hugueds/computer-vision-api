@@ -22,6 +22,7 @@ CORS(app)
 def index():    
     return send_from_directory('../static', 'index.html')   
 
-@app.route('/<file>', methods=['GET'])
-def index_files(file):    
-    return send_from_directory('../static', file)    
+@app.route('/<model>', methods=['GET'])
+def index_files(model):
+    a = '../templates'
+    return send_from_directory(a, f'./{model}/')

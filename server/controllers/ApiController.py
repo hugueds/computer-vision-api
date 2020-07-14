@@ -8,7 +8,12 @@ import yaml
 from pathlib import Path
 from datetime import datetime
 from PIL import Image
-from models import Instance, Device, Result, TFModel
+from models import Instance, Device, Result 
+
+debug_model = True
+
+if debug_model:
+    from models import TFModel
 
 class ApiController:   
     
@@ -51,14 +56,14 @@ class ApiController:
     def classify(self, content):
         
         base64_image = content['picture']
-        part_id = content['partId']
+        identifier = content['partId']
         model = content['model']
         save = content['save']        
         user = content['user']
         device = content['device']
 
-        if part_id == '':
-            part_id = 'not_defined'
+        if identifier == '':
+            identifier = 'not_defined'
                 
         image = data_uri_to_cv2_img(base64_image)      
 
@@ -71,7 +76,7 @@ class ApiController:
         
         save=True
         if save:
-            image_path  = get_picture_path(self.image_save_path, part_id)
+            image_path  = get_picture_path(self.image_save_path, identifier)
             file_name = image_path.split('/')[-1]
             image[int(h*0.90):,:,:] = 0 # Creates a black stripe at the bottom of the image
             font = cv2.FONT_HERSHEY_SIMPLEX
@@ -93,9 +98,10 @@ class ApiController:
             "error": False,
             "message": "OK",
             "content": {
-                "result": prediction['label'],
-                "confidence": str(round(prediction['confidence'], 2)),
-                "imagePath": image_path
+                "label": prediction['label'],
+                "confidence": round(prediction['confidence'], 2),
+                "imagePath": image_path,
+                "identifier": identifier
             }
         }    
 
@@ -105,7 +111,7 @@ def data_uri_to_cv2_img(uri):
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     return img
 
-def get_picture_path(path, part_id):
+def get_picture_path(path, identifier):
 
     y, M, d, h, m, s = (
         datetime.today().year,
@@ -116,8 +122,8 @@ def get_picture_path(path, part_id):
         "%02d" % datetime.today().second,
     )
 
-    file_name = f"{y}{M}{d}_{h}{m}{s}_{part_id}.jpg"    
-    path = f"{path}/{y}/{M}/{d}/{part_id}"
+    file_name = f"{y}{M}{d}_{h}{m}{s}_{identifier}.jpg"    
+    path = f"{path}/{y}/{M}/{d}/{identifier}"
     
     Path(path).mkdir(parents=True, exist_ok=True)
 

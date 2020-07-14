@@ -64,3 +64,7 @@ def ocr():
 def barcode():
     content = request.json
     return api_controller.get_ocr(content['picture'])
+
+@api_router.route('/api/system/', methods=['GET'])
+def system():    
+    return True

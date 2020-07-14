@@ -85,7 +85,7 @@ export class ApplicationComponent implements OnInit {
       , this.instanceDevice.device.user
       , this.instanceDevice.device.name
     )
-    .then(result => this.lastResult = result)
+    .then(result => this.lastResult = result.content)
     .catch(e => console.error(e))
 
 
