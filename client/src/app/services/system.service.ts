@@ -1,13 +1,8 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { Subscription, timer, Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
-
+import { from, Observable, interval, Subscription } from 'rxjs';
+import { take } from 'rxjs/operators';
 import axios from 'axios';
-
-interface Dictionary<T> {
-  [Key: string]: T
-}
 
 
 @Injectable({
@@ -18,11 +13,9 @@ export class SystemService {
   baseURL = environment.server;
   running = false;
 
-  eventEmitter = new EventEmitter<Dictionary<any>>();
-
-  subscription: Subscription;
   serverStatus: boolean;
-  statusText: string;
+  interval;
+  sub;
 
   constructor() { }
 
@@ -40,21 +33,19 @@ export class SystemService {
     if (this.running)
       return;
 
-    this.subscription = timer(0, 1000).pipe(
-      switchMap(() => this.getStatus()))
-      .subscribe(result => this.eventEmitter.emit(result.status));
-
-    // this.subscription = timer(0, 10000).pipe(
-    //   switchMap(() => this.myservice.checkdata())
-    // ).subscribe(result => this.statustext = result);
-
     this.running = true;
+
+    const serverStatus = new Observable(o => {
+      this.sub = interval(1000).subscribe(a => this.getStatus().then(b => o.next(b)))
+    });
+    return serverStatus;
   }
 
 
   stop() {
     this.running = false;
-    this.subscription.unsubscribe();
+    this.sub.unsubscribe();
+    clearInterval(this.interval);
   }
 
 }

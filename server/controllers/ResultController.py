@@ -13,7 +13,7 @@ class ResultController():
         data = Result.get(offset, quantity)
         results = []
         for r in data:
-            results.append(r.serialize())
+            results.append(r.to_json())
         return jsonify(results)
 
 

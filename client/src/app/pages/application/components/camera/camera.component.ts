@@ -18,7 +18,12 @@ export class CameraComponent implements OnInit, OnChanges {
   @ViewChild('video', { static: true }) public video: ElementRef;
   @ViewChild('canvas', { static: true }) public canvas: ElementRef;
 
-  @Input('instance') instance: InstanceDevice;
+  // @Input('instance') instance: InstanceDevice;
+  @Input('instance') set instance(val: any) {
+    if (val) {
+      this.initializeModel(val.instance);
+    }
+  }
 
   @Output('inference') inferenceEmitter = new EventEmitter<Inference>();
   @Output('barcode') barcodeEmitter = new EventEmitter<string>();
@@ -32,6 +37,7 @@ export class CameraComponent implements OnInit, OnChanges {
   background = 'gray';
   capturedFrame: any;
   barcodeOpened = false;
+  _instance: InstanceDevice;
 
   ngOnInit(): void {
     if (document.documentElement.clientWidth <= MOBILE_WIDTH) {
@@ -40,23 +46,24 @@ export class CameraComponent implements OnInit, OnChanges {
     }
   }
 
-  ngAfterViewInit() {
+  initializeModel(instance) {
 
     let modelName = 'MobileNet';
 
+    if (instance.identifierMode == IdentifierMode.BARCODE) {
+      this.openBarcodeScanner();
+    }
+
+    if (instance.name && instance.name != 'default') {
+      let model = instance.name.toLowerCase();
+      modelName = `assets/models/${model}/model.json`;
+    }
+
+    this.net = ml5.imageClassifier(modelName, () => this.modelReady(modelName));
+  }
+
+  ngAfterViewInit() {
     this.openCamera();
-
-    // if (this.instanceDevice.instance.identifierMode == IdentifierMode.BARCODE) {
-    //   this.openBarcodeScanner();
-    // }
-
-    // if (this.instanceDevice.instance.name) {
-    //   let model = this.instanceDevice.instance.name;
-    //   modelName = `assets/${model}/model.json`;
-    // }
-
-    // this.net = ml5.imageClassifier(modelName, () => this.modelReady(modelName));
-
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -138,7 +145,7 @@ export class CameraComponent implements OnInit, OnChanges {
       this.counter = 0;
     }
     this.counter++;
-    window.requestAnimationFrame( () =>  this.getFrames());
+    window.requestAnimationFrame(() => this.getFrames());
     // setInterval(() => this.getFrames(), 100);
   }
 
@@ -187,7 +194,7 @@ export class CameraComponent implements OnInit, OnChanges {
 
     if (stream) {
       const tracks = stream.getTracks();
-      tracks.forEach(function(track) {
+      tracks.forEach(function (track) {
         track.stop();
       });
     }
