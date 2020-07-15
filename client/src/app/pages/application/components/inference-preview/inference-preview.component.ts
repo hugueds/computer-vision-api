@@ -15,11 +15,8 @@ export class InferencePreviewComponent implements OnInit {
 
   ngOnInit(): void {
 
-    // this._dataService.currentMessage.subscribe(m => console.log('OK ' + m ));
   }
 
-  // onInference(inference: Inference) {
 
-  // }
 
 }

@@ -5,6 +5,7 @@ import logging
 import pytesseract as pyt
 import numpy as np
 import yaml
+from flask import jsonify
 from pathlib import Path
 from datetime import datetime
 from PIL import Image
@@ -74,7 +75,7 @@ class ApiController:
         prediction = tf.predict(image)
         h, w = image.shape[:2]        
         
-        save=True
+        save=True # DEBUG ONLY
         if save:
             image_path  = get_picture_path(self.image_save_path, identifier)
             file_name = image_path.split('/')[-1]
@@ -82,28 +83,28 @@ class ApiController:
             font = cv2.FONT_HERSHEY_SIMPLEX
             cv2.putText(image, f'{prediction["label"]}', ( int(w*0.01), int(h*0.95) ), font, w/1000, (0,217,217), 1)
             cv2.putText(image, f'{ file_name }',      ( int(w*0.01), int(h*0.99)), font, w/1000, (0,217,217), 1)
-            cv2.imwrite(image_path, image)
+            cv2.imwrite(image_path, image)        
 
         result = Result(
             user = user,
-            device= device,
-            instance=model,
-            path=image_path,
-            label= prediction['label'],
-            confidence=str(round(prediction['confidence'], 2))
+            device = device,
+            instance = model,
+            path = image_path,
+            label = prediction['label'],
+            confidence = round(prediction['confidence'], 2)
         )
         result.save()
 
-        return {
+        return jsonify({
             "error": False,
             "message": "OK",
             "content": {
                 "label": prediction['label'],
-                "confidence": round(prediction['confidence'], 2),
+                "confidence": (round(prediction['confidence'],2)),
                 "imagePath": image_path,
                 "identifier": identifier
             }
-        }    
+        })    
 
 def data_uri_to_cv2_img(uri):
     image_string = uri.split('base64,')[-1].strip()    

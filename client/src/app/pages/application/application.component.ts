@@ -7,6 +7,7 @@ import { InstanceService } from 'src/app/services/instance.service';
 import { InstanceDevice } from 'src/app/models/InstanceDevice';
 import { ComputerVisionService } from 'src/app/services/computer-vision.service';
 import { SystemService } from 'src/app/services/system.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-application',
@@ -18,6 +19,11 @@ export class ApplicationComponent implements OnInit {
 
 
   instanceDevice: InstanceDevice;
+  sub;
+
+  defaultInstanceDevice = {
+    instance: { name: 'default' }
+  }
 
   instruction = {
     step: 0,
@@ -44,8 +50,7 @@ export class ApplicationComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this._systemService.start();
-    this._systemService.eventEmitter.asObservable().subscribe(a => console.log(a))
+    this.sub = this._systemService.start().subscribe(a => console.log(a));
     this.getDevice();
   }
 
@@ -60,7 +65,7 @@ export class ApplicationComponent implements OnInit {
 
   deviceNotFound(err) {
     console.log(err);
-    // this.instanceDevice = defaultInstance;
+    this.instanceDevice = this.defaultInstanceDevice as InstanceDevice;
   }
 
   onInference(inference: Inference) {
@@ -85,12 +90,13 @@ export class ApplicationComponent implements OnInit {
       , this.instanceDevice.device.user
       , this.instanceDevice.device.name
     )
-    .then(result => this.lastResult = result.content)
+    .then(result => {this.lastResult = result.content; console.log(result)})
     .catch(e => console.error(e))
 
   }
 
   ngOnDestroy(): void {
+
     this._systemService.stop();
   }
 

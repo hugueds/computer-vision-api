@@ -29,7 +29,7 @@ def classify_thread(image, model, labels):
         # net = pre_loadnet
         pred = net.predict(image)        
         index = int(pred.argmax(axis=1)[0])        
-        label, confidence = labels[index].upper(),  pred[0][index]        
+        label, confidence = labels[index].upper(),  round(pred[0][index], 2)        
         res = (label, confidence)
 
     return res   
@@ -66,4 +66,4 @@ class TFModel:
         with concurrent.futures.ThreadPoolExecutor() as executor:
             future = executor.submit(classify_thread, image, self, self.labels)
             ret = future.result()
-            return {"label": ret[0], "confidence": ret[1] }
+            return {"label": ret[0], "confidence": float(round(ret[1], 2)) }

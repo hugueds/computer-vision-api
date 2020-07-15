@@ -2,13 +2,11 @@ import sqlite3
 from datetime import datetime
 from database.Database import db
 
-
-
 class Result():
 
-    def __init__(self, id=0, user='', device='', instance='', label='', confidence=0, path=''):
+    def __init__(self, id_=0, user='', device='', instance='', path='', label='', confidence=0.0):
 
-        self.id = id
+        self.id_ = id_
         self.user = user
         self.device = device
         self.instance = instance
@@ -19,19 +17,18 @@ class Result():
 
     @staticmethod
     def get(offset, quantity):
-        sql = ''' SELECT * FROM Result order by ID DESC LIMIT (?) OFFSET (?)'''
-        
-        cursor = db.connect().cursor()
-        
+
+        sql = ''' SELECT * FROM Result order by ID DESC LIMIT (?) OFFSET (?)'''        
+        cursor = db.connect().cursor()       
 
         d = (quantity, offset)
         cursor.execute(sql, (d))
 
         results = []
 
-        for id, user, device, instance, label, confidence, path, timestamp in cursor.fetchall():
+        for id_, user, device, instance, label, confidence, path, timestamp in cursor.fetchall():
             result = Result()
-            result.id = id
+            result.id_ = id_
             result.user = user
             result.device = device
             result.instance = instance
@@ -47,7 +44,8 @@ class Result():
 
         try:
             sql = ''' INSERT INTO Result(user, device, instance, label, confidence, path, timestamp) VALUES(?,?,?,?,?,?,?) '''            
-            cursor = db.connect().cursor()
+            connection = db.connect()
+            cursor = connection.cursor()            
 
             d = (self.user,
                  self.device,
@@ -58,23 +56,22 @@ class Result():
                  self.timestamp)
 
             cursor.execute(sql, d)
-            conn.commit()
-            self.id = cursor.lastrowid
-            cursor.close()
-            return True
+            connection.commit()
+            self.id_ = cursor.lastrowid
+            cursor.close()           
 
         except Exception as e:
-            print(str(e))
-            return False
+            print('Result::save::' + str(e))
+            
 
-    def serialize(self):
+    def to_json(self):        
         return {
-            "id": self.id,
+            "id": self.id_,
             "user": self.user,
             "device": self.device,
             "instance": self.instance,
             "label": self.label,
-            "confidence": self.confidence,
+            "confidence": str(self.confidence),
             "path": self.path,
             "timestamp": self.timestamp
         }
