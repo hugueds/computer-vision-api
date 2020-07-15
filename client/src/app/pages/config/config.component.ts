@@ -21,7 +21,7 @@ export class ConfigComponent implements OnInit {
   editMode = false;
 
   displayedColumns = ['id', 'name', 'user', 'ip', 'model', 'instanceId', 'createdAt', 'actions']
-  displayedInstanceColumns = []
+  displayedInstanceColumns = ['id', 'name', 'type', 'identifierMode', 'save', 'createdAt', 'actions']
   dummyDevices = [
 
   ]
@@ -39,6 +39,7 @@ export class ConfigComponent implements OnInit {
   ngOnInit(): void {
     this.clearForm();
     this.getDevices();
+    this.getInstances();
   }
 
   onSubmit(f: NgForm) {
@@ -54,22 +55,25 @@ export class ConfigComponent implements OnInit {
     .catch(e => console.error(e));
   }
 
-  create($event, device) {
+  getInstances() {
+    this._instanceService.getAll()
+    .then(instances => {
+      this.instances = instances;
+    })
+    .catch(e => console.error(e));
+  }
+
+  create(device) {
     this._deviceService.create(device)
     .then(res => {
-      console.log(res);
       this.getDevices();
     })
     .catch(e => console.error(e))
-
-    // Atualizar lista
   }
 
-  update($event, device) {
-    console.log(device)
+  update(device) {
     this._deviceService.update(device)
     .then(res => {
-      console.log(res);
       this.getDevices();
     })
     .catch(e => console.error(e))
@@ -81,19 +85,18 @@ export class ConfigComponent implements OnInit {
   }
 
 
-  edit($event, device) {
+  edit(device) {
     this.editMode = true;
     this.deviceForm = {...device};
   }
 
-  delete($event, device) {
-    const confirm= window.confirm('Deseja excluir este dispositivo?');
+  delete(device) {
+    const confirm = window.confirm('Deseja excluir este dispositivo?');
     if (!confirm)
       return;
 
     this._deviceService.delete(device)
     .then(res => {
-      console.log(res);
       this.getDevices();
     })
     .catch(e => console.error(e))
@@ -113,15 +116,50 @@ export class ConfigComponent implements OnInit {
     this.instanceForm = {
       id: 0,
       name: '',
-      user: '',
-      ip: '',
-      model: '',
-      instanceId: ''
+      description: '',
+      type: '',
+      identifierMode: '',
+      save: ''
     }
-
-
 
   }
 
+
+  updateTab() {
+
+  }
+
+  createInstance(instance) {
+    this._instanceService.create(instance)
+    .then(res => {
+      this.getInstances();
+    })
+    .catch(e => console.error(e))
+  }
+
+  editInstance(instance) {
+    this.editMode = true;
+    this.instanceForm = {...instance};
+  }
+
+  updateInstance(instance) {
+    this._instanceService.update(instance)
+    .then(res => {
+      this.getInstances();
+    })
+    .catch(e => console.error(e))
+  }
+
+  deleteInstance(instance) {
+    const confirm = window.confirm('Deseja excluir este dispositivo?');
+    if (!confirm)
+      return;
+
+    this._instanceService.delete(instance.id)
+    .then(res => {
+      this.getInstances();
+    })
+    .catch(e => console.error(e))
+  }
 
 }

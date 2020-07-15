@@ -6,6 +6,7 @@ import { DeviceService } from 'src/app/services/device.service';
 import { InstanceService } from 'src/app/services/instance.service';
 import { InstanceDevice } from 'src/app/models/InstanceDevice';
 import { ComputerVisionService } from 'src/app/services/computer-vision.service';
+import { SystemService } from 'src/app/services/system.service';
 
 @Component({
   selector: 'app-application',
@@ -39,10 +40,12 @@ export class ApplicationComponent implements OnInit {
     private _deviceService: DeviceService
     , private _instanceService: InstanceService
     , private _computerVisionService: ComputerVisionService
+    , private _systemService: SystemService
     ) { }
 
   ngOnInit(): void {
-    // ver o tamanho do device
+    this._systemService.start();
+    this._systemService.eventEmitter.asObservable().subscribe(a => console.log(a))
     this.getDevice();
   }
 
@@ -50,15 +53,14 @@ export class ApplicationComponent implements OnInit {
     // se nao registrado, atribuir os valores de "default"
     // para a instancia e o identificador (NONE)
     // atribur o valor "MobileNet" ou "default" para o classificador
-
     this._deviceService.get_by_ip()
       .then(instanceDevice => this.instanceDevice = instanceDevice)
       .catch(this.deviceNotFound)
   }
 
-  deviceNotFound(a) {
-    console.log(a);
-
+  deviceNotFound(err) {
+    console.log(err);
+    // this.instanceDevice = defaultInstance;
   }
 
   onInference(inference: Inference) {
@@ -86,7 +88,10 @@ export class ApplicationComponent implements OnInit {
     .then(result => this.lastResult = result.content)
     .catch(e => console.error(e))
 
+  }
 
+  ngOnDestroy(): void {
+    this._systemService.stop();
   }
 
 }

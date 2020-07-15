@@ -4,7 +4,7 @@
   </div>
 
 
-  <mat-tab-group mat-stretch-tabs="always" mat-align-tabs="center">
+  <mat-tab-group mat-stretch-tabs="always" mat-align-tabs="center" [selectedIndex]="0" (selectedIndexChange)="updateTab()">
 
     <mat-tab label="DISPOSITIVOS">
 
@@ -29,8 +29,8 @@
           <mat-label>INSTANCIA</mat-label>
           <input name="instanceId" matInput [(ngModel)]="deviceForm.instanceId" >
         </mat-form-field>
-          <button *ngIf="!editMode"class="config-button config-button--create"  (click)="create($event, deviceForm)">CRIAR</button>
-          <button *ngIf="editMode" class="config-button config-button--update" (click)="update($event, deviceForm)">ATUALIZAR</button>
+          <button *ngIf="!editMode"class="config-button config-button--create"  (click)="create(deviceForm)">CRIAR</button>
+          <button *ngIf="editMode" class="config-button config-button--update" (click)="update(deviceForm)">ATUALIZAR</button>
           <button *ngIf="editMode" class="config-button config-button--cancel" (click)="cancel()">X</button>
 
       </div>
@@ -75,13 +75,13 @@
         <ng-container matColumnDef="actions">
           <mat-header-cell *matHeaderCellDef></mat-header-cell>
           <mat-cell *matCellDef="let device">
-            <button class="config-button config-button--edit"   (click)="edit($event, device)" mat-button>EDIT</button>
-            <button class="config-button config-button--delete" (click)="delete($event, device)" mat-button>DELETE</button>
+            <button class="config-button config-button--edit"   (click)="edit(device)" mat-button>EDIT</button>
+            <button class="config-button config-button--delete" (click)="delete(device)" mat-button>DELETE</button>
           </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        <mat-row *matRowDef="let device; columns: displayedColumns"></mat-row>
       </mat-table>
     </mat-tab>
 
@@ -93,23 +93,19 @@
           <input matInput [(ngModel)]="instanceForm.name">
         </mat-form-field>
         <mat-form-field class="">
-          <mat-label>USUARIO</mat-label>
-          <input matInput [(ngModel)]="instanceForm.user">
-        </mat-form-field>
-        <mat-form-field class="">
-          <mat-label>IP</mat-label>
+          <mat-label>TIPO</mat-label>
           <input matInput [(ngModel)]="instanceForm.type">
         </mat-form-field>
         <mat-form-field class="">
-          <mat-label>TIPO</mat-label>
+          <mat-label>LEITURA</mat-label>
           <input matInput [(ngModel)]="instanceForm.identifierMode">
         </mat-form-field>
         <mat-form-field class="">
-          <mat-label>INSTANCIA</mat-label>
+          <mat-label>SALVAR</mat-label>
           <input matInput [(ngModel)]="instanceForm.save">
         </mat-form-field>
-            <button *ngIf="!editMode"class="config-button config-button--create"  (click)="create($event, deviceForm)">CRIAR</button>
-            <button *ngIf="editMode" class="config-button config-button--update" (click)="update($event, deviceForm)">ATUALIZAR</button>
+            <button *ngIf="!editMode"class="config-button config-button--create"  (click)="createInstance(instanceForm)">CRIAR</button>
+            <button *ngIf="editMode" class="config-button config-button--update" (click)="updateInstance(instanceForm)">ATUALIZAR</button>
             <button *ngIf="editMode" class="config-button config-button--cancel" (click)="cancel()">X</button>
 
       </div>
@@ -121,29 +117,24 @@
           <mat-cell *matCellDef="let instance"> {{ instance.id }} </mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="instanceId">
+        <ng-container matColumnDef="name">
           <mat-header-cell *matHeaderCellDef>NOME</mat-header-cell>
-          <mat-cell *matCellDef="let instance"> {{ instance.instanceId }}</mat-cell>
+          <mat-cell *matCellDef="let instance"> {{ instance.name }}</mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="user">
-          <mat-header-cell *matHeaderCellDef>USUARIO</mat-header-cell>
-          <mat-cell *matCellDef="let instance"> {{ instance.user }}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="ip">
-          <mat-header-cell *matHeaderCellDef>IP</mat-header-cell>
-          <mat-cell *matCellDef="let instance"> {{ instance.ip }}</mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="instanceType">
+        <ng-container matColumnDef="type">
           <mat-header-cell *matHeaderCellDef>TIPO</mat-header-cell>
-          <mat-cell *matCellDef="let instance"> {{ instance.instanceType }}</mat-cell>
+          <mat-cell *matCellDef="let instance"> {{ instance.type }}</mat-cell>
         </ng-container>
 
-        <ng-container matColumnDef="instance">
-          <mat-header-cell *matHeaderCellDef>INSTANCE</mat-header-cell>
-          <mat-cell *matCellDef="let instance"> {{ instance.instance }}</mat-cell>
+        <ng-container matColumnDef="identifierMode">
+          <mat-header-cell *matHeaderCellDef>LEITURA</mat-header-cell>
+          <mat-cell *matCellDef="let instance"> {{ instance.identifierMode }}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="save">
+          <mat-header-cell *matHeaderCellDef>SALVAR</mat-header-cell>
+          <mat-cell *matCellDef="let instance"> {{ instance.save }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="createdAt">
@@ -153,14 +144,14 @@
 
         <ng-container matColumnDef="actions">
           <mat-header-cell *matHeaderCellDef></mat-header-cell>
-          <mat-cell *matCellDef="let row">
-            <button mat-button>EDIT</button>
-            <button mat-button>DELETE</button>
+          <mat-cell *matCellDef="let instance">
+            <button class="config-button config-button--edit"   (click)="editInstance(instance)" mat-button>EDIT</button>
+            <button class="config-button config-button--delete" (click)="deleteInstance(instance)" mat-button>DELETE</button>
           </mat-cell>
         </ng-container>
 
         <mat-header-row *matHeaderRowDef="displayedInstanceColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedInstanceColumns"></mat-row>
+        <mat-row *matRowDef="let instance; columns: displayedInstanceColumns"></mat-row>
       </mat-table>
 
     </mat-tab>

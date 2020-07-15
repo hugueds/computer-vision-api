@@ -1,4 +1,6 @@
-div {
-    border: 1px solid #000;
-    text-align: center;
+.instance-info {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 1%;
+  margin-right: 1%;
 }

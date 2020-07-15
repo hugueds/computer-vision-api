@@ -1,5 +1,5 @@
 <ng-container>
-    <app-instance-info></app-instance-info>
+    <app-instance-info [instanceDevice]="instanceDevice"></app-instance-info>
     <app-instructions [instruction]="instruction"></app-instructions>
     <app-camera
       (inference)="onInference($event)"
