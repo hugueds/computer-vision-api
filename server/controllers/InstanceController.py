@@ -30,7 +30,7 @@ class InstanceController():
             save=request['save']
         )
 
-        instance._save()
+        instance.save()
         return jsonify(instance.to_json())
 
     def update(self, request):
@@ -47,9 +47,9 @@ class InstanceController():
 
     def delete(self, id_):
         if id_:
-            instance = Instance.get(id_, True)
+            instance = Instance.get_by_id(id_)
             if instance:
-                instance.delete(instance.id)
+                instance.delete(id_)
                 return ('Instance ID ' + str(id_) + ' Deleted')
             else:
                 return jsonify({"error": True, "message": f'instance ID {id_} Not Found'})

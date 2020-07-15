@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { Instance, InstanceType, IdentifierMode } from 'src/app/models/Instance';
+import { InstanceDevice } from 'src/app/models/InstanceDevice';
 
 @Component({
   selector: 'app-instance-info',
@@ -8,12 +9,13 @@ import { Instance, InstanceType, IdentifierMode } from 'src/app/models/Instance'
 })
 export class InstanceInfoComponent implements OnInit {
 
-  instance: Instance;
+  @Input('instanceDevice') instanceDevice: InstanceDevice;
 
   constructor() { }
 
-  ngOnInit(): void {
 
+
+  ngOnInit(): void {
   }
 
 }

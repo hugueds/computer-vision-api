@@ -26,7 +26,7 @@ class DeviceController():
         print('Searching for device with IP: ' + ip)
         device = Device.get_by_ip(ip)
         if device:
-            instance = Instance.get(device.instance_id)
+            instance = Instance.get_by_id(device.instance_id)
             return jsonify({
                 "device" : device.to_json(),
                 "instance": instance.to_json() if instance else None

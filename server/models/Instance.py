@@ -11,7 +11,7 @@ class Instance():
         self.description = description
         self.type_ = type_
         self.identifier_mode = identifier_mode
-        self.save = save
+        self.save_ = save
         self.created_at = datetime.datetime.now()
 
     @staticmethod
@@ -41,7 +41,7 @@ class Instance():
             instance.description = description
             instance.type_ = type_
             instance.identifier_mode = identifier_mode
-            instance.save = True if save == 1 else False
+            instance.save_ = True if save == 1 else False
             instance.created_at = created_at
             instances.append(instance)
 
@@ -54,7 +54,7 @@ class Instance():
             conn = db.connect()
             cursor = conn.cursor()
             d = (self.name, self.description, self.type_,
-                 self.identifier_mode, self.save, self.created_at)
+                 self.identifier_mode, self.save_, self.created_at)
             sql = ''' 
                 INSERT INTO Instance( name , description , type, identifier_mode, save, created_at) 
                 VALUES (?,?,?,?,?,?) '''
@@ -83,7 +83,7 @@ class Instance():
             conn = db.connect()
             cursor = conn.cursor()
             new_instance = (instance.name, instance.description, instance.type_,
-                            instance.identifier_mode, instance.save, instance.id_)
+                            instance.identifier_mode, instance.save_, instance.id_)
             cursor.execute(sql, (new_instance))
             conn.commit()
             cursor.close()
@@ -108,11 +108,11 @@ class Instance():
 
     def to_json(self):
         return {
-            "id": self.id,
+            "id": self.id_,
             "name": self.name,
             "description": self.description,
             "type": self.type_,
             "identifierMode": self.identifier_mode,
-            "save": self.save,
+            "save": self.save_,
             "createdAt": self.created_at
         }

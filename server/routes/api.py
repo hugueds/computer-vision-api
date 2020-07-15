@@ -32,7 +32,7 @@ def device(id_):
 def instance(id_):
     if request.method == 'GET':
         if id_:
-            return instance_controller.get_by_id(int(id))
+            return instance_controller.get_by_id(id_)
         else:
             return instance_controller.get()
     elif request.method == 'POST':
@@ -67,4 +67,4 @@ def barcode():
 
 @api_router.route('/api/system/', methods=['GET'])
 def system():    
-    return True
+    return { "status": True }

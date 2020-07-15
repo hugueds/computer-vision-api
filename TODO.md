@@ -1,22 +1,28 @@
 # TODO
 
+## 2020-07-15
+
+- [ ] Adicionar componentes de tabelas especificas para as configurações
+- [ ] Adicionar Select para campos não mutaveis nas configurações (deviceType, identifierMode, instanceType, save)
+- [ ] Alterar input text para select no campo instancia na tabela Device
+
 ## 2020-07-13
 
 - [ ] Criar serviço no Cliente para identificar comunicação com o servidor
 
 ## 2020-07-02
 
-- [ ] Arrumar criated_at no metodo PUT
 - [ ] Adicionar mensagem com os dizeres de modelo carregando
+- [x] Arrumar criated_at no metodo PUT
 - [x] Update the server URL Address
 - [x] Render camera within a canvas
 - [x] Remove some files in gitignore (static)
 
 ## 2020-07-01
 
-- [ ] Avaliar a imagem sem ter que salvar uma copia antes
-- [ ] Melhorar a visualização para celulares
 - [ ] Adicionar tipo de operação offline
+- [x] Melhorar a visualização para celulares
+- [x] Avaliar a imagem sem ter que salvar uma copia antes
 - [x] Salvar os modelos no servidor
 - [x] Servir arquivos no servidor
 - [x] Paginar a tela de resultados

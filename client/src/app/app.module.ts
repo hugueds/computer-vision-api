@@ -31,6 +31,8 @@ import { CameraComponent } from './pages/application/components/camera/camera.co
 import { CaptureButtonComponent } from './pages/application/components/capture-button/capture-button.component';
 import { ConfigComponent } from './pages/config/config.component';
 import { LogComponent } from './pages/log/log.component';
+import { DeviceTableComponent } from './pages/config/components/device-table/device-table.component';
+import { InstanceTableComponent } from './pages/config/components/instance-table/instance-table.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -44,7 +46,9 @@ import { LogComponent } from './pages/log/log.component';
     CameraComponent,
     CaptureButtonComponent,
     ConfigComponent,
-    LogComponent
+    LogComponent,
+    DeviceTableComponent,
+    InstanceTableComponent
   ],
   imports: [
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
