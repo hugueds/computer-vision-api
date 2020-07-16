@@ -1,10 +1,14 @@
 <ng-container>
-    <div class="inference-preview">
-        <span>PREVIA</span>
-        <span> {{ inference?.label }}</span>
-        <span>CERTEZA</span>
-        <span> {{ (inference?.confidence * 100).toFixed(2) }} % </span>
-    </div>
+  <div class="inference-preview" *ngIf="!loaded">
+    <span>CARREGANDO MODELO...</span>
+  </div>
+
+  <div class="inference-preview" *ngIf="loaded">
+    <span>PREVIA</span>
+    <span> {{ inference?.label }}</span>
+    <span>CERTEZA</span>
+    <span> {{ (inference?.confidence * 100).toFixed(2) }} % </span>
+  </div>
 </ng-container>
 
 <!-- Apenas exibir quando o modelo estiver carregado -->

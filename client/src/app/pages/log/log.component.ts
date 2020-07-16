@@ -12,7 +12,7 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 export class LogComponent implements OnInit {
 
 
-  pageSize = 10;
+  pageSize = 10; // Get the db size first
   offset = 0;
   pageEvent: PageEvent;
   length = 999;
@@ -46,7 +46,6 @@ export class LogComponent implements OnInit {
   }
 
   update($event) {
-    console.log($event);
     const offset = $event.pageIndex * this.pageSize;
     const quantity = this.pageSize;
     this.getResults(offset, quantity);

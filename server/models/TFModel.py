@@ -11,8 +11,9 @@ from tensorflow.keras.models import load_model
 from tensorflow.keras.applications.mobilenet_v2 import decode_predictions
 
 default_net = MobileNetV2(input_shape=(224, 224, 3), include_top=True, weights="imagenet")
+pre_loadnet = load_model(f'tensorflow_models/emptybox/emptybox.h5', compile=False)
 
-# pre_loadnet = load_model(f'tensorflow_models/emptybox/emptybox.h5', compile=False)
+# TODO: Load all models at once
 
 def classify_thread(image, model, labels):
 
@@ -25,8 +26,8 @@ def classify_thread(image, model, labels):
         label, confidence = pred[1].upper(), round(pred[2], 2)
         res = (label, confidence)        
     else:
-        net = load_model(f'tensorflow_models/{model.graph}/{model.graph}.h5', compile=False)
-        # net = pre_loadnet
+        # net = load_model(f'tensorflow_models/{model.graph}/{model.graph}.h5', compile=False)
+        net = pre_loadnet
         pred = net.predict(image)        
         index = int(pred.argmax(axis=1)[0])        
         label, confidence = labels[index].upper(),  round(pred[0][index], 2)        

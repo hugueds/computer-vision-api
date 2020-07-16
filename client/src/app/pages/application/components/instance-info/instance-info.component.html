@@ -1,5 +1,5 @@
 <ng-container>
-  <div class="instance-info">
+  <div class="instance-info" [ngStyle]="{'background': background }" >
     <span> MODELO {{ instanceDevice?.instance.name }}</span>
     <span> LEITURA {{ instanceDevice?.instance.identifierModel }} </span>
     <span> DEVICE {{ instanceDevice?.device.name }}</span>

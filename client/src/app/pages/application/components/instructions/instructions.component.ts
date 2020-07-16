@@ -8,6 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 export class InstructionsComponent implements OnInit {
 
   @Input('instruction') instruction: any;
+  @Input('status') status: any;
 
   constructor() { }
 

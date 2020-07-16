@@ -75,7 +75,6 @@ class ApiController:
         prediction = tf.predict(image)
         h, w = image.shape[:2]        
         
-        save=True # DEBUG ONLY
         if save:
             image_path  = get_picture_path(self.image_save_path, identifier)
             file_name = image_path.split('/')[-1]

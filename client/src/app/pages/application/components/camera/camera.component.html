@@ -1,10 +1,12 @@
 <ng-container>
+  <!-- <button (click)="stopCamera()">stop</button>
+  <button (click)="openCamera()">play</button> -->
   <div class="camera-preview" [style.background]="background">
     <div class="camera-wrapper">
-      <video #video id="video" autoplay muted width="640" height="480"></video>
+      <video  #video id="video" preload="auto" autoplay="true"  playsinline="true" muted width="640" height="480"></video>
       <canvas #canvas id="canvas" width="640" height="480"></canvas>
+      <canvas style="display: none; border: 2px solid red;" #hiddenCanvas id="hiddenCanvas" width="640" height="480"></canvas>
     </div>
-    <!-- hidden if Barcode First -->
     <div
     style="background-color: gray;"
     [hidden]="!isReading"

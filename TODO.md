@@ -5,6 +5,8 @@
 - [ ] Adicionar componentes de tabelas especificas para as configurações
 - [ ] Adicionar Select para campos não mutaveis nas configurações (deviceType, identifierMode, instanceType, save)
 - [ ] Alterar input text para select no campo instancia na tabela Device
+- [ ] Fazer botao de input para subir os modelos
+- [ ] Criar serviço para salvar os modelos em pasta de acordo com o nome
 
 ## 2020-07-13
 

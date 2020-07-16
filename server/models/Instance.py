@@ -1,7 +1,19 @@
 import datetime
 import json
 import logging
+from enum import Enum
 from database.Database import db
+
+
+class IdentifierMode(Enum):
+    BARCODE = 0,
+    OCR = 1,
+    NON = 2
+class InstanceType(Enum):
+    BARCODE = 0,
+    OCR = 1,
+    CLASSIFIER = 2,
+    CLASSIFIER_OFFLINE = 3
 
 class Instance():
 
@@ -16,15 +28,15 @@ class Instance():
 
     @staticmethod
     def get(id_=0):
-        sql = ''' SELECT * FROM INSTANCE WHERE ID > ? '''            
+        sql = ''' SELECT * FROM INSTANCE WHERE ID > ? '''
         instances = Instance.__get(sql)
         return instances
 
     @staticmethod
     def get_by_id(id_):
-        sql = ''' SELECT * FROM INSTANCE WHERE ID = ? '''   
+        sql = ''' SELECT * FROM INSTANCE WHERE ID = ? '''
         instances = Instance.__get(sql, id_)
-        return instances[0] if len(instances) else None        
+        return instances[0] if len(instances) else None
 
     @staticmethod
     def __get(query, id_=0):
@@ -61,10 +73,9 @@ class Instance():
             cursor.execute(sql, d)
             conn.commit()
             self.id_ = cursor.lastrowid
-            cursor.close()            
+            cursor.close()
         except Exception as e:
             logging.error('Instance::save::'+str(e))
-            
 
     @staticmethod
     def update(instance):
@@ -87,10 +98,9 @@ class Instance():
             cursor.execute(sql, (new_instance))
             conn.commit()
             cursor.close()
-            
+
         except Exception as e:
             logging.error('Instance::update::'+str(e))
-            
 
     @staticmethod
     def delete(id_):
@@ -102,7 +112,7 @@ class Instance():
             cursor.execute(sql, (id_,))
             conn.commit()
             cursor.close()
-            
+
         except Exception as e:
             logging.error('Instance::delete::'+str(e))
 

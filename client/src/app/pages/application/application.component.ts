@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Instance } from 'src/app/models/Instance';
+import { Instance, InstanceType, IdentifierMode } from 'src/app/models/Instance';
 import { Device } from 'src/app/models/Device';
 import { Inference } from 'src/app/models/Inference';
 import { DeviceService } from 'src/app/services/device.service';
@@ -14,11 +14,11 @@ import { Observable } from 'rxjs';
   templateUrl: './application.component.html',
   styleUrls: ['./application.component.css']
 })
+
 export class ApplicationComponent implements OnInit {
 
-
-
   instanceDevice: InstanceDevice;
+  status: any;
   sub;
 
   defaultInstanceDevice = {
@@ -28,7 +28,7 @@ export class ApplicationComponent implements OnInit {
   instruction = {
     step: 0,
     name: 'DEFAULT',
-    identifier: '000000'
+    identifier: ''
   };
 
   inferencePreview = {
@@ -49,22 +49,64 @@ export class ApplicationComponent implements OnInit {
     , private _systemService: SystemService
     ) { }
 
+     // Verificar tipo de validação inicial
+    // 0 - Leitura de barcode
+    // 1 - Leitura de OCR
+    // 2 - Sem leitura
+
+    // Verificar a configuração da aplicação
+    // 0 - Leitura de Barcode
+    // 1 - Leitura de OCR
+    // 2 - Classificação de imagem no servidor
+    // 3 - Classificação de imagem no cliente
+    // 4 - Armazenamento de imagem
+
+    // Device type for rendering
+
+    // Intruções / Steps
+
+    // Application Type | Read Type | St
+
+    // 000 - Aproxime o leitor a um codigo de barras
+    // 001 - Resultado: (exibir imagem com quadrado sobre a imagem scaneada) / Botao efetuar nova leitura
+
+    // 010 - Fotografe os caracteres que deseja identificar
+    // 011 - Deseja enviar imagem para o servidor?
+    // 012 - Resultado: XXXX / Efetuar nova leitura
+
+    // 020 - Realize a leitura do codigo de barras
+    // 021 - Fotografe o objeto desejado para a classificação
+    // 022 - Deseja enviar imagem para o servidor?
+    // 023 - Imagem salva com sucesso (mostrar resultado e botão para a proxima leitura)
+
   ngOnInit(): void {
-    this.sub = this._systemService.start().subscribe(a => console.log(a));
+    this.sub = this._systemService.start().subscribe(res => this.status = res);
     this.getDevice();
   }
 
   getDevice() {
-    // se nao registrado, atribuir os valores de "default"
-    // para a instancia e o identificador (NONE)
-    // atribur o valor "MobileNet" ou "default" para o classificador
     this._deviceService.get_by_ip()
-      .then(instanceDevice => this.instanceDevice = instanceDevice)
+      .then(res => this.deviceLoaded(res))
       .catch(this.deviceNotFound)
   }
 
+  deviceLoaded(instanceDevice: InstanceDevice) {
+    const idMode = instanceDevice.instance.identifierMode;
+    this.instanceDevice = instanceDevice;
+    this.instruction.step = 0;
+    this.instruction.identifier = '000000';
+    if (idMode == IdentifierMode.BARCODE) {
+      this.instruction.step = 1;
+      this.instruction.name = 'Aproxime o leitor de código de barras';
+    } else if (idMode == IdentifierMode.NONE) {
+      this.instruction.step = 2;
+      this.instruction.name = 'Fotografe a peça';
+    }
+
+  }
+
   deviceNotFound(err) {
-    console.log(err);
+    console.error(err);
     this.instanceDevice = this.defaultInstanceDevice as InstanceDevice;
   }
 
@@ -74,11 +116,28 @@ export class ApplicationComponent implements OnInit {
 
   onBarcode(barcode) {
     this.instruction.identifier = barcode;
+    this.instruction.step = 2;
+    this.instruction.name = 'Fotografe a peça';
     console.log('BARCODE READ: ' + barcode);
   }
 
   onResult(result) {
     this.lastResult = result;
+  }
+
+  onCapture() {
+    this.instruction.step = 3;
+    this.instruction.name = 'Confirme a imagem';
+  }
+
+  onCancel() {
+    this.instruction.step = 2;
+    this.instruction.name = 'Fotografe a peça';
+  }
+
+  onCameraEvent($event) {
+    const event: string = $event.name;
+    this[event]($event.params);
   }
 
   onSubmit(picture: string) {
@@ -90,13 +149,15 @@ export class ApplicationComponent implements OnInit {
       , this.instanceDevice.device.user
       , this.instanceDevice.device.name
     )
-    .then(result => {this.lastResult = result.content; console.log(result)})
+    .then(result => {
+      this.lastResult = result.content;
+      this.deviceLoaded(this.instanceDevice);
+    })
     .catch(e => console.error(e))
 
   }
 
   ngOnDestroy(): void {
-
     this._systemService.stop();
   }
 

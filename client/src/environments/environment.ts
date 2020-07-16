@@ -10,13 +10,18 @@ export const environment = {
 export const quaggaConfig = {
 
   debug: false,
-  frequency: 2,
+  frequency: 10,
   inputStream: {
     name: "Live",
     type: "LiveStream",
-    target: null,
-    // target: this.video.nativeElement,
+    target: '#video',
+    constraints: {
+      width: 640,
+      height: 480,
+      facingMode: 'environment'
+    }
   },
+
   decoder: {
     readers: ["code_128_reader", 'ean_reader', 'ean_8_reader']
   }
@@ -25,8 +30,8 @@ export const quaggaConfig = {
 export const cameraConstraints = {
   audio: false,
   video: {
-    width: { ideal: 640 },
-    height: { ideal: 480 },
+    width: { min: 640 },
+    height: { min: 480 },
   },
   advanced: [{
     facingMode: "environment"
