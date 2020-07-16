@@ -1,6 +1,14 @@
+.log-wrapper {
+  overflow: initial;
+}
+
 .header {
   display: flex;
   justify-content: center;
   margin: 0 auto;
-  margin-top: 1%;
+  margin-top: 0.5%;
+}
+
+.header h1 {
+  font-size: 1rem;
 }

@@ -1,12 +1,12 @@
 <ng-container>
     <div class="instruction-wrapper">
         <div class="instruction instruction__name">
-          <span>{{ instruction?.step }}</span>
-          <span>{{ instruction?.name }}</span>
+          <span class="step--number">{{ instruction?.step }}</span>
+          <span class="step--text">{{ instruction?.name }}</span>
         </div>
         <div class="instruction instruction__identifier">
-          <span>IDENTIFIER</span>
-          <span>{{ instruction?.identifier }}</span>
+          <span class="identifier--text">IDENTIFIER</span>
+          <span class="identifier--value">{{ instruction?.identifier }}</span>
         </div>
       </div>
 </ng-container>

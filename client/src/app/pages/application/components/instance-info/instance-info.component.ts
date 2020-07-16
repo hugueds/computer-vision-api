@@ -10,6 +10,14 @@ import { InstanceDevice } from 'src/app/models/InstanceDevice';
 export class InstanceInfoComponent implements OnInit {
 
   @Input('instanceDevice') instanceDevice: InstanceDevice;
+  @Input('status') set status(val: any) {
+    this.background = 'red';
+    if (val && val.status) {
+      this.background = 'lime';
+    }
+  };
+
+  background = 'red';
 
   constructor() { }
 

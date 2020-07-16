@@ -4,6 +4,7 @@ import { from, Observable, interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import axios from 'axios';
 
+const updateTime = 10000;
 
 @Injectable({
   providedIn: 'root'
@@ -36,7 +37,7 @@ export class SystemService {
     this.running = true;
 
     const serverStatus = new Observable(o => {
-      this.sub = interval(1000).subscribe(a => this.getStatus().then(b => o.next(b)))
+      this.sub = interval(updateTime).subscribe(a => this.getStatus().then(b => o.next(b)))
     });
     return serverStatus;
   }

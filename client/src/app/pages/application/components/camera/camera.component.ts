@@ -1,43 +1,48 @@
-import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild, Input, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { Inference } from 'src/app/models/Inference';
 import { Result } from 'src/app/models/Result';
-import { quaggaConfig, cameraConstraints, MOBILE_WIDTH } from "src/environments/environment";
 import Quagga from 'quagga';
 import { InstanceDevice } from 'src/app/models/InstanceDevice';
 import { IdentifierMode, Instance } from 'src/app/models/Instance';
+import { quaggaConfig, cameraConstraints, MOBILE_WIDTH } from "src/environments/environment";
 declare let ml5: any;
-// import * as mob from "@tensorflow-models/mobilenet"
 
+const mobileCanvasSize = 280;
+const videoWidth = 640;
+const videoHeight = 480;
 @Component({
   selector: 'app-camera',
   templateUrl: './camera.component.html',
   styleUrls: ['./camera.component.css']
 })
-export class CameraComponent implements OnInit, OnChanges {
+export class CameraComponent implements OnInit {
 
   @ViewChild('video', { static: true }) public video: ElementRef;
   @ViewChild('canvas', { static: true }) public canvas: ElementRef;
+  @ViewChild('hiddenCanvas', { static: true }) public hiddenCanvas: ElementRef;
 
-  // @Input('instance') instance: InstanceDevice;
   @Input('instance') set instance(val: any) {
     if (val) {
       this.initializeModel(val.instance);
+      this._instance = val;
     }
   }
 
-  @Output('inference') inferenceEmitter = new EventEmitter<Inference>();
-  @Output('barcode') barcodeEmitter = new EventEmitter<string>();
-  @Output('submit') submitEmitter = new EventEmitter<any>();
+  @Output('cameraEvent') cameraEmitter = new EventEmitter<any>();
 
   net: any;
   modelLoaded = false;
+  cameraLoaded = false;
   isReading = true;
   isMobile = false;
   counter = 0;
   background = 'gray';
   capturedFrame: any;
   barcodeOpened = false;
+  borderColor = 'navy';
   _instance: InstanceDevice;
+
+  cameraId: any;
 
   ngOnInit(): void {
     if (document.documentElement.clientWidth <= MOBILE_WIDTH) {
@@ -50,29 +55,17 @@ export class CameraComponent implements OnInit, OnChanges {
 
     let modelName = 'MobileNet';
 
-    if (instance.identifierMode == IdentifierMode.BARCODE) {
-      this.openBarcodeScanner();
-    }
-
     if (instance.name && instance.name != 'default') {
       let model = instance.name.toLowerCase();
       modelName = `assets/models/${model}/model.json`;
     }
-
     this.net = ml5.imageClassifier(modelName, () => this.modelReady(modelName));
   }
 
   ngAfterViewInit() {
     this.openCamera();
+    setTimeout(() => this.openCamera(), 3000); // only for iPad
   }
-
-  ngOnChanges(changes: SimpleChanges): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    // console.log(changes);
-
-  }
-
 
   modelReady(modelName) {
     console.log(`Model ${modelName} loaded`);
@@ -85,8 +78,9 @@ export class CameraComponent implements OnInit, OnChanges {
         this.video.nativeElement.srcObject = stream;
         this.video.nativeElement.play();
         this.video.nativeElement.addEventListener('loadedmetadata', () => {
+          this.cameraLoaded = true;
           this.video.nativeElement.style.display = 'none';
-          this.getFrames();
+          // this.initBarcode();
           window.requestAnimationFrame(() => this.getFrames());
         });
       });
@@ -98,11 +92,7 @@ export class CameraComponent implements OnInit, OnChanges {
     window.requestAnimationFrame(() => this.getFrames());
   }
 
-  openBarcodeScanner(): void {
-
-    this.barcodeOpened = true;
-
-    quaggaConfig.inputStream.target = this.video.nativeElement;
+  initBarcode() {
 
     Quagga.init(quaggaConfig, (err) => {
       if (err) {
@@ -115,18 +105,19 @@ export class CameraComponent implements OnInit, OnChanges {
     });
 
     Quagga.onDetected((data) => {
-      this.barcodeEmitter.emit(data.codeResult.code)
-      Quagga.stop();
+      this.cameraEmitter.emit({ name: 'onBarcode', params: data.codeResult.code });
+      // Quagga.stop();
     });
+  }
 
+  openBarcodeScanner(): void {
+    this.barcodeOpened = true;
+    Quagga.start();
   }
 
   resizeCameraRegion() {
-    const newCanvasSize = 280;
-    if (this.isMobile) {
-      this.canvas.nativeElement.width = newCanvasSize;
-      this.canvas.nativeElement.height = newCanvasSize;
-    }
+    this.canvas.nativeElement.width = mobileCanvasSize;
+    this.canvas.nativeElement.height = mobileCanvasSize;
   }
 
   async getFrames() {
@@ -137,7 +128,7 @@ export class CameraComponent implements OnInit, OnChanges {
     const ctx = this.canvas.nativeElement.getContext('2d');
     const canvasWidth = this.canvas.nativeElement.width;
     const canvasHeight = this.canvas.nativeElement.height;
-    const frameNumber = 15;
+    const frameNumber = 30;
 
     ctx.drawImage(this.video.nativeElement, 0, 0, canvasWidth, canvasHeight);
     if (this.counter >= frameNumber) {
@@ -146,9 +137,8 @@ export class CameraComponent implements OnInit, OnChanges {
     }
     this.counter++;
     window.requestAnimationFrame(() => this.getFrames());
-    // setInterval(() => this.getFrames(), 100);
+    // setInterval(() => this.getFrames(), (1 / frameNumber) * 60 );
   }
-
 
   async classify() {
 
@@ -159,7 +149,7 @@ export class CameraComponent implements OnInit, OnChanges {
     const inference = res[0];
     inference.label = inference.label.split(',')[0];
     this.changeBackgroundColor(inference.label);
-    this.inferenceEmitter.emit(inference);
+    this.cameraEmitter.emit({ name: 'onInference', params: inference })
   }
 
   changeBackgroundColor(label) {
@@ -171,12 +161,20 @@ export class CameraComponent implements OnInit, OnChanges {
   }
 
   onCapture() {
+
     const ctx = this.canvas.nativeElement.getContext('2d');
-    const videoWidth = 640;
-    const videoHeight = 480;
+    const hiddenCtx = this.hiddenCanvas.nativeElement.getContext('2d');
+
     this.isReading = false;
-    ctx.drawImage(this.video.nativeElement, 0, 0, videoWidth, videoHeight);
-    this.capturedFrame = this.canvas.nativeElement.toDataURL();
+
+    if (this.isMobile) {
+      ctx.drawImage(this.video.nativeElement, 0, 0, mobileCanvasSize, mobileCanvasSize);
+    } else {
+      ctx.drawImage(this.video.nativeElement, 0, 0, videoWidth, videoHeight);
+    }
+    hiddenCtx.drawImage(this.video.nativeElement, 0, 0, videoWidth, videoHeight);
+    this.capturedFrame = this.hiddenCanvas.nativeElement.toDataURL();
+    this.cameraEmitter.emit({ name: 'onCapture', params: '' })
   }
 
   onCancel() {
@@ -184,12 +182,27 @@ export class CameraComponent implements OnInit, OnChanges {
   }
 
   onSubmit() {
-    this.submitEmitter.emit(this.capturedFrame);
+    this.saveImage(this.capturedFrame);
+    this.cameraEmitter.emit({ name: 'onSubmit', params: this.capturedFrame });
     this.resumeStream();
   }
 
-  ngOnDestroy() {
-    this.isReading = false;
+  saveImage(image) {
+
+    const link = document.createElement("a");
+    const date = new Date().toISOString().slice(0, 19).replace('T', '-').replace(/:/g,'').replace(/-/g,'');
+    document.body.appendChild(link); // for Firefox
+
+
+    link.setAttribute("href", image);
+    link.target = '_blank';
+    link.setAttribute("download", date + '.jpg');
+    link.click();
+
+  }
+
+
+  stopCamera() {
     const stream = this.video.nativeElement.srcObject;
 
     if (stream) {
@@ -200,6 +213,13 @@ export class CameraComponent implements OnInit, OnChanges {
     }
 
     this.video.nativeElement.srcObject = null;
+
+  }
+
+  ngOnDestroy() {
+
+    this.isReading = false;
+    this.stopCamera();
 
     if (this.barcodeOpened)
       Quagga.stop();

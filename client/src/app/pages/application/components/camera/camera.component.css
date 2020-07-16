@@ -43,4 +43,9 @@
 
 #canvas {
   border: 3px groove navy;
+  position: relative;
+}
+
+.hidden {
+  display: none;
 }
