@@ -10,6 +10,8 @@ declare let ml5: any;
 const mobileCanvasSize = 280;
 const videoWidth = 640;
 const videoHeight = 480;
+const modelPath = `assets/models/{model}/model.json`;
+const frameRate = 60;
 @Component({
   selector: 'app-camera',
   templateUrl: './camera.component.html',
@@ -28,9 +30,15 @@ export class CameraComponent implements OnInit {
     }
   }
 
+  @Input('step') set step(val: number) {
+    if (val) {
+      this._step = val;
+    }
+  }
+
   @Output('cameraEvent') cameraEmitter = new EventEmitter<any>();
 
-  net: any;
+  saveLocal = false;
   modelLoaded = false;
   cameraLoaded = false;
   isReading = true;
@@ -41,8 +49,10 @@ export class CameraComponent implements OnInit {
   barcodeOpened = false;
   borderColor = 'navy';
   _instance: InstanceDevice;
+  _step: number;
 
   cameraId: any;
+  net: any;
 
   ngOnInit(): void {
     if (document.documentElement.clientWidth <= MOBILE_WIDTH) {
@@ -51,20 +61,23 @@ export class CameraComponent implements OnInit {
     }
   }
 
+  ngAfterViewInit() {
+    this.openCamera();
+    setTimeout(() => {
+      this.video.nativeElement.play();
+      // this.initBarcode();
+    }, 2000);
+  }
+
   initializeModel(instance) {
 
     let modelName = 'MobileNet';
 
     if (instance.name && instance.name != 'default') {
       let model = instance.name.toLowerCase();
-      modelName = `assets/models/${model}/model.json`;
+      modelName = modelPath.replace('{model}', model);
     }
     this.net = ml5.imageClassifier(modelName, () => this.modelReady(modelName));
-  }
-
-  ngAfterViewInit() {
-    this.openCamera();
-    setTimeout(() => this.openCamera(), 3000); // only for iPad
   }
 
   modelReady(modelName) {
@@ -76,11 +89,9 @@ export class CameraComponent implements OnInit {
     if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: cameraConstraints }).then(stream => {
         this.video.nativeElement.srcObject = stream;
-        this.video.nativeElement.play();
         this.video.nativeElement.addEventListener('loadedmetadata', () => {
-          this.cameraLoaded = true;
           this.video.nativeElement.style.display = 'none';
-          // this.initBarcode();
+          this.cameraLoaded = true;
           window.requestAnimationFrame(() => this.getFrames());
         });
       });
@@ -94,6 +105,7 @@ export class CameraComponent implements OnInit {
 
   initBarcode() {
 
+    quaggaConfig.inputStream['target'] = '#video';
     Quagga.init(quaggaConfig, (err) => {
       if (err) {
         window.alert(err);
@@ -101,7 +113,7 @@ export class CameraComponent implements OnInit {
         return;
       }
       console.log("Barcode initialization finished");
-      Quagga.start();
+      Quagga.start()
     });
 
     Quagga.onDetected((data) => {
@@ -128,10 +140,9 @@ export class CameraComponent implements OnInit {
     const ctx = this.canvas.nativeElement.getContext('2d');
     const canvasWidth = this.canvas.nativeElement.width;
     const canvasHeight = this.canvas.nativeElement.height;
-    const frameNumber = 30;
 
     ctx.drawImage(this.video.nativeElement, 0, 0, canvasWidth, canvasHeight);
-    if (this.counter >= frameNumber) {
+    if (this.counter >= frameRate) {
       await this.classify();
       this.counter = 0;
     }
@@ -153,11 +164,10 @@ export class CameraComponent implements OnInit {
   }
 
   changeBackgroundColor(label) {
-    if (label == 'OK') {
+    if (label == 'OK')
       this.background = 'lime';
-    } else if (label == 'NOT_OK') {
+    else if (label == 'NOT_OK')
       this.background = 'red';
-    }
   }
 
   onCapture() {
@@ -167,14 +177,14 @@ export class CameraComponent implements OnInit {
 
     this.isReading = false;
 
-    if (this.isMobile) {
+    if (this.isMobile)
       ctx.drawImage(this.video.nativeElement, 0, 0, mobileCanvasSize, mobileCanvasSize);
-    } else {
+    else
       ctx.drawImage(this.video.nativeElement, 0, 0, videoWidth, videoHeight);
-    }
+
     hiddenCtx.drawImage(this.video.nativeElement, 0, 0, videoWidth, videoHeight);
     this.capturedFrame = this.hiddenCanvas.nativeElement.toDataURL();
-    this.cameraEmitter.emit({ name: 'onCapture', params: '' })
+    this.cameraEmitter.emit({ name: 'onCapture', params: '' });
   }
 
   onCancel() {
@@ -182,7 +192,9 @@ export class CameraComponent implements OnInit {
   }
 
   onSubmit() {
-    this.saveImage(this.capturedFrame);
+    if (this.saveLocal)
+      this.saveImage(this.capturedFrame);
+
     this.cameraEmitter.emit({ name: 'onSubmit', params: this.capturedFrame });
     this.resumeStream();
   }
@@ -190,19 +202,18 @@ export class CameraComponent implements OnInit {
   saveImage(image) {
 
     const link = document.createElement("a");
-    const date = new Date().toISOString().slice(0, 19).replace('T', '-').replace(/:/g,'').replace(/-/g,'');
+    const date = new Date().toISOString().slice(0, 19).replace('T', '-').replace(/:/g, '').replace(/-/g, '');
     document.body.appendChild(link); // for Firefox
-
 
     link.setAttribute("href", image);
     link.target = '_blank';
     link.setAttribute("download", date + '.jpg');
     link.click();
-
   }
 
 
   stopCamera() {
+
     const stream = this.video.nativeElement.srcObject;
 
     if (stream) {

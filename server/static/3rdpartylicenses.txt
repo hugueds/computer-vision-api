@@ -91,6 +91,9 @@ MIT
 @angular/router
 MIT
 
+@angular/service-worker
+MIT
+
 axios
 MIT
 Copyright (c) 2014-present Matt Zabriskie

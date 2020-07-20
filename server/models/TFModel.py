@@ -6,12 +6,13 @@ import logging
 from time import sleep
 from multiprocessing.pool import ThreadPool
 from threading import Thread
-from tensorflow.keras.applications import MobileNetV2
-from tensorflow.keras.models import load_model
-from tensorflow.keras.applications.mobilenet_v2 import decode_predictions
+if True:
+    from tensorflow.keras.applications import MobileNetV2
+    from tensorflow.keras.models import load_model
+    from tensorflow.keras.applications.mobilenet_v2 import decode_predictions
 
-default_net = MobileNetV2(input_shape=(224, 224, 3), include_top=True, weights="imagenet")
-pre_loadnet = load_model(f'tensorflow_models/emptybox/emptybox.h5', compile=False)
+    default_net = MobileNetV2(input_shape=(224, 224, 3), include_top=True, weights="imagenet")
+    pre_loadnet = load_model(f'tensorflow_models/emptybox/emptybox.h5', compile=False)
 
 # TODO: Load all models at once
 

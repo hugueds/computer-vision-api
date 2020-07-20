@@ -46,6 +46,12 @@
   position: relative;
 }
 
+#hiddenCanvas {
+  display: none;
+  width: 640px;
+  height: 480px;
+}
+
 .hidden {
   display: none;
 }

@@ -97,7 +97,7 @@ export class ApplicationComponent implements OnInit {
     this.instruction.identifier = '000000';
     if (idMode == IdentifierMode.BARCODE) {
       this.instruction.step = 1;
-      this.instruction.name = 'Aproxime o leitor de código de barras';
+      this.instruction.name = 'Ler o de código de barras';
     } else if (idMode == IdentifierMode.NONE) {
       this.instruction.step = 2;
       this.instruction.name = 'Fotografe a peça';

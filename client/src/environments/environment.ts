@@ -10,14 +10,15 @@ export const environment = {
 export const quaggaConfig = {
 
   debug: false,
-  frequency: 10,
+  frequency: 5,
+  numOfWorkers: 4,
   inputStream: {
     name: "Live",
     type: "LiveStream",
-    target: '#video',
     constraints: {
-      width: 640,
-      height: 480,
+      width: { min: 640 },
+      height: { min: 480 },
+      aspectRatio: { min: 1, max: 100 },
       facingMode: 'environment'
     }
   },
