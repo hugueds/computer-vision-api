@@ -18,8 +18,8 @@ import { Observable } from 'rxjs';
 export class ApplicationComponent implements OnInit {
 
   instanceDevice: InstanceDevice;
-  status: any;
   sub;
+  status: any;
 
   defaultInstanceDevice = {
     instance: { name: 'default' }
@@ -28,7 +28,8 @@ export class ApplicationComponent implements OnInit {
   instruction = {
     step: 0,
     name: 'DEFAULT',
-    identifier: ''
+    identifier: '',
+    initialStep: 0
   };
 
   inferencePreview = {
@@ -43,13 +44,13 @@ export class ApplicationComponent implements OnInit {
   }
 
   constructor(
-    private _deviceService: DeviceService
+      private _deviceService: DeviceService
     , private _instanceService: InstanceService
     , private _computerVisionService: ComputerVisionService
     , private _systemService: SystemService
     ) { }
 
-     // Verificar tipo de validação inicial
+    // Verificar tipo de validação inicial
     // 0 - Leitura de barcode
     // 1 - Leitura de OCR
     // 2 - Sem leitura
@@ -64,7 +65,6 @@ export class ApplicationComponent implements OnInit {
     // Device type for rendering
 
     // Intruções / Steps
-
     // Application Type | Read Type | St
 
     // 000 - Aproxime o leitor a um codigo de barras
@@ -80,7 +80,8 @@ export class ApplicationComponent implements OnInit {
     // 023 - Imagem salva com sucesso (mostrar resultado e botão para a proxima leitura)
 
   ngOnInit(): void {
-    this.sub = this._systemService.start().subscribe(res => this.status = res);
+    this._systemService.getStatus().then(res => this.status = res);
+    this.sub = this._systemService.start().subscribe(res => this.status = res );
     this.getDevice();
   }
 
@@ -95,6 +96,7 @@ export class ApplicationComponent implements OnInit {
     this.instanceDevice = instanceDevice;
     this.instruction.step = 0;
     this.instruction.identifier = '000000';
+    console.log('Device Loaded');
     if (idMode == IdentifierMode.BARCODE) {
       this.instruction.step = 1;
       this.instruction.name = 'Ler o de código de barras';

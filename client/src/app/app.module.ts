@@ -33,6 +33,7 @@ import { ConfigComponent } from './pages/config/config.component';
 import { LogComponent } from './pages/log/log.component';
 import { DeviceTableComponent } from './pages/config/components/device-table/device-table.component';
 import { InstanceTableComponent } from './pages/config/components/instance-table/instance-table.component';
+import { BarcodeTestComponent } from './pages/test/barcode-test/barcode-test.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -48,7 +49,8 @@ import { InstanceTableComponent } from './pages/config/components/instance-table
     ConfigComponent,
     LogComponent,
     DeviceTableComponent,
-    InstanceTableComponent
+    InstanceTableComponent,
+    BarcodeTestComponent
   ],
   imports: [
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),

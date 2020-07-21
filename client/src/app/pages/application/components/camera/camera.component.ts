@@ -33,6 +33,8 @@ export class CameraComponent implements OnInit {
   @Input('step') set step(val: number) {
     if (val) {
       this._step = val;
+      // 1 -> abrir barcode e fechar camera
+      // 2 -> abrir camera e fechar barcode
     }
   }
 
@@ -105,7 +107,7 @@ export class CameraComponent implements OnInit {
 
   initBarcode() {
 
-    quaggaConfig.inputStream['target'] = '#video';
+    quaggaConfig.inputStream['target'] = '#barcode';
     Quagga.init(quaggaConfig, (err) => {
       if (err) {
         window.alert(err);
