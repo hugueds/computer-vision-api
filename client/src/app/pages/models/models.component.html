@@ -1,0 +1,21 @@
+<ng-container>
+  <div>
+    <table>
+      <thead>
+        <th>ID</th>
+        <th>NOME</th>
+        <th>MODELO CLIENTE</th>
+        <th>MODELO SERVIDOR</th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let instance of instances">
+          <td>{{instance.id}}</td>
+          <td>{{instance.name}}</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</ng-container>
+
+

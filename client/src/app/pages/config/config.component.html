@@ -4,17 +4,17 @@
   </div>
 
 
-  <mat-tab-group mat-stretch-tabs="always" mat-align-tabs="center" [selectedIndex]="0" (selectedIndexChange)="updateTab()">
+  <mat-tab-group mat-stretch-tabs="always" mat-align-tabs="center" [selectedIndex]="1" (selectedIndexChange)="updateTab()">
 
     <mat-tab label="DISPOSITIVOS">
 
       <div class="create-container">
         <mat-form-field class="">
-          <mat-label>USUARIO</mat-label>
+          <mat-label>NOME DISPOSITIVO</mat-label>
           <input name="name" matInput [(ngModel)]="deviceForm.name">
         </mat-form-field>
         <mat-form-field class="">
-          <mat-label>NOME DISPOSITIVO</mat-label>
+          <mat-label>USUARIO</mat-label>
           <input name="user" matInput [(ngModel)]="deviceForm.user" >
         </mat-form-field>
         <mat-form-field class="">
@@ -32,7 +32,6 @@
           <button *ngIf="!editMode"class="config-button config-button--create"  (click)="create(deviceForm)">CRIAR</button>
           <button *ngIf="editMode" class="config-button config-button--update" (click)="update(deviceForm)">ATUALIZAR</button>
           <button *ngIf="editMode" class="config-button config-button--cancel" (click)="cancel()">X</button>
-
       </div>
 
 

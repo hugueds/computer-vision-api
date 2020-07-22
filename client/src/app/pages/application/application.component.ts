@@ -18,7 +18,7 @@ import { Observable } from 'rxjs';
 export class ApplicationComponent implements OnInit {
 
   instanceDevice: InstanceDevice;
-  sub;
+  subscription: any;
   status: any;
 
   defaultInstanceDevice = {
@@ -27,9 +27,10 @@ export class ApplicationComponent implements OnInit {
 
   instruction = {
     step: 0,
+    initialStep: 0,
+    code: '999',
     name: 'DEFAULT',
     identifier: '',
-    initialStep: 0
   };
 
   inferencePreview = {
@@ -50,38 +51,11 @@ export class ApplicationComponent implements OnInit {
     , private _systemService: SystemService
     ) { }
 
-    // Verificar tipo de validação inicial
-    // 0 - Leitura de barcode
-    // 1 - Leitura de OCR
-    // 2 - Sem leitura
 
-    // Verificar a configuração da aplicação
-    // 0 - Leitura de Barcode
-    // 1 - Leitura de OCR
-    // 2 - Classificação de imagem no servidor
-    // 3 - Classificação de imagem no cliente
-    // 4 - Armazenamento de imagem
-
-    // Device type for rendering
-
-    // Intruções / Steps
-    // Application Type | Read Type | St
-
-    // 000 - Aproxime o leitor a um codigo de barras
-    // 001 - Resultado: (exibir imagem com quadrado sobre a imagem scaneada) / Botao efetuar nova leitura
-
-    // 010 - Fotografe os caracteres que deseja identificar
-    // 011 - Deseja enviar imagem para o servidor?
-    // 012 - Resultado: XXXX / Efetuar nova leitura
-
-    // 020 - Realize a leitura do codigo de barras
-    // 021 - Fotografe o objeto desejado para a classificação
-    // 022 - Deseja enviar imagem para o servidor?
-    // 023 - Imagem salva com sucesso (mostrar resultado e botão para a proxima leitura)
 
   ngOnInit(): void {
     this._systemService.getStatus().then(res => this.status = res);
-    this.sub = this._systemService.start().subscribe(res => this.status = res );
+    this.subscription = this._systemService.start().subscribe(res => this.status = res );
     this.getDevice();
   }
 
@@ -94,17 +68,10 @@ export class ApplicationComponent implements OnInit {
   deviceLoaded(instanceDevice: InstanceDevice) {
     const idMode = instanceDevice.instance.identifierMode;
     this.instanceDevice = instanceDevice;
-    this.instruction.step = 0;
+    this.instruction.step = 1;
     this.instruction.identifier = '000000';
     console.log('Device Loaded');
-    if (idMode == IdentifierMode.BARCODE) {
-      this.instruction.step = 1;
-      this.instruction.name = 'Ler o de código de barras';
-    } else if (idMode == IdentifierMode.NONE) {
-      this.instruction.step = 2;
-      this.instruction.name = 'Fotografe a peça';
-    }
-
+    this.updateStepCode();
   }
 
   deviceNotFound(err) {
@@ -116,11 +83,12 @@ export class ApplicationComponent implements OnInit {
     this.inferencePreview = inference;
   }
 
-  onBarcode(barcode) {
+  onBarcode(barcode: string) {
     this.instruction.identifier = barcode;
     this.instruction.step = 2;
     this.instruction.name = 'Fotografe a peça';
     console.log('BARCODE READ: ' + barcode);
+    this.updateStepCode();
   }
 
   onResult(result) {
@@ -152,11 +120,20 @@ export class ApplicationComponent implements OnInit {
       , this.instanceDevice.device.name
     )
     .then(result => {
+      this.updateStepCode();
       this.lastResult = result.content;
       this.deviceLoaded(this.instanceDevice);
     })
     .catch(e => console.error(e))
 
+  }
+
+  updateStepCode() {
+    const instanceType = this.instanceDevice.instance.type.toString();
+    const identifierMode = this.instanceDevice.instance.identifierMode.toString();
+    const step = this.instruction.step.toString();
+    this.instruction.code = instanceType + identifierMode + step;
+    console.log(this.instruction.code)
   }
 
   ngOnDestroy(): void {

@@ -3,13 +3,10 @@
   <button (click)="openCamera()">play</button> -->
   <div class="camera-preview" [style.background]="background">
     <div class="camera-wrapper">
-
       <video  #video id="video" preload="auto" autoplay  playsinline width="640" height="480"></video>
       <canvas #canvas id="canvas" width="640" height="480"></canvas>
       <canvas #hiddenCanvas id="hiddenCanvas" width="640" height="480"></canvas>
-
-      <!-- <video autoplay playsinline #barcode id="barcode" style="border: 1px solid lime;" width="640" height="480"></video> -->
-      <div #barcode id="barcode" style="border: 1px solid lime;" width="640" height="480"></div>
+      <div #barcode id="barcode" ></div>
     </div>
     <div
     style="background-color: gray;"

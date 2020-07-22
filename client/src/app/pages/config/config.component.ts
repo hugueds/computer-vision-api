@@ -67,6 +67,7 @@ export class ConfigComponent implements OnInit {
     this._deviceService.create(device)
     .then(res => {
       this.getDevices();
+      this.editMode = false;
     })
     .catch(e => console.error(e))
   }

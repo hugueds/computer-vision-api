@@ -11,15 +11,12 @@ export const quaggaConfig = {
 
   debug: false,
   frequency: 5,
-  numOfWorkers: 4,
+  numOfWorkers: 2,
   inputStream: {
     name: "Live",
     type: "LiveStream",
     constraints: {
-      width: { min: 640 },
-      height: { min: 480 },
-      aspectRatio: { min: 1, max: 100 },
-      facingMode: 'environment'
+
     }
   },
 

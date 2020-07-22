@@ -113,11 +113,12 @@ def data_uri_to_cv2_img(uri):
 
 def get_picture_path(path, identifier):
 
+    # year Month day hour minute second
     y, M, d, h, m, s = (
         datetime.today().year,
         "%02d" % datetime.today().month,
         "%02d" % datetime.today().day,
-        datetime.today().hour,
+        "%02d" % datetime.today().hour,
         "%02d" % datetime.today().minute,
         "%02d" % datetime.today().second,
     )

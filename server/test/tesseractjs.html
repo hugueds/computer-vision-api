@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    TESSERACT
+
+    <!-- <video autoplay playsinline width="640" height="480"></video>
+    <canvas width="640" height="480"></canvas> -->
+
+    <button onclick="recognize()">TESTE</button>
+
+    <script src="https://unpkg.com/tesseract.js@v2.1.0/dist/tesseract.min.js"></script>
+    <script>
+      const { createWorker } = Tesseract;
+      const { createScheduler } = Tesseract;
+      const scheduler = createScheduler();
+      const worker = createWorker({
+        logger: (m) => console.log(m),
+      });
+
+      scheduler.addWorker(worker);
+
+      (async () => {
+        await worker.load();
+        await worker.loadLanguage("eng");
+        await worker.initialize("eng");
+        await worker.setParameters({
+          tessjs_create_hocr: "0",
+          tessjs_create_tsv: "0",
+        });
+        // await worker.terminate();
+      })();
+
+      async function recognize() {        
+        // const { data: { text } } = await scheduler.addJob('recognize', "tsjs.jpg");
+        const { data } = await scheduler.addJob('recognize', "tsjs.jpg");
+        // console.log(text);
+        console.log(data);
+      }
+    </script>
+  </body>
+</html>

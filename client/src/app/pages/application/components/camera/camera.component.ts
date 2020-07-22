@@ -22,17 +22,17 @@ export class CameraComponent implements OnInit {
   @ViewChild('video', { static: true }) public video: ElementRef;
   @ViewChild('canvas', { static: true }) public canvas: ElementRef;
   @ViewChild('hiddenCanvas', { static: true }) public hiddenCanvas: ElementRef;
+  @ViewChild('barcode', { static: true }) public barcode: ElementRef;
 
   @Input('instance') set instance(val: any) {
     if (val) {
-      this.initializeModel(val.instance);
-      this._instance = val;
+      this.initializeModel(val);
     }
   }
 
-  @Input('step') set step(val: number) {
+  @Input('code') set code(val: string) {
     if (val) {
-      this._step = val;
+      this._code = val;
       // 1 -> abrir barcode e fechar camera
       // 2 -> abrir camera e fechar barcode
     }
@@ -50,8 +50,7 @@ export class CameraComponent implements OnInit {
   capturedFrame: any;
   barcodeOpened = false;
   borderColor = 'navy';
-  _instance: InstanceDevice;
-  _step: number;
+  _code: string;
 
   cameraId: any;
   net: any;
@@ -65,21 +64,12 @@ export class CameraComponent implements OnInit {
 
   ngAfterViewInit() {
     this.openCamera();
-    setTimeout(() => {
-      this.video.nativeElement.play();
-      // this.initBarcode();
-    }, 2000);
   }
 
-  initializeModel(instance) {
-
-    let modelName = 'MobileNet';
-
-    if (instance.name && instance.name != 'default') {
-      let model = instance.name.toLowerCase();
-      modelName = modelPath.replace('{model}', model);
-    }
-    this.net = ml5.imageClassifier(modelName, () => this.modelReady(modelName));
+  initializeModel(instance = 'default') {
+    if (instance != 'default')
+      instance = modelPath.replace('{model}', instance.toLowerCase());
+    this.net = ml5.imageClassifier(instance, () => this.modelReady(instance));
   }
 
   modelReady(modelName) {
@@ -93,11 +83,25 @@ export class CameraComponent implements OnInit {
         this.video.nativeElement.srcObject = stream;
         this.video.nativeElement.addEventListener('loadedmetadata', () => {
           this.video.nativeElement.style.display = 'none';
+          this.canvas.nativeElement.style.display = 'block';
           this.cameraLoaded = true;
           window.requestAnimationFrame(() => this.getFrames());
+          setTimeout(() => { this.video.nativeElement.play() }, 2000);
         });
       });
     }
+  }
+
+  closeCamera() {
+    const stream = this.video.nativeElement.srcObject;
+    if (stream) {
+      const tracks = stream.getTracks();
+      tracks.forEach(function (track) {
+        track.stop();
+      });
+    }
+    this.video.nativeElement.srcObject = null;
+    this.canvas.nativeElement.style.display = 'none';
   }
 
   resumeStream() {
@@ -107,7 +111,13 @@ export class CameraComponent implements OnInit {
 
   initBarcode() {
 
-    quaggaConfig.inputStream['target'] = '#barcode';
+    quaggaConfig.inputStream['target'] = '#barcode'
+    quaggaConfig.inputStream.constraints = {
+      width: {  min: 320, max: 640 },
+      height: { min: 280, max: 480 },
+      facingMode: 'environment'
+    }
+
     Quagga.init(quaggaConfig, (err) => {
       if (err) {
         window.alert(err);
@@ -115,13 +125,21 @@ export class CameraComponent implements OnInit {
         return;
       }
       console.log("Barcode initialization finished");
+      this.barcode.nativeElement.style.display = 'block';
+      this.barcodeOpened = true;
       Quagga.start()
     });
 
     Quagga.onDetected((data) => {
       this.cameraEmitter.emit({ name: 'onBarcode', params: data.codeResult.code });
-      // Quagga.stop();
+      Quagga.stop();
     });
+  }
+
+  closeBarcode() {
+    this.barcodeOpened = false;
+    this.barcode.nativeElement.style.display = 'none';
+    Quagga.stop();
   }
 
   openBarcodeScanner(): void {
@@ -150,7 +168,7 @@ export class CameraComponent implements OnInit {
     }
     this.counter++;
     window.requestAnimationFrame(() => this.getFrames());
-    // setInterval(() => this.getFrames(), (1 / frameNumber) * 60 );
+    // setInterval(() => this.getFrames(), (1 / frameNumber) * frameRate );
   }
 
   async classify() {
@@ -191,6 +209,7 @@ export class CameraComponent implements OnInit {
 
   onCancel() {
     this.resumeStream();
+    this.cameraEmitter.emit({ name: 'onCancel', params: '' });
   }
 
   onSubmit() {
@@ -214,29 +233,11 @@ export class CameraComponent implements OnInit {
   }
 
 
-  stopCamera() {
-
-    const stream = this.video.nativeElement.srcObject;
-
-    if (stream) {
-      const tracks = stream.getTracks();
-      tracks.forEach(function (track) {
-        track.stop();
-      });
-    }
-
-    this.video.nativeElement.srcObject = null;
-
-  }
-
   ngOnDestroy() {
-
     this.isReading = false;
-    this.stopCamera();
-
+    this.closeCamera();
     if (this.barcodeOpened)
       Quagga.stop();
-
   }
 
 
