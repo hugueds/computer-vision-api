@@ -5,6 +5,7 @@ from pathlib import Path
 from werkzeug.utils import secure_filename
 from flask import jsonify
 from models.Instance import Instance
+import time
 
 ALLOWED_EXTENSIONS = {'zip'}
 PATH = './static/assets/models'
@@ -26,11 +27,11 @@ class InstanceModelController:
             server_folder = f'{PATH}/server'
 
             if client_file:
-                self.delete_folder(client_folder, model_name)
+                self.delete_folder(client_folder, model_name)                
                 self.unzip_files(client_file, client_folder, model_name)
                 instance.client_model = True
             if server_file:
-                self.delete_folder(server_folder, model_name)
+                self.delete_folder(server_folder, model_name)                
                 self.unzip_files(server_file, server_folder, model_name)
                 instance.server_model = True
 
