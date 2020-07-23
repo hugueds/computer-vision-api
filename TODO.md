@@ -7,6 +7,7 @@
 - [ ] Liberar botão de tirar foto somente se estiver em OK
 - [ ] Fazer busca nos logs por data e instancia
 - [ ] Pintar linhas OKS e NOT OKS
+- [ ] Adicionar coluna nas instâncias que diga se há ou não modelos relacionados
 
 ## 2020-07-15
 

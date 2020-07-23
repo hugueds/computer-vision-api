@@ -16,7 +16,7 @@ class InstanceController():
         return jsonify(response)
 
     def get_by_id(self, id_):
-        instance = Instance.get(id_)
+        instance = Instance.get_by_id(id_)
         if instance:
             return jsonify(instance.to_json())
         return jsonify({"error": True, "message": 'Instance not found'})

@@ -3,6 +3,7 @@ from controllers import api_controller
 from controllers import device_controller
 from controllers import instance_controller
 from controllers import result_controller
+from controllers import instance_model_controller
 
 api_router = Blueprint('api_router', __name__)
 
@@ -68,3 +69,7 @@ def barcode():
 @api_router.route('/api/system/', methods=['GET'])
 def system():    
     return { "status": True }
+
+@api_router.route('/api/save_model/', methods=['GET', 'POST'])
+def save_model():    
+    return instance_model_controller.save(request)

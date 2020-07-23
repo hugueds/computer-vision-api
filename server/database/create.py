@@ -43,6 +43,8 @@ def create(connection):
             type INTEGER,
             identifier_mode INTEGER,
             save INTEGER,
+            client_model INTEGER,
+            server_model INTEGER,
             created_at DATETIME DEFAULT CURRENT_TIMESTAMP
         );
 

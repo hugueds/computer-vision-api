@@ -3,3 +3,4 @@ from .DeviceController import device_controller
 from .HomeController import home_controller
 from .InstanceController import instance_controller
 from .ResultController import result_controller
+from .InstanceModelController import instance_model_controller

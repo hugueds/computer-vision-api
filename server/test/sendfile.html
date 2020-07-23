@@ -6,10 +6,11 @@
     <title>Document</title>
 </head>
 <body>
-    <form action="http://localhost:5001/file" method="POST"  enctype="multipart/form-data">
-        <input type="file" name="file">
-        <input type="text" name="text">
-        <input type="submit" onsubmit="return false" >
+    <form action="https://10.33.22.113:5000/api/save_model/" method="POST"  enctype="multipart/form-data">
+        <input type="number" name="id">
+        <input type="file" name="client_file">
+        <input type="file" name="server_file">
+        <input type="submit" onsubmit="return false;" >
     </form>
 </body>
 </html>
