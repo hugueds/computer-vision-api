@@ -9,22 +9,17 @@ import time
 
 ALLOWED_EXTENSIONS = {'zip'}
 PATH = './static/assets/models'
-
+client_folder = f'{PATH}/client'
+server_folder = f'{PATH}/server'  ''
 class InstanceModelController:
 
-    def save(self, request):
-        ### Fazer update da tabela
-        try:
-            
-            id_ = int(request.form['id'])
+    def save(self, id_):        
+        try:                        
             client_file = request.files['client_file']
             server_file = request.files['server_file']            
 
             instance = Instance.get_by_id(id_)
-            model_name = instance.name            
-
-            client_folder = f'{PATH}/client'
-            server_folder = f'{PATH}/server'
+            model_name = instance.name         
 
             if client_file:
                 self.delete_folder(client_folder, model_name)                
@@ -33,16 +28,9 @@ class InstanceModelController:
             if server_file:
                 self.delete_folder(server_folder, model_name)                
                 self.unzip_files(server_file, server_folder, model_name)
-                instance.server_model = True
-
-                       
-
-            # abre a pasta e renomeia o arquivo
-            # for file in os.listdir(f'{PATH}/{model_name}'):
-            #     if file.split('.')[-1] == 'h5':
-            #         os.rename(f'{PATH}/{model_name}/{file}', f'{PATH}/{model_name}/{model_name}.h5')
+                instance.server_model = True            
             
-            instance.save()
+            Instance.update(instance)
             
             return jsonify({ "error": False, "message": "Model Saved"})
 
@@ -50,11 +38,23 @@ class InstanceModelController:
             return jsonify({ "error": True, "message": e})
 
 
-    def delete(self):
-        # Fazer update da tabela
-        id_ = request.form['id']        
+    def delete(self, id_):
         
-        pass
+        model = request.form['model']
+        instance = Instance.get_by_id(id_)  
+
+        if instance:
+            if model == 'client' and instance.client_model:
+                self.delete_folder(client_folder, instance.name)
+                instance.client_model = False
+            elif model == 'server' and instance.server_model:
+                self.delete_folder(server_folder, instance.name)
+                instance.server_model = False
+
+            Instance.update(instance)
+
+        return jsonify({ "error": False, "message": "Model Deleted"})
+        
 
     def delete_folder(self, path, model_name):
         dirpath = Path(path, model_name)

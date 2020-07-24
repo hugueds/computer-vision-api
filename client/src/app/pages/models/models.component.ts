@@ -10,6 +10,11 @@ import { Instance } from 'src/app/models/Instance';
 export class ModelsComponent implements OnInit {
 
   instances: Array<Instance>;
+  instance: Instance;
+  file = {
+    server: null,
+    client: null
+  }
 
   constructor(private _instanceService: InstanceService) { }
 
@@ -19,5 +24,20 @@ export class ModelsComponent implements OnInit {
     // listar pastas com modelos no servidor, guardar no array como true ou false
 
   }
+
+  handleFileInput(file, model) {
+    this.file[model] = file;
+  }
+
+  uploadModel() {
+    this._instanceService.uploadModel(this.instance);
+  }
+
+
+  deleteModel() {
+    this._instanceService.deleteModel(this.instance);
+  }
+
+
 
 }

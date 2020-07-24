@@ -57,6 +57,23 @@ export class InstanceService {
     }
    }
 
+   async uploadModel(instance) {
+    try {
+      const response = await axios.post(`${this.baseURL}/instance-model/{id}`.replace('{id}', instance.id));
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+   }
+
+   async deleteModel(instance) {
+    try {
+      const response = await axios.delete(`${this.baseURL}/instance-model/`.replace('{id}', instance.id));
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+   }
 
 
 }

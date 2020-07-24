@@ -70,6 +70,9 @@ def barcode():
 def system():    
     return { "status": True }
 
-@api_router.route('/api/save_model/', methods=['GET', 'POST'])
-def save_model():    
-    return instance_model_controller.save(request)
+@api_router.route('/api/instance-model/<id_>', methods=['GET', 'POST', 'DELETE'])
+def save_model(id_):
+    if request.method == 'POST':
+        return instance_model_controller.save(int(id_))
+    elif request.method == 'DELETE':
+        return instance_model_controller.delete(int(id_))

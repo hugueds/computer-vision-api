@@ -1,6 +1,6 @@
 <ng-container>
-  <div>
-    <table>
+  <div class="models-wrapper">
+    <table class="models-table">
       <thead>
         <th>ID</th>
         <th>NOME</th>
@@ -8,14 +8,20 @@
         <th>MODELO SERVIDOR</th>
       </thead>
       <tbody>
+        <!-- SE TIVER, APARECER BOTAO PARA DELETAR, SENAO, APARECER BOTAO PARA ADICIONAR -->
         <tr *ngFor="let instance of instances">
-          <td>{{instance.id}}</td>
-          <td>{{instance.name}}</td>
+          <td>{{ instance.id }}</td>
+          <td>{{ instance.name }}</td>
+          <td>
+            <div>{{ instance.clientModel }}</div>
+            <input type="file" (change)="handleFileInput($event.target.files, 'client')"/>
+          </td>
+          <td>
+            <div>{{ instance.serverModel }}</div>
+            <input type="file" (change)="handleFileInput($event.target.files, 'server')"/>
+          </td>
         </tr>
       </tbody>
     </table>
-
   </div>
 </ng-container>
-
-

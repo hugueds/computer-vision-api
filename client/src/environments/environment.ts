@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   server: 'https://10.33.22.113:5000/api',
+  modelPath: 'assets/models/client/{model}/model.json'
 };
 
 export const quaggaConfig = {
@@ -16,7 +17,9 @@ export const quaggaConfig = {
     name: "Live",
     type: "LiveStream",
     constraints: {
-
+      width: {  min: 320, max: 640 },
+      height: { min: 280, max: 480 },
+      facingMode: 'environment'
     }
   },
 
