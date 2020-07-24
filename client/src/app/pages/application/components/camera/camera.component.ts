@@ -10,7 +10,7 @@ declare let ml5: any;
 const mobileCanvasSize = 300;
 const videoWidth = 640;
 const videoHeight = 480;
-const modelPath = `assets/models/{model}/model.json`;
+const modelPath = `assets/models/client/{model}/model.json`;
 const frameRate = 60;
 @Component({
   selector: 'app-camera',
