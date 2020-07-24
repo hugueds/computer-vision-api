@@ -9,18 +9,12 @@ export const environment = {
 };
 
 export const quaggaConfig = {
-
   debug: false,
   frequency: 5,
   numOfWorkers: 2,
   inputStream: {
     name: "Live",
     type: "LiveStream",
-    constraints: {
-      width: {  min: 320, max: 640 },
-      height: { min: 280, max: 480 },
-      facingMode: 'environment'
-    }
   },
 
   decoder: {

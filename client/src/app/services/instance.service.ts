@@ -57,9 +57,17 @@ export class InstanceService {
     }
    }
 
-   async uploadModel(instance) {
+   async uploadModel(instance, model) {
     try {
-      const response = await axios.post(`${this.baseURL}/instance-model/{id}`.replace('{id}', instance.id));
+      console.log(model);
+
+      const bodyFormData = new FormData();
+      bodyFormData.append('model', model.name);
+      bodyFormData.append('file', model.file);
+      const response = await axios.post(`${this.baseURL}/instance-model/{id}`.replace('{id}', instance.id), {
+        headers: {'Content-Type': 'multipart/form-data' },
+        data: bodyFormData
+    });
       return response.data;
     } catch (err) {
       console.error(err);

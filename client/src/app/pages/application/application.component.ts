@@ -7,7 +7,7 @@ import { InstanceService } from 'src/app/services/instance.service';
 import { InstanceDevice } from 'src/app/models/InstanceDevice';
 import { ComputerVisionService } from 'src/app/services/computer-vision.service';
 import { SystemService } from 'src/app/services/system.service';
-import { Observable } from 'rxjs';
+
 
 @Component({
   selector: 'app-application',
@@ -133,7 +133,7 @@ export class ApplicationComponent implements OnInit {
     const identifierMode = this.instanceDevice.instance.identifierMode.toString();
     const step = this.instruction.step.toString();
     this.instruction.code = instanceType + identifierMode + step;
-    console.log(this.instruction.code)
+    console.log('STEP CODE: ' + this.instruction.code);
   }
 
   ngOnDestroy(): void {

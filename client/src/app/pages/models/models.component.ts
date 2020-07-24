@@ -11,9 +11,9 @@ export class ModelsComponent implements OnInit {
 
   instances: Array<Instance>;
   instance: Instance;
-  file = {
-    server: null,
-    client: null
+  model = {
+    name: '',
+    file: null
   }
 
   constructor(private _instanceService: InstanceService) { }
@@ -26,11 +26,12 @@ export class ModelsComponent implements OnInit {
   }
 
   handleFileInput(file, model) {
-    this.file[model] = file;
+    this.model.file = file;
+    this.model.name = model;
   }
 
-  uploadModel() {
-    this._instanceService.uploadModel(this.instance);
+  uploadModel(instance) {
+    this._instanceService.uploadModel(instance, this.model);
   }
 
 

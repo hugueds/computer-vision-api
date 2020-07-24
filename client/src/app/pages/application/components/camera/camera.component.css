@@ -48,8 +48,8 @@
 }
 
 #canvas {
-  width: 640px;
-  height: 480px;
+  /* width: 640px;
+  height: 480px; */
   border: 3px groove navy;
   position: relative;
 }
@@ -61,10 +61,21 @@
 }
 
 #barcode {
-  width: 640px;
-  height: 480px;
-  border: 3px groove lime;
   display: none;
+  justify-content: center;
+  align-content: center;
+  max-width: 640px;
+  max-height: 480px;
+  border: 3px groove lime;
+}
+
+#barcode .barcode-mobile {
+  display: none;
+  justify-content: center;
+  align-content: center;
+  max-width: 640px;
+  max-height: 480px;
+  border: 3px groove lime;
 }
 
 .hidden {

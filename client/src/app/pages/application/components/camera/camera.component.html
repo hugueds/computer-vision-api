@@ -1,12 +1,13 @@
 <ng-container>
-  <!-- <button (click)="stopCamera()">stop</button>
-  <button (click)="openCamera()">play</button> -->
-  <div class="camera-preview" [style.background]="background">
+    <div class="camera-preview" [style.background]="background">
     <div class="camera-wrapper">
       <video  #video id="video" preload="auto" autoplay  playsinline width="640" height="480"></video>
       <canvas #canvas id="canvas" width="640" height="480"></canvas>
       <canvas #hiddenCanvas id="hiddenCanvas" width="640" height="480"></canvas>
-      <div #barcode id="barcode" ></div>
+      <div #barcode id="barcode" width=640 height=480>
+        <video src=""></video>
+        <canvas class="drawingBuffer"></canvas>
+      </div>
     </div>
     <div
     style="background-color: gray;"
@@ -20,4 +21,6 @@
     (submit)="onSubmit()"
     (cancel)="onCancel()">
   </app-confirmation-buttons>
+  <button (click)="openBarcodeScanner()">OPEN BARCODE</button>
+  <button (click)="closeBarcodeScanner()">CLOSE BARCODE</button>
 </ng-container>

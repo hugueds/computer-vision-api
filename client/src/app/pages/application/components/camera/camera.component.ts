@@ -7,7 +7,7 @@ import { IdentifierMode, Instance } from 'src/app/models/Instance';
 import { quaggaConfig, cameraConstraints, MOBILE_WIDTH } from "src/environments/environment";
 declare let ml5: any;
 
-const mobileCanvasSize = 280;
+const mobileCanvasSize = 300;
 const videoWidth = 640;
 const videoHeight = 480;
 const modelPath = `assets/models/{model}/model.json`;
@@ -63,7 +63,9 @@ export class CameraComponent implements OnInit {
   }
 
   ngAfterViewInit() {
+    window.requestAnimationFrame(() => this.getFrames());
     this.openCamera();
+    // this.openBarcodeScanner()
   }
 
   initializeModel(instance = 'default') {
@@ -85,8 +87,8 @@ export class CameraComponent implements OnInit {
           this.video.nativeElement.style.display = 'none';
           this.canvas.nativeElement.style.display = 'block';
           this.cameraLoaded = true;
-          window.requestAnimationFrame(() => this.getFrames());
           setTimeout(() => { this.video.nativeElement.play() }, 2000);
+          this.resizeCameraRegion();
         });
       });
     }
@@ -111,12 +113,25 @@ export class CameraComponent implements OnInit {
 
   initBarcode() {
 
-    quaggaConfig.inputStream['target'] = '#barcode'
-    quaggaConfig.inputStream.constraints = {
-      width: {  min: 320, max: 640 },
-      height: { min: 280, max: 480 },
-      facingMode: 'environment'
+    const quaggaConfig = {
+      debug: false,
+      frequency: 5,
+      numOfWorkers: 2,
+      constraints: {
+        width: 640,
+        height: 480,
+        facingMode: "environment"
+      },
+      inputStream: {
+        name: "Live",
+        type: "LiveStream",
+        target: document.querySelector('#barcode')
+      },
+      decoder: {
+        readers: ["code_128_reader", 'ean_reader', 'ean_8_reader']
+      }
     }
+
 
     Quagga.init(quaggaConfig, (err) => {
       if (err) {
@@ -125,31 +140,44 @@ export class CameraComponent implements OnInit {
         return;
       }
       console.log("Barcode initialization finished");
-      this.barcode.nativeElement.style.display = 'block';
-      this.barcodeOpened = true;
-      Quagga.start()
+      if (this.isMobile) {
+        const a: Element = document.querySelector('.drawingBuffer')
+        const b: Element = document.querySelector('#barcode > video')
+        a.setAttribute('width', '300');
+        a.setAttribute('height', '300');
+        b.setAttribute('width', '300');
+        b.setAttribute('height', '300');
+        this.barcode.nativeElement.width = 300;
+        this.barcode.nativeElement.height = 300;
+      }
+      Quagga.start();
     });
 
     Quagga.onDetected((data) => {
       this.cameraEmitter.emit({ name: 'onBarcode', params: data.codeResult.code });
-      Quagga.stop();
+      // Quagga.stop();
     });
   }
 
-  closeBarcode() {
+  closeBarcodeScanner() {
     this.barcodeOpened = false;
     this.barcode.nativeElement.style.display = 'none';
     Quagga.stop();
+    this.openCamera();
   }
 
   openBarcodeScanner(): void {
     this.barcodeOpened = true;
-    Quagga.start();
+    this.barcode.nativeElement.style.display = 'block';
+    this.closeCamera();
+    this.initBarcode();
   }
 
   resizeCameraRegion() {
-    this.canvas.nativeElement.width = mobileCanvasSize;
-    this.canvas.nativeElement.height = mobileCanvasSize;
+    if (this.isMobile) {
+      this.canvas.nativeElement.width = mobileCanvasSize;
+      this.canvas.nativeElement.height = mobileCanvasSize;
+    }
   }
 
   async getFrames() {

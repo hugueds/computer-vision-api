@@ -13,8 +13,10 @@ client_folder = f'{PATH}/client'
 server_folder = f'{PATH}/server'  ''
 class InstanceModelController:
 
-    def save(self, id_):        
-        try:                        
+    def save(self, request):
+        ### Fazer update da tabela
+        try:            
+            id_ = int(request.form['id'])
             client_file = request.files['client_file']
             server_file = request.files['server_file']            
 
@@ -38,8 +40,9 @@ class InstanceModelController:
             return jsonify({ "error": True, "message": e})
 
 
-    def delete(self, id_):
-        
+    def delete(self, request):
+        # Fazer update da tabela
+        id_ = int(request.form['id'])
         model = request.form['model']
         instance = Instance.get_by_id(id_)  
 
