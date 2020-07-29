@@ -29,6 +29,7 @@
   min-height: 100%;
   height: 480px;
   align-self: center;
+  background-color: gray;
   /* border: 1px solid aqua; */
 }
 
@@ -38,6 +39,8 @@
   width: 100%;
   margin: 0 auto;
   align-self: center;
+  background-color: gray;
+
   /* border: 1px solid aqua; */
 }
 

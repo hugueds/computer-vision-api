@@ -5,25 +5,17 @@
         <th>ID</th>
         <th>NOME</th>
         <th>MODELO CLIENTE</th>
-        <th>UPDATE</th>
         <th>MODELO SERVIDOR</th>
-        <th>UPDATE</th>
+        <th>CARREGAR</th>
       </thead>
       <tbody>
         <!-- SE TIVER, APARECER BOTAO PARA DELETAR, SENAO, APARECER BOTAO PARA ADICIONAR -->
-        <tr *ngFor="let instance of instances">
+        <tr class="row" *ngFor="let instance of instances">
           <td>{{ instance.id }}</td>
           <td>{{ instance.name }}</td>
-          <td>
-            <div>{{ instance.clientModel }}</div>
-            <input type="file" (change)="handleFileInput($event.target.files, 'client')"/>
-          </td>
-          <button (click)="uploadModel(instance)">CONFIRMAR</button>
-          <td>
-            <div>{{ instance.serverModel }}</div>
-            <input type="file" (change)="handleFileInput($event.target.files, 'server')"/>
-          </td>
-          <button (click)="uploadModel(instance)">CONFIRMAR</button>
+          <td>{{ instance.clientModel }}</td>
+          <td>{{ instance.serverModel }}</td>
+          <td> <button (click)="openDialog()"> Atualizar </button></td>
         </tr>
       </tbody>
     </table>

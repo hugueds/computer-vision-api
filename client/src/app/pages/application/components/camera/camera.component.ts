@@ -46,7 +46,7 @@ export class CameraComponent implements OnInit {
   isReading = true;
   isMobile = false;
   counter = 0;
-  background = 'gray';
+  backgroundColor = 'gray';
   capturedFrame: any;
   barcodeOpened = false;
   borderColor = 'navy';
@@ -63,9 +63,9 @@ export class CameraComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    window.requestAnimationFrame(() => this.getFrames());
     this.openCamera();
-    // this.openBarcodeScanner()
+    window.requestAnimationFrame(() => this.getFrames());
+    // this.openBarcodeScanner();
   }
 
   initializeModel(instance = 'default') {
@@ -88,7 +88,7 @@ export class CameraComponent implements OnInit {
           this.canvas.nativeElement.style.display = 'block';
           this.cameraLoaded = true;
           setTimeout(() => { this.video.nativeElement.play() }, 2000);
-          this.resizeCameraRegion();
+          // this.resizeCameraRegion();
         });
       });
     }
@@ -155,7 +155,7 @@ export class CameraComponent implements OnInit {
 
     Quagga.onDetected((data) => {
       this.cameraEmitter.emit({ name: 'onBarcode', params: data.codeResult.code });
-      // Quagga.stop();
+      Quagga.stop();
     });
   }
 
@@ -174,10 +174,8 @@ export class CameraComponent implements OnInit {
   }
 
   resizeCameraRegion() {
-    if (this.isMobile) {
       this.canvas.nativeElement.width = mobileCanvasSize;
       this.canvas.nativeElement.height = mobileCanvasSize;
-    }
   }
 
   async getFrames() {
@@ -213,9 +211,9 @@ export class CameraComponent implements OnInit {
 
   changeBackgroundColor(label) {
     if (label == 'OK')
-      this.background = 'lime';
+      this.backgroundColor = 'lime';
     else if (label == 'NOT_OK')
-      this.background = 'red';
+      this.backgroundColor = 'red';
   }
 
   onCapture() {

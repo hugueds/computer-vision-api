@@ -17,6 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import {MatDialogModule} from '@angular/material/dialog';
+
 
 
 import { AppComponent } from './app.component';
@@ -65,10 +67,11 @@ import { ModelsComponent } from './pages/models/models.component';
     MatButtonModule,
     MatTabsModule,
     MatTableModule,
+    MatDialogModule,
     BrowserModule,
-    AppRoutingModule,
     MatPaginatorModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AppRoutingModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

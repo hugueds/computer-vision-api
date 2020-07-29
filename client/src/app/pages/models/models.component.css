@@ -3,3 +3,11 @@
   margin: 0 auto;
 }
 
+table {
+  width: 100%;
+}
+
+td {
+  padding: 1%;
+  text-align: center;
+}

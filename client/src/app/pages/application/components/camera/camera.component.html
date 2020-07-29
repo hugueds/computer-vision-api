@@ -1,5 +1,5 @@
 <ng-container>
-    <div class="camera-preview" [style.background]="background">
+    <div class="camera-preview" [style.background]="backgroundColor">
     <div class="camera-wrapper">
       <video  #video id="video" preload="auto" autoplay  playsinline width="640" height="480"></video>
       <canvas #canvas id="canvas" width="640" height="480"></canvas>
@@ -10,7 +10,6 @@
       </div>
     </div>
     <div
-    style="background-color: gray;"
     [hidden]="!isReading"
     [className]="isMobile ? 'capture-button--mobile' : 'capture-button'">
       <app-capture-button (capture)="onCapture()"> </app-capture-button>
@@ -21,6 +20,4 @@
     (submit)="onSubmit()"
     (cancel)="onCancel()">
   </app-confirmation-buttons>
-  <button (click)="openBarcodeScanner()">OPEN BARCODE</button>
-  <button (click)="closeBarcodeScanner()">CLOSE BARCODE</button>
 </ng-container>
