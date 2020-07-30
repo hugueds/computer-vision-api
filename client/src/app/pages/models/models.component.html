@@ -20,4 +20,6 @@
       </tbody>
     </table>
   </div>
+  <input name="file" type="file" (change)="updateFileChange($event.target.files)">
+  <button (click)="mockPost()">SEND FILE</button>
 </ng-container>

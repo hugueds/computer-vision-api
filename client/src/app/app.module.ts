@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
 
@@ -17,9 +17,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatPaginatorModule } from '@angular/material/paginator';
-import {MatDialogModule} from '@angular/material/dialog';
-
-
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatStepperModule } from '@angular/material/stepper';
 
 import { AppComponent } from './app.component';
 import { ApplicationComponent } from './pages/application/application.component';
@@ -37,6 +36,7 @@ import { DeviceTableComponent } from './pages/config/components/device-table/dev
 import { InstanceTableComponent } from './pages/config/components/instance-table/instance-table.component';
 import { BarcodeTestComponent } from './pages/test/barcode-test/barcode-test.component';
 import { ModelsComponent } from './pages/models/models.component';
+import { DialogComponent } from './pages/models/components/dialog/dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -54,11 +54,13 @@ import { ModelsComponent } from './pages/models/models.component';
     DeviceTableComponent,
     InstanceTableComponent,
     BarcodeTestComponent,
-    ModelsComponent
+    ModelsComponent,
+    DialogComponent
   ],
   imports: [
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     FormsModule,
+    ReactiveFormsModule,
     MatMenuModule,
     MatInputModule,
     MatIconModule,
@@ -68,6 +70,7 @@ import { ModelsComponent } from './pages/models/models.component';
     MatTabsModule,
     MatTableModule,
     MatDialogModule,
+    MatStepperModule,
     BrowserModule,
     MatPaginatorModule,
     BrowserAnimationsModule,

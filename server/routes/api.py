@@ -73,6 +73,6 @@ def system():
 @api_router.route('/api/instance-model/<id_>', methods=['GET', 'POST', 'DELETE'])
 def save_model(id_):
     if request.method == 'POST':
-        return instance_model_controller.save(request)
+        return instance_model_controller.save(id_, request)
     elif request.method == 'DELETE':
-        return instance_model_controller.delete(request)
+        return instance_model_controller.delete(id_)

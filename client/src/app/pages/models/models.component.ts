@@ -3,6 +3,8 @@ import {MatDialog} from '@angular/material/dialog';
 
 import { InstanceService } from 'src/app/services/instance.service';
 import { Instance } from 'src/app/models/Instance';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 @Component({
   selector: 'app-models',
@@ -16,17 +18,32 @@ export class ModelsComponent implements OnInit {
   model = {
     name: '',
     file: null
-  }
+  };
+
+  file = null;
 
   constructor(
     private _instanceService: InstanceService
     , public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this._instanceService.getAll().then(instances => this.instances = instances);
+    this.getInstances();
     // listar pastas com modelos no cliente, guardar no array como true ou false
     // listar pastas com modelos no servidor, guardar no array como true ou false
+    // this.mockPost();
+  }
 
+  getInstances() {
+    this._instanceService.getAll().then(instances => this.instances = instances);
+
+  }
+
+  mockPost() {
+    this._instanceService.uploadModel(1, 'server', this.file).then(r => this.getInstances());
+  }
+
+  updateFileChange(file) {
+    this.file = file;
   }
 
   handleFileInput(file, model) {
@@ -35,7 +52,7 @@ export class ModelsComponent implements OnInit {
   }
 
   uploadModel(instance) {
-    this._instanceService.uploadModel(instance, this.model);
+
   }
 
 
@@ -44,25 +61,15 @@ export class ModelsComponent implements OnInit {
   }
 
   openDialog() {
-    const dialogRef = this.dialog.open(DialogLoadModel);
+    const dialogRef = this.dialog.open(DialogComponent, {
+      data: { instanceId: 999 }
+    });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(`Dialog result: ${result}`);
+      // console.log(`Dialog result: ${result}`);
+      // reload
     });
   }
 
-
-
 }
 
-@Component({
-  selector: 'dialog-example',
-  template: `
-    <h1 mat-dialog-title> Hello Dialog </h1>
-    <mat-dialog-content class="">
-      <button> </button>
-    </mat-dialog-content>
-    `
-  // templateUrl: 'dialog-content-example-dialog.html',
-})
-export class DialogLoadModel {}

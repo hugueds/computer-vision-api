@@ -6,7 +6,7 @@ import logging
 from time import sleep
 from multiprocessing.pool import ThreadPool
 from threading import Thread
-if True:
+if False:
     from tensorflow.keras.applications import MobileNetV2
     from tensorflow.keras.models import load_model
     from tensorflow.keras.applications.mobilenet_v2 import decode_predictions
