@@ -69,6 +69,8 @@ export class CameraComponent implements OnInit {
   }
 
   initializeModel(instance = 'default') {
+    if (this.modelLoaded)
+      return;
     if (instance != 'default')
       instance = modelPath.replace('{model}', instance.toLowerCase());
     this.net = ml5.imageClassifier(instance, () => this.modelReady(instance));

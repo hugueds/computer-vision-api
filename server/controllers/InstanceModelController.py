@@ -4,7 +4,7 @@ import shutil
 from pathlib import Path
 from werkzeug.utils import secure_filename
 from flask import jsonify
-from models.Instance import Instance
+from models import Instance, TFModel
 import time
 
 ALLOWED_EXTENSIONS = {'zip'}
@@ -28,7 +28,9 @@ class InstanceModelController:
             if model_type == 'client':                
                 instance.client_model = True
             elif model_type == 'server':                
-                instance.server_model = True            
+                instance.server_model = True
+                TFModel.load_model_v2(model_name, folder)
+                # Carregar modelo na instancia TFModel
             
             Instance.update(instance)            
             return jsonify({ "error": False, "message": "Model Saved"})

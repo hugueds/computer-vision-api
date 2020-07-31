@@ -1,13 +1,23 @@
 # TODO
 
+## 2020-07-31
+
+- [ ] Adicionar metodo para recarregar os modelos no servidor após salva-los
+- [ ] Verificar se o modelo possui as duas instancias... caso nao tiver o servidor não habilitar a camera, caso não tenha a do cliente não habilitar a inferencia
+caso nao tenha as duas bloquear a camera
+- [ ] Limpar campos no dispositivo após a inclusão
+- [ ] Trazer os logs em branco e só resgatar após selecionar a instância
+- [ ] Criar modal para ver mais os 10 ultimos resultados de inferência
+- [x] Colocar botões de configurações e de inclusão na linha de baixo
+
 ## 2020-07-22
 
-- [ ] Criar uma pag para gerenciar modelos, eles devem conter 1 - JS Model (cliente), 2 - Keras Model(servidor), 3 - Instance list
 - [ ] Quando deletar uma instancia, deletar tambem as pastas envolvidas
 - [ ] Liberar botão de tirar foto somente se estiver em OK
 - [ ] Fazer busca nos logs por data e instancia
-- [ ] Pintar linhas OKS e NOT OKS
-- [ ] Adicionar coluna nas instâncias que diga se há ou não modelos relacionados
+- [ ] Pintar linhas OKs e NOT_OKs
+- [x] Adicionar coluna nas instâncias que diga se há ou não modelos relacionados
+- [x] Criar uma pag para gerenciar modelos, eles devem conter 1 - JS Model (cliente), 2 - Keras Model(servidor), 3 - Instance list
 
 ## 2020-07-15
 

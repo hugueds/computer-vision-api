@@ -39,7 +39,7 @@ export class ModelsComponent implements OnInit {
   }
 
   mockPost() {
-    this._instanceService.uploadModel(1, 'server', this.file).then(r => this.getInstances());
+    this._instanceService.uploadModel(43, 'server', this.file).then(r => this.getInstances());
   }
 
   updateFileChange(file) {

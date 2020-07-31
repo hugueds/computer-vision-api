@@ -14,6 +14,8 @@ server:
 image:
     default_size: '640x480'
 models:
+    path: './static/assets/models/server'
+    graph_file: 'keras_model.h5'
     emptybox:
         name: 'emptybox'
         graph: 'emptybox'

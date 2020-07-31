@@ -29,9 +29,14 @@
           <mat-label>INSTANCIA</mat-label>
           <input name="instanceId" matInput [(ngModel)]="deviceForm.instanceId" >
         </mat-form-field>
-          <button *ngIf="!editMode"class="config-button config-button--create"  (click)="create(deviceForm)">CRIAR</button>
-          <button *ngIf="editMode" class="config-button config-button--update" (click)="update(deviceForm)">ATUALIZAR</button>
-          <button *ngIf="editMode" class="config-button config-button--cancel" (click)="cancel()">X</button>
+
+      </div>
+
+
+      <div class="create-container--control">
+        <button *ngIf="!editMode"class="" mat-raised-button              (click)="create(deviceForm)">CRIAR</button>
+        <button *ngIf="editMode" class="" mat-raised-button              (click)="update(deviceForm)">ATUALIZAR</button>
+        <button *ngIf="editMode" class="" mat-raised-button color="warn" (click)="cancel()">CANCELAR</button>
       </div>
 
 
@@ -103,12 +108,14 @@
           <mat-label>SALVAR</mat-label>
           <input matInput [(ngModel)]="instanceForm.save">
         </mat-form-field>
-            <button *ngIf="!editMode"class="config-button config-button--create"  (click)="createInstance(instanceForm)">CRIAR</button>
-            <button *ngIf="editMode" class="config-button config-button--update" (click)="updateInstance(instanceForm)">ATUALIZAR</button>
-            <button *ngIf="editMode" class="config-button config-button--cancel" (click)="cancel()">X</button>
 
       </div>
 
+      <div class="create-container--control">
+        <button *ngIf="!editMode"class="" mat-raised-button  (click)="createInstance(instanceForm)">CRIAR</button>
+        <button *ngIf="editMode" class="" mat-raised-button (click)="updateInstance(instanceForm)">ATUALIZAR</button>
+        <button *ngIf="editMode" class="" mat-raised-button color="warn" (click)="cancel()">CANCELAR</button>
+      </div>
 
        <mat-table [dataSource]="instances" class="mat-elevation-z8">
         <ng-container matColumnDef="id">

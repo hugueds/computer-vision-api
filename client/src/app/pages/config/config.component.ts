@@ -66,6 +66,7 @@ export class ConfigComponent implements OnInit {
   create(device) {
     this._deviceService.create(device)
     .then(res => {
+      this.clearForm();
       this.getDevices();
       this.editMode = false;
     })
@@ -134,6 +135,7 @@ export class ConfigComponent implements OnInit {
     this._instanceService.create(instance)
     .then(res => {
       this.getInstances();
+      this.clearForm();
     })
     .catch(e => console.error(e))
   }
@@ -147,6 +149,7 @@ export class ConfigComponent implements OnInit {
     this._instanceService.update(instance)
     .then(res => {
       this.getInstances();
+      this.editMode = false;
     })
     .catch(e => console.error(e))
   }
