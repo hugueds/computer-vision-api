@@ -23,6 +23,5 @@ def index():
     return send_from_directory('../static', 'index.html')   
 
 @app.route('/<model>', methods=['GET'])
-def index_files(model):
-    a = '../templates'
-    return send_from_directory(a, f'./{model}/')
+def index_files(model):    
+    return send_from_directory('../test', f'./{model}/')
