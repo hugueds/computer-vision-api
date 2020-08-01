@@ -1,13 +1,19 @@
 {
   "configVersion": 1,
+<<<<<<< HEAD
   "timestamp": 1594952305377,
   "index": "./index.html",
+=======
+  "timestamp": 1595412054487,
+  "index": "/index.html",
+>>>>>>> 4a874623c4102355c6d5afe7d7f1c832ca09670c
   "assetGroups": [
     {
       "name": "app",
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "urls": [
+<<<<<<< HEAD
         "./favicon.ico",
         "./index.html",
         "./main-es2015.5a1869185b46f5e653d4.js",
@@ -19,6 +25,19 @@
         "./runtime-es5.0dae8cbc97194c7caed4.js",
         "./scripts.ebb8fdcab8e4cc566d3c.js",
         "./styles.d872a08a1289da392079.css"
+=======
+        "/favicon.ico",
+        "/index.html",
+        "/main-es2015.cf58e83bc016559aee11.js",
+        "/main-es5.cf58e83bc016559aee11.js",
+        "/manifest.webmanifest",
+        "/polyfills-es2015.f2c5ab749249a66bdf26.js",
+        "/polyfills-es5.7fdfbbdda5a500818c0c.js",
+        "/runtime-es2015.1eba213af0b233498d9d.js",
+        "/runtime-es5.1eba213af0b233498d9d.js",
+        "/scripts.ebb8fdcab8e4cc566d3c.js",
+        "/styles.d872a08a1289da392079.css"
+>>>>>>> 4a874623c4102355c6d5afe7d7f1c832ca09670c
       ],
       "patterns": []
     },
@@ -49,6 +68,7 @@
   ],
   "dataGroups": [],
   "hashTable": {
+<<<<<<< HEAD
     "./assets/icons/camera.png": "66b285c69e3a60c2d646de95958b26fc060803df",
     "./assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
     "./assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
@@ -76,6 +96,35 @@
     "./runtime-es5.0dae8cbc97194c7caed4.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
     "./scripts.ebb8fdcab8e4cc566d3c.js": "bc7609dfa61fa18e7c47a0fe8187bd3b953e9ec9",
     "./styles.d872a08a1289da392079.css": "13b58cfc75a9750b607e3be9fc81a40a37442cc6"
+=======
+    "/assets/icons/camera.png": "66b285c69e3a60c2d646de95958b26fc060803df",
+    "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/assets/icons/scania-icon.png": "73c677be5bd1af06c4dc01e2978ee22b93e7b520",
+    "/assets/models/emptybox/metadata.json": "f26d4038ed0e2c21009603512060dbfffb4628da",
+    "/assets/models/emptybox/model.json": "ffc445d43784d69de6da7675aa995ff26ede37b1",
+    "/assets/models/emptybox/weights.bin": "4d130b6405a9fcba51c5eb16c4523d447a49648c",
+    "/assets/models/random/metadata.json": "9b7121c15c526eefd2658bde02ea4108cc0c8c7f",
+    "/assets/models/random/model.json": "852a46ceb646b5468763c76d9836ebd76a3a1103",
+    "/assets/models/random/weights.bin": "5134181ef8f36c8933476170949daab0ce2cbead",
+    "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
+    "/index.html": "7c984a43d7cc3041182bd2c4ed7209c0f1605a9d",
+    "/main-es2015.cf58e83bc016559aee11.js": "e3b426c15a900a276171b7b6fd19840f33eecf08",
+    "/main-es5.cf58e83bc016559aee11.js": "de22a3264e1b58313117911c8e40e71a0a818810",
+    "/manifest.webmanifest": "400460145284d8a4963aae6faf18bfb46179faa0",
+    "/polyfills-es2015.f2c5ab749249a66bdf26.js": "72ad4ccc0a3916ae4598199447cdeadd6d380570",
+    "/polyfills-es5.7fdfbbdda5a500818c0c.js": "dd551a4816902dd39f71a6af2a2220b9fa246d47",
+    "/runtime-es2015.1eba213af0b233498d9d.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "/runtime-es5.1eba213af0b233498d9d.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "/scripts.ebb8fdcab8e4cc566d3c.js": "ac4a5c00d016e8ffb74663f3fd27d82af7380e4f",
+    "/styles.d872a08a1289da392079.css": "13b58cfc75a9750b607e3be9fc81a40a37442cc6"
+>>>>>>> 4a874623c4102355c6d5afe7d7f1c832ca09670c
   },
   "navigationUrls": [
     {

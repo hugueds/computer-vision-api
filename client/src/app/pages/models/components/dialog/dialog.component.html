@@ -1,0 +1,24 @@
+<mat-horizontal-stepper linear #stepper>
+  <mat-step >
+      <ng-template matStepLabel>Escolha um tipo</ng-template>
+        <button mat-button matStepperNext>CLIENTE</button>
+        <button mat-button matStepperNext>SERVIDOR</button>
+  </mat-step>
+  <mat-step >
+    <form >
+      <ng-template matStepLabel>Selecione o arquivo do Modelo</ng-template>
+        <input type="file"  />
+      <div>
+        <button mat-button matStepperPrevious>VOLTAR</button>
+        <button mat-button matStepperNext>AVANÇAR</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    <p>Finalizado!</p>
+    <div>
+      <button mat-button mat-dialog-close>CONCLUIR</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

@@ -2,7 +2,6 @@ from flask import jsonify
 from models import Instance
 import json
 
-
 class InstanceController():
 
     def __init__(self):
@@ -16,7 +15,7 @@ class InstanceController():
         return jsonify(response)
 
     def get_by_id(self, id_):
-        instance = Instance.get(id_)
+        instance = Instance.get_by_id(id_)
         if instance:
             return jsonify(instance.to_json())
         return jsonify({"error": True, "message": 'Instance not found'})
@@ -52,7 +51,7 @@ class InstanceController():
                 instance.delete(id_)
                 return ('Instance ID ' + str(id_) + ' Deleted')
             else:
-                return jsonify({"error": True, "message": f'instance ID {id_} Not Found'})
+                return jsonify({"error": True, "message": f'Instance ID {id_} Not Found'})
         return 'Not Found'
 
 instance_controller = InstanceController()

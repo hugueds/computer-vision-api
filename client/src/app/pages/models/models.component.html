@@ -1,0 +1,25 @@
+<ng-container>
+  <div class="models-wrapper">
+    <table class="models-table">
+      <thead>
+        <th>ID</th>
+        <th>NOME</th>
+        <th>MODELO CLIENTE</th>
+        <th>MODELO SERVIDOR</th>
+        <th>CARREGAR</th>
+      </thead>
+      <tbody>
+        <!-- SE TIVER, APARECER BOTAO PARA DELETAR, SENAO, APARECER BOTAO PARA ADICIONAR -->
+        <tr class="row" *ngFor="let instance of instances">
+          <td>{{ instance.id }}</td>
+          <td>{{ instance.name }}</td>
+          <td>{{ instance.clientModel }}</td>
+          <td>{{ instance.serverModel }}</td>
+          <td> <button (click)="openDialog()"> Atualizar </button></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <input name="file" type="file" (change)="updateFileChange($event.target.files)">
+  <button (click)="mockPost()">SEND FILE</button>
+</ng-container>

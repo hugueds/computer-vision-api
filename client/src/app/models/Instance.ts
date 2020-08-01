@@ -1,4 +1,4 @@
-export class Instance {
+export interface Instance {
     id: number;
     name: string;
     description: string;

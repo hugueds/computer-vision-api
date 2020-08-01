@@ -26,9 +26,13 @@
     justify-content: space-evenly; */
 }
 
+mat-table {
+  margin: 0 auto;
+  width: 95%;
+}
+
 
 mat-tab-group {
-    width: 95%;
     margin: 0 auto;
 }
 
@@ -36,8 +40,16 @@ mat-tab-group {
     display: flex;
     width: 95%;
     margin: 0 auto;
-    margin-top: 2%;
-    margin-bottom: 2%;
+    margin-top: 1%;
+    margin-bottom: 1%;
+}
+
+.create-container--control {
+  display: flex;
+  margin: 0 auto;
+  width: 100%;
+  justify-content: space-evenly;
+  margin-bottom: 2.5%;
 }
 
 .create-container mat-form-field {
@@ -50,20 +62,20 @@ mat-tab-group {
 .config-button {
     color: #FAFAFA;
     margin-left: 5%;
-    padding: 0;
-    font-size: 0.75rem;    
+    /* padding: 0; */
+    font-size: 1rem;
 }
 
 .config-button--create {
     background-color: limegreen;
     font-weight: bold;
-    padding: 0 1.5% 0 1.5%;
+    /* padding: 0 1.5% 0 1.5%; */
 }
 
 .config-button--update {
     background-color: limegreen;
     margin-left: 1.5%;
-    font-weight: bold;
+    /* font-weight: bold; */
     padding: 0 1.5% 0 1.5%;
 }
 
@@ -79,6 +91,6 @@ mat-tab-group {
 }
 
 .config-button--delete {
-    background-color: red;    
+    background-color: red;
 }
 

@@ -5,21 +5,16 @@
 export const environment = {
   production: false,
   server: 'https://10.33.22.113:5000/api',
+  modelPath: 'assets/models/client/{model}/model.json'
 };
 
 export const quaggaConfig = {
-
   debug: false,
-  frequency: 10,
+  frequency: 5,
+  numOfWorkers: 2,
   inputStream: {
     name: "Live",
     type: "LiveStream",
-    target: '#video',
-    constraints: {
-      width: 640,
-      height: 480,
-      facingMode: 'environment'
-    }
   },
 
   decoder: {

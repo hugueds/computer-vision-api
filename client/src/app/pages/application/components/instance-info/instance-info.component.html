@@ -1,10 +1,10 @@
 <ng-container>
   <div class="instance-info" [ngStyle]="{'background': background }" >
-    <span> MODELO {{ instanceDevice?.instance.name }}</span>
-    <span> LEITURA {{ instanceDevice?.instance.identifierModel }} </span>
-    <span> DEVICE {{ instanceDevice?.device.name }}</span>
-    <span> USER {{ instanceDevice?.device.user }}</span>
-    <span> IP {{ instanceDevice?.device.ip }}</span>
+    <span> MODELO: {{ instanceDevice?.instance.name }}</span>
+    <span> LEITURA: {{ readMode }} </span>
+    <span> DEVICE: {{ instanceDevice?.device.name }}</span>
+    <span> USER: {{ instanceDevice?.device.user }}</span>
+    <span> IP: {{ instanceDevice?.device.ip }}</span>
   </div>
 </ng-container>
 <!-- Mostrar no rodapé conteudo excedente? -->

@@ -8,7 +8,7 @@ from database.Database import db
 class IdentifierMode(Enum):
     BARCODE = 0,
     OCR = 1,
-    NON = 2
+    NONE = 2
 class InstanceType(Enum):
     BARCODE = 0,
     OCR = 1,
@@ -24,6 +24,8 @@ class Instance():
         self.type_ = type_
         self.identifier_mode = identifier_mode
         self.save_ = save
+        self.client_model = False
+        self.server_model = False
         self.created_at = datetime.datetime.now()
 
     @staticmethod
@@ -40,22 +42,24 @@ class Instance():
 
     @staticmethod
     def __get(query, id_=0):
-
+        
         conn = db.connect()
         cursor = conn.cursor()
-        cursor.execute(query, (id_,))
+        cursor.execute(query, (id_,))        
 
         instances = []
-        for id_, name, description, type_, identifier_mode, save, created_at in cursor.fetchall():
+        for id_, name, description, type_, identifier_mode, save_, created_at, server_model, client_model  in cursor.fetchall():
             instance = Instance()
             instance.id_ = id_
             instance.name = name
             instance.description = description
             instance.type_ = type_
             instance.identifier_mode = identifier_mode
-            instance.save_ = True if save == 1 else False
+            instance.save_ = True if save_ == 1 else False
+            instance.client_model = True if client_model == 1 else False            
+            instance.server_model = True if server_model == 1 else False
             instance.created_at = created_at
-            instances.append(instance)
+            instances.append(instance)            
 
         cursor.close()
         return instances
@@ -79,6 +83,7 @@ class Instance():
 
     @staticmethod
     def update(instance):
+        
         try:
             print('Updating Instance ID ' + str(instance.id_))
             sql = ''' 
@@ -88,13 +93,26 @@ class Instance():
                         , description = ?
                         , type= ?
                         , identifier_mode= ?
-                        , save = (?)
+                        , save = ?
+                        , client_model = ?
+                        , server_model = ?
                 WHERE ID = ?
             '''
             conn = db.connect()
             cursor = conn.cursor()
-            new_instance = (instance.name, instance.description, instance.type_,
-                            instance.identifier_mode, instance.save_, instance.id_)
+            instance.save_ = 1 if instance.save else 0
+            instance.client_model = 1 if instance.client_model else 0
+            instance.server_model = 1 if instance.server_model else 0
+            new_instance = (
+                instance.name, 
+                instance.description, 
+                instance.type_, 
+                instance.identifier_mode, 
+                instance.save_ , 
+                instance.client_model ,
+                instance.server_model ,
+                instance.id_,
+                )
             cursor.execute(sql, (new_instance))
             conn.commit()
             cursor.close()
@@ -124,5 +142,7 @@ class Instance():
             "type": self.type_,
             "identifierMode": self.identifier_mode,
             "save": self.save_,
+            "clientModel": self.client_model,
+            "serverModel": self.server_model,
             "createdAt": self.created_at
         }

@@ -1,5 +1,24 @@
 # TODO
 
+## 2020-07-31
+
+- [ ] Adicionar metodo para recarregar os modelos no servidor após salva-los
+- [ ] Verificar se o modelo possui as duas instancias... caso nao tiver o servidor não habilitar a camera, caso não tenha a do cliente não habilitar a inferencia
+caso nao tenha as duas bloquear a camera
+- [ ] Limpar campos no dispositivo após a inclusão
+- [ ] Trazer os logs em branco e só resgatar após selecionar a instância
+- [ ] Criar modal para ver mais os 10 ultimos resultados de inferência
+- [x] Colocar botões de configurações e de inclusão na linha de baixo
+
+## 2020-07-22
+
+- [ ] Quando deletar uma instancia, deletar tambem as pastas envolvidas
+- [ ] Liberar botão de tirar foto somente se estiver em OK
+- [ ] Fazer busca nos logs por data e instancia
+- [ ] Pintar linhas OKs e NOT_OKs
+- [x] Adicionar coluna nas instâncias que diga se há ou não modelos relacionados
+- [x] Criar uma pag para gerenciar modelos, eles devem conter 1 - JS Model (cliente), 2 - Keras Model(servidor), 3 - Instance list
+
 ## 2020-07-15
 
 - [ ] Adicionar componentes de tabelas especificas para as configurações
@@ -10,11 +29,11 @@
 
 ## 2020-07-13
 
-- [ ] Criar serviço no Cliente para identificar comunicação com o servidor
+- [x] Criar serviço no Cliente para identificar comunicação com o servidor
 
 ## 2020-07-02
 
-- [ ] Adicionar mensagem com os dizeres de modelo carregando
+- [x] Adicionar mensagem com os dizeres de modelo carregando
 - [x] Arrumar criated_at no metodo PUT
 - [x] Update the server URL Address
 - [x] Render camera within a canvas
@@ -22,7 +41,7 @@
 
 ## 2020-07-01
 
-- [ ] Adicionar tipo de operação offline
+- [x] Adicionar tipo de operação offline
 - [x] Melhorar a visualização para celulares
 - [x] Avaliar a imagem sem ter que salvar uma copia antes
 - [x] Salvar os modelos no servidor
@@ -33,7 +52,7 @@
 
 ## 2020-06-24
 
-- [ ] Carregar todos os modelos de uma vez no servidor e verificar a performance
+- [x] Carregar todos os modelos de uma vez no servidor e verificar a performance (mais rapido)
 
 ## 2020-06-23
 
@@ -42,8 +61,8 @@
 
 ## 2020-06-22
 
-- [ ] Exibir mensagem de Camera indisponível enquanto a camera não é carregada
-- [ ] Adicionar mensagem nome e usuario do dispositvo no header
+- [x] Adicionar mensagem nome e usuario do dispositvo no header
+- [x] Exibir mensagem de Camera indisponível enquanto a camera não é carregada
 - [x] Criar telas de alteração de configuração dos dispositivos e instâncias
 - [x] Finalizar API de consulta e cadastro de instancias e equipamentos
 - [x] Criar API para os resultados

@@ -1,6 +1,6 @@
 import mimetypes
 from database.Database import db
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, render_template
 from flask_cors import CORS, cross_origin
 from routes import router, api_router
 
@@ -18,10 +18,23 @@ app.register_blueprint(api_router)
 
 CORS(app)
 
+@app.route('/model/<model>/<extension>', methods=['GET'])
+def index_files(model, extension):
+    folder = '../static/models/'    
+    return send_from_directory(folder, f'{model}/{extension}')
+
+@app.route('/application', methods=['GET'])
+def index_redirect():    
+    return send_from_directory('../static', 'index.html')   
+
 @app.route('/', methods=['GET'])
 def index():    
     return send_from_directory('../static', 'index.html')   
+    
 
+<<<<<<< HEAD
 @app.route('/<model>', methods=['GET'])
 def index_files(model):    
     return send_from_directory('../test', f'./{model}/')
+=======
+>>>>>>> 4a874623c4102355c6d5afe7d7f1c832ca09670c

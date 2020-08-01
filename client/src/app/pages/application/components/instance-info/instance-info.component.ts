@@ -9,7 +9,14 @@ import { InstanceDevice } from 'src/app/models/InstanceDevice';
 })
 export class InstanceInfoComponent implements OnInit {
 
-  @Input('instanceDevice') instanceDevice: InstanceDevice;
+  @Input('instanceDevice') set _instanceDevice(val: InstanceDevice) {
+    if (val) {
+      this.instanceDevice = val;
+      const mode = this.instanceDevice.instance.identifierMode
+      this.readMode = IdentifierMode[mode];
+    }
+  }
+
   @Input('status') set status(val: any) {
     this.background = 'red';
     if (val && val.status) {
@@ -18,6 +25,8 @@ export class InstanceInfoComponent implements OnInit {
   };
 
   background = 'red';
+  instanceDevice: InstanceDevice;
+  readMode :string;
 
   constructor() { }
 

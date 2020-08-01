@@ -57,6 +57,29 @@ export class InstanceService {
     }
    }
 
+   async uploadModel(instanceId, model, fileList) {
+    try {
+      const file: File = fileList[0];
+      const bodyFormData = new FormData();
+      bodyFormData.append('model', model);
+      bodyFormData.append('file', file, model);
+      const response = await axios.post(`${this.baseURL}/instance-model/{id}`.replace('{id}', instanceId), bodyFormData, {
+        headers: {'Content-Type': 'multipart/form-data' }
+    });
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+   }
+
+   async deleteModel(instance) {
+    try {
+      const response = await axios.delete(`${this.baseURL}/instance-model/{id}`.replace('{id}', instance.id));
+      return response.data;
+    } catch (err) {
+      console.error(err);
+    }
+   }
 
 
 }

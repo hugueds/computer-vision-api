@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <form
+      action="https://10.33.22.113:5000/api/save_model/"
+      method="POST"
+      enctype="multipart/form-data"
+    >
+      <input type="number" name="id" />
+      <input type="file" name="client_file" />
+      <input type="file" name="server_file" />
+      <input type="submit" onsubmit="return false;" />
+    </form>
+    <div>
+      <input type="text" id="model_id" />
+      <button onclick="deleteModel('client')">delete client model</button>
+      <button onclick="deleteModel('server')">delete server model</button>
+    </div>
+
+    <script>
+      function deleteModel(model) {
+        // Exemplo de requisição POST
+        var ajax = new XMLHttpRequest();
+
+        // Seta tipo de requisição: Post e a URL da API
+        ajax.open("POST", "https://10.33.22.113:5000/api/delete_model/", true);
+        ajax.setRequestHeader(
+          "Content-type",
+          "application/x-www-form-urlencoded"
+        );
+
+        // Seta paramêtros da requisição e envia a requisição
+        const id = document.querySelector('#model_id').value;
+        ajax.send("id="+ id + '&model='+model);
+
+        // Cria um evento para receber o retorno.
+        ajax.onreadystatechange = function () {
+          // Caso o state seja 4 e o http.status for 200, é porque a requisiçõe deu certo.
+          if (ajax.readyState == 4 && ajax.status == 200) {
+            var data = ajax.responseText;
+
+            // Retorno do Ajax
+            console.log(data);
+          }
+        };
+      }
+    </script>
+  </body>
+</html>

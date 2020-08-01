@@ -15,6 +15,12 @@
   /* border: 3px solid orange; */
 }
 
+@media (max-width: 600px){
+  .camera-wrapper {
+    max-height: 280px;
+  }
+}
+
 .capture-button {
   /* display: none; */
   width: 15%;
@@ -23,6 +29,7 @@
   min-height: 100%;
   height: 480px;
   align-self: center;
+  background-color: gray;
   /* border: 1px solid aqua; */
 }
 
@@ -32,6 +39,8 @@
   width: 100%;
   margin: 0 auto;
   align-self: center;
+  background-color: gray;
+
   /* border: 1px solid aqua; */
 }
 
@@ -42,8 +51,34 @@
 }
 
 #canvas {
+  /* width: 640px;
+  height: 480px; */
   border: 3px groove navy;
   position: relative;
+}
+
+#hiddenCanvas {
+  display: none;
+  width: 640px;
+  height: 480px;
+}
+
+#barcode {
+  display: none;
+  justify-content: center;
+  align-content: center;
+  max-width: 640px;
+  max-height: 480px;
+  border: 3px groove lime;
+}
+
+#barcode .barcode-mobile {
+  display: none;
+  justify-content: center;
+  align-content: center;
+  max-width: 640px;
+  max-height: 480px;
+  border: 3px groove lime;
 }
 
 .hidden {

@@ -1,12 +1,13 @@
 <ng-container>
 
-  <mat-toolbar class="navbar">  
-    
+  <mat-toolbar class="navbar">
+
     <div class="navbar-menu">
       <button mat-stroked-button [matMenuTriggerFor]="menu">-</button>
       <mat-menu #menu="matMenu">
         <a mat-menu-item routerLink="/">APPLICATION</a>
         <a mat-menu-item routerLink="/config">CONFIG</a>
+        <a mat-menu-item routerLink="/models">MODELOS</a>
         <a mat-menu-item routerLink="/log">LOG</a>
       </mat-menu>
     </div>
@@ -14,15 +15,10 @@
     <div class="navbar-title">
       <span>COMPUTER VISION APP</span>
     </div>
-  
-    
-    <div class="navbar-icon">      
+
+    <div class="navbar-icon">
       <img src="assets/icons/scania-icon.png" alt="" />
     </div>
-
-    <!-- <div>
-      <span class="status">STATUS</span>  ONLINE / OFFLINE, circulo para verificacao 
-    </div> -->
 
   </mat-toolbar>
 
