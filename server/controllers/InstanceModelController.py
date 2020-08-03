@@ -1,20 +1,23 @@
 import os
 import zipfile
 import shutil
+import time
+import yaml
 from pathlib import Path
 from werkzeug.utils import secure_filename
 from flask import jsonify
 from models import Instance, TFModel
-import time
 
 ALLOWED_EXTENSIONS = {'zip'}
-PATH = './static/assets/models'
-client_folder = f'{PATH}/client'
-server_folder = f'{PATH}/server'
+
+with open('config.yml', 'r') as f:
+    config = yaml.safe_load(f)
+
+PATH = config['models']['path']
+
 class InstanceModelController:
 
-    def save(self, id_, request):
-        ### Fazer update da tabela
+    def save(self, id_, request):        
         try:            
             file = request.files['file']
             model_type = file.filename
@@ -29,8 +32,7 @@ class InstanceModelController:
                 instance.client_model = True
             elif model_type == 'server':                
                 instance.server_model = True
-                TFModel.load_model_v2(model_name, folder)
-                # Carregar modelo na instancia TFModel
+                TFModel.load_model_v2(model_name, folder)                
             
             Instance.update(instance)            
             return jsonify({ "error": False, "message": "Model Saved"})

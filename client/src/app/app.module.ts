@@ -19,6 +19,10 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import {MatNativeDateModule} from '@angular/material/core';
+
 
 import { AppComponent } from './app.component';
 import { ApplicationComponent } from './pages/application/application.component';
@@ -37,6 +41,7 @@ import { InstanceTableComponent } from './pages/config/components/instance-table
 import { BarcodeTestComponent } from './pages/test/barcode-test/barcode-test.component';
 import { ModelsComponent } from './pages/models/models.component';
 import { DialogComponent } from './pages/models/components/dialog/dialog.component';
+import { MoreResultsDialogComponent } from './pages/application/components/more-results-dialog/more-results-dialog.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -55,11 +60,13 @@ import { DialogComponent } from './pages/models/components/dialog/dialog.compone
     InstanceTableComponent,
     BarcodeTestComponent,
     ModelsComponent,
-    DialogComponent
+    DialogComponent,
+    MoreResultsDialogComponent
   ],
   imports: [
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     FormsModule,
+    MatNativeDateModule,
     ReactiveFormsModule,
     MatMenuModule,
     MatInputModule,
@@ -71,8 +78,10 @@ import { DialogComponent } from './pages/models/components/dialog/dialog.compone
     MatTableModule,
     MatDialogModule,
     MatStepperModule,
-    BrowserModule,
+    MatSelectModule,
+    MatDatepickerModule,
     MatPaginatorModule,
+    BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
   ],

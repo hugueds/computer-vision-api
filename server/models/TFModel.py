@@ -7,20 +7,13 @@ import logging
 from time import sleep
 from multiprocessing.pool import ThreadPool
 from threading import Thread
-if True:
-    from tensorflow.keras.applications import MobileNetV2
-    from tensorflow.keras.models import load_model
-    from tensorflow.keras.applications.mobilenet_v2 import decode_predictions
-    # default_net = MobileNetV2(input_shape=(224, 224, 3), include_top=True, weights="imagenet")
-    # pre_loadnet = load_model(f'tensorflow_models/emptybox/emptybox.h5', compile=False)
+from tensorflow.keras.applications import MobileNetV2
+from tensorflow.keras.models import load_model
+from tensorflow.keras.applications.mobilenet_v2 import decode_predictions
+    
 
-<<<<<<< HEAD
-default_net = MobileNetV2(input_shape=(224, 224, 3), include_top=True, weights="imagenet")
-# pre_loadnet = load_model(f'tensorflow_models/emptybox/emptybox.h5', compile=False)
-=======
 models = {}
 loaded = False
->>>>>>> 4a874623c4102355c6d5afe7d7f1c832ca09670c
 
 def classify_thread(image, model):
 

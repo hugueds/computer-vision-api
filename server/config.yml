@@ -8,13 +8,13 @@ server:
     address_b: '10.33.22.113'
     port: 5000
     pytesseract_path: 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
+    pytesseract_path_linux: 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
     image_save_path: 'C:/Data'
-    image_save_path2: '/tmp/Data/'
-    image_save_path3: 'C:/10.33.22.113/Data/Pictures'
+    image_save_path_linux: '/tmp/Data/'    
 image:
     default_size: '640x480'
 models:
-    path: './static/assets/models/server'
+    path: './static/models'
     graph_file: 'keras_model.h5'
     emptybox:
         name: 'emptybox'

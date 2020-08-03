@@ -7,7 +7,6 @@ export class Device {
   model: DeviceModel;
   instanceId: number;
   createdAt: Date;
-
 }
 
 export enum DeviceModel {

@@ -13,15 +13,15 @@ class Result():
         self.label = label
         self.confidence = confidence
         self.path = path
-        self.timestamp = datetime.now()
+        self.timestamp = datetime.now()                
 
     @staticmethod
-    def get(offset, quantity):
+    def get(offset, quantity, instance='%', date=''):
 
-        sql = ''' SELECT * FROM Result order by ID DESC LIMIT (?) OFFSET (?)'''        
+        sql = ''' SELECT * FROM Result  WHERE Instance LIKE ? order by ID DESC LIMIT (?) OFFSET (?) '''
         cursor = db.connect().cursor()       
 
-        d = (quantity, offset)
+        d = (instance, quantity, offset)
         cursor.execute(sql, (d))
 
         results = []

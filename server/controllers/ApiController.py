@@ -10,11 +10,7 @@ from pathlib import Path
 from datetime import datetime
 from PIL import Image
 from models import Instance, Device, Result 
-
-debug_model = True
-
-if debug_model:
-    from models import TFModel
+from sys import platform
 
 class ApiController:   
     
@@ -22,13 +18,18 @@ class ApiController:
         try:
             with open('config.yml', 'r') as f:
                 config = yaml.safe_load(f)
-            self.image_save_path = config['server']['image_save_path']
-            pyt.pytesseract.tesseract_cmd = config['server']['pytesseract_path']
+            
+            if platform == 'linux' or platform == 'linux2':
+                self.image_save_path = config['server']['image_save_path_linux']
+                pyt.pytesseract.tesseract_cmd = config['server']['pytesseract_path_linux']
+            else:
+                self.image_save_path = config['server']['image_save_path']
+                pyt.pytesseract.tesseract_cmd = config['server']['pytesseract_path']
+
         except Exception as e:                        
             logging.error('APIController::' + str(e))
 
     def index(self):
-        self.counter += 1
         return "ApiController"    
 
     def get_ocr(self, base64_image, knowledgeList=[]):        

@@ -4,8 +4,10 @@
 
 export const environment = {
   production: false,
-  server: 'https://10.33.22.113:5000/api',
-  modelPath: 'assets/models/client/{model}/model.json'
+  // server: 'https://10.33.22.113:5000/api',
+  server: 'https://localhost:5000/api',
+  // modelPath: 'assets/models/client/{model}/model.json'
+  modelPath: 'https://localhost:5000/models/client/{model}/model.json'
 };
 
 export const quaggaConfig = {

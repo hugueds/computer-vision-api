@@ -1,31 +1,42 @@
 # TODO
 
+## 2020-08-02
+
+- [ ] Alterar a pasta padrão dos modelos salvos
+- [ ] Ao iniciar o programa, copiar as pastas dos modelos dos clientes para a pasta assets
+- [ ] Validar o IP antes de criar o cadastro em Config
+- [ ] Adicionar um ícone para o projeto
+- [ ] Adicionar Datepicker na pagina logs
+- [ ] Reduzir o tamanho do timestamp nos logs
+- [ ] Adicionar o nome do modelo e data na querystring de busca dos resultados
+- [x] Substituir valores numericos por Strings em Config Devices
+
 ## 2020-07-31
 
 - [ ] Adicionar metodo para recarregar os modelos no servidor após salva-los
-- [ ] Verificar se o modelo possui as duas instancias... caso nao tiver o servidor não habilitar a camera, caso não tenha a do cliente não habilitar a inferencia
-caso nao tenha as duas bloquear a camera
-- [ ] Limpar campos no dispositivo após a inclusão
-- [ ] Trazer os logs em branco e só resgatar após selecionar a instância
+- [ ] Verificar se o modelo possui as duas instancias... caso nao tiver o servidor não habilitar a camera, caso não tenha a do cliente não habilitar a inferencia caso nao tenha as duas bloquear a camera
+- [ ] Trazer apenas os 10 logs gerais e só resgatar o restante após selecionar a instância
 - [ ] Criar modal para ver mais os 10 ultimos resultados de inferência
+- [x] Limpar campos no dispositivo após a inclusão
 - [x] Colocar botões de configurações e de inclusão na linha de baixo
 
 ## 2020-07-22
 
 - [ ] Quando deletar uma instancia, deletar tambem as pastas envolvidas
-- [ ] Liberar botão de tirar foto somente se estiver em OK
+- [ ] Liberar botão de tirar foto somente se estiver em OK - (Opcional)
 - [ ] Fazer busca nos logs por data e instancia
-- [ ] Pintar linhas OKs e NOT_OKs
+- [ ] Pintar linhas OKs e NOT_OKs nos Logs
+- [ ] Pintar linhas OKs e NOT_OKs nas configurações da instância
 - [x] Adicionar coluna nas instâncias que diga se há ou não modelos relacionados
 - [x] Criar uma pag para gerenciar modelos, eles devem conter 1 - JS Model (cliente), 2 - Keras Model(servidor), 3 - Instance list
 
 ## 2020-07-15
 
-- [ ] Adicionar componentes de tabelas especificas para as configurações
-- [ ] Adicionar Select para campos não mutaveis nas configurações (deviceType, identifierMode, instanceType, save)
-- [ ] Alterar input text para select no campo instancia na tabela Device
-- [ ] Fazer botao de input para subir os modelos
-- [ ] Criar serviço para salvar os modelos em pasta de acordo com o nome
+- [x] Adicionar Select para campos não mutaveis nas configurações (deviceType, identifierMode, instanceType, save)
+- [x] Adicionar componentes de tabelas especificas para as configurações
+- [x] Alterar input text para select no campo instancia na tabela Device
+- [x] Fazer botao de input para subir os modelos
+- [x] Criar serviço para salvar os modelos em pasta de acordo com o nome
 
 ## 2020-07-13
 

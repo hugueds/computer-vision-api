@@ -41,7 +41,7 @@ class Device():
         cursor.execute(query, (id_,))
 
         devices = []
-        for id_, user, name, ip, model, created_at, instance_id in cursor.fetchall():
+        for id_, name, user , ip, model, created_at, instance_id in cursor.fetchall():
             device = Device()
             device.id_ = id_
             device.user = user
@@ -60,7 +60,7 @@ class Device():
         try:
             print('Creating a new Device ' + self.ip)
             sql = ''' 
-                INSERT INTO Device(user, name, ip ,instance_id, model, created_at) 
+                INSERT INTO Device(name, user, ip ,instance_id, model, created_at) 
                 VALUES(?,?,?,?,?,?) 
             '''
 
@@ -82,8 +82,8 @@ class Device():
             print(device.to_json())
             sql = ''' UPDATE Device
                 SET
-                    user = ?, 
                     name = ?,  
+                    user = ?, 
                     ip = ?,
                     model = ?,         
                     instance_id = ?
@@ -91,7 +91,7 @@ class Device():
             '''
             connection = db.connect()
             cursor = connection.cursor()
-            d = (device.user, device.name, device.ip,
+            d = (device.name, device.user,  device.ip,
                  device.model, device.instance_id, device.id_)
             cursor.execute(sql, (d))
             connection.commit()
@@ -117,8 +117,8 @@ class Device():
     def to_json(self):
         return {
             "id": self.id_,
-            "user": self.user,
             "name": self.name,
+            "user": self.user,
             "ip": self.ip,
             "model": self.model,
             "instanceId": self.instance_id,

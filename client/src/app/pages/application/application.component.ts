@@ -17,9 +17,13 @@ import { SystemService } from 'src/app/services/system.service';
 
 export class ApplicationComponent implements OnInit {
 
+
+  clientModel = false; // TODO
+  serverModel = true; // TODO
   instanceDevice: InstanceDevice;
   subscription: any;
   status: any;
+  lastResults = [];
 
   defaultInstanceDevice = {
     instance: { name: 'default' }

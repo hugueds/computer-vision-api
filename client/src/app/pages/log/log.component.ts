@@ -3,6 +3,8 @@ import { Result } from 'src/app/models/Result';
 import { ResultService } from 'src/app/services/result.service';
 import { PageEvent } from '@angular/material/paginator';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { InstanceService } from 'src/app/services/instance.service';
+import { Instance } from 'src/app/models/Instance';
 
 @Component({
   selector: 'app-log',
@@ -16,6 +18,7 @@ export class LogComponent implements OnInit {
   offset = 0;
   pageEvent: PageEvent;
   length = 999;
+  instances: Array<Instance>;
 
   results: Array<Result>;
 
@@ -30,10 +33,17 @@ export class LogComponent implements OnInit {
     'path',
   ]
 
-  constructor(private _resultService: ResultService) { }
+  constructor(
+    private _resultService: ResultService
+    , private _instanceService: InstanceService) { }
 
   ngOnInit(): void {
+    this.getInstances();
     this.getResults(0, this.pageSize);
+  }
+
+  getInstances() {
+    this._instanceService.getAll().then(inst => this.instances = inst);
   }
 
   getResults(offset = 0, quantity = 10) {

@@ -4,13 +4,14 @@ import { Result } from 'src/app/models/Result';
 import Quagga from 'quagga';
 import { InstanceDevice } from 'src/app/models/InstanceDevice';
 import { IdentifierMode, Instance } from 'src/app/models/Instance';
-import { quaggaConfig, cameraConstraints, MOBILE_WIDTH } from "src/environments/environment";
+import { quaggaConfig, cameraConstraints, MOBILE_WIDTH, environment } from "src/environments/environment";
 declare let ml5: any;
 
 const mobileCanvasSize = 300;
 const videoWidth = 640;
 const videoHeight = 480;
-const modelPath = `assets/models/client/{model}/model.json`;
+// const modelPath = `assets/models/client/{model}/model.json`;
+const modelPath = environment.modelPath;
 const frameRate = 60;
 @Component({
   selector: 'app-camera',
@@ -37,6 +38,9 @@ export class CameraComponent implements OnInit {
       // 2 -> abrir camera e fechar barcode
     }
   }
+
+  @Input('clientModel') clientModel: boolean;
+  @Input('serverModel') serverModel: boolean;
 
   @Output('cameraEvent') cameraEmitter = new EventEmitter<any>();
 

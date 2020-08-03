@@ -6,6 +6,25 @@
       <h1>ULTIMOS RESULTADOS</h1>
     </div>
 
+    <div>
+    <div>selecione uma instancia</div>    
+
+    <mat-form-field>
+    <mat-select>
+      <mat-option *ngFor="let i of instances" [value]="i.id"> {{ i.name }}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+    <div>selecione uma data</div>
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>Choose a date</mat-label>
+      <input matInput [matDatepicker]="picker">
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <button mat-raised-button (click)="picker.open()">Open</button>
+    
+    </div>
+
     <mat-paginator [length]="length" [pageSize]="pageSize" (page)="update($event)">
     </mat-paginator>
 

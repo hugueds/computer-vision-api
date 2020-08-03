@@ -32,9 +32,3 @@ def index():
     return send_from_directory('../static', 'index.html')   
     
 
-<<<<<<< HEAD
-@app.route('/<model>', methods=['GET'])
-def index_files(model):    
-    return send_from_directory('../test', f'./{model}/')
-=======
->>>>>>> 4a874623c4102355c6d5afe7d7f1c832ca09670c
