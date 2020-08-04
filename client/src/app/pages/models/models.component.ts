@@ -60,14 +60,13 @@ export class ModelsComponent implements OnInit {
     this._instanceService.deleteModel(this.instance);
   }
 
-  openDialog() {
+  openDialog(instanceId) {
     const dialogRef = this.dialog.open(DialogComponent, {
-      data: { instanceId: 999 }
+      data: { instanceId }
     });
-
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(`Dialog result: ${result}`);
-      // reload
+      console.log(`Dialog result: ${result}`);
+      this.getInstances();
     });
   }
 

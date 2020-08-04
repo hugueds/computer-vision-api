@@ -74,7 +74,7 @@ export class InstanceTableComponent implements OnInit {
   }
 
   deleteInstance(instance) {
-    const confirm = window.confirm('Deseja excluir este dispositivo?');
+    const confirm = window.confirm('Deseja excluir esta instância?');
     if (!confirm)
       return;
 

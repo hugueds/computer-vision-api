@@ -17,12 +17,10 @@ import { SystemService } from 'src/app/services/system.service';
 
 export class ApplicationComponent implements OnInit {
 
-
-  clientModel = false; // TODO
-  serverModel = true; // TODO
   instanceDevice: InstanceDevice;
   subscription: any;
   status: any;
+  modelFound = false;
   lastResults = [];
 
   defaultInstanceDevice = {
@@ -71,6 +69,8 @@ export class ApplicationComponent implements OnInit {
 
   deviceLoaded(instanceDevice: InstanceDevice) {
     const idMode = instanceDevice.instance.identifierMode;
+    if (instanceDevice.instance.clientModel)
+      this.modelFound = true;
     this.instanceDevice = instanceDevice;
     this.instruction.step = 1;
     this.instruction.identifier = '000000';

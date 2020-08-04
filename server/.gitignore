@@ -9,4 +9,6 @@ templates/
 ./*/__pycache__
 __pycache__
 ./static/assets/models/
-
+tf_models/*
+tf_models
+test

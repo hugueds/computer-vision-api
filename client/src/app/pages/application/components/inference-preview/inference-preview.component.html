@@ -1,6 +1,10 @@
 <ng-container>
-  <div class="inference-preview" *ngIf="!loaded">
+  <div class="inference-preview" [class.hidden]="loaded">
     <span>CARREGANDO MODELO...</span>
+  </div>
+
+  <div class="inference-preview" [class.hidden]="_modelFound">
+    <span>MODELO NÃO ENCONTRADO</span>
   </div>
 
   <div class="inference-preview" *ngIf="loaded">

@@ -15,11 +15,9 @@
           <td>{{ instance.name }}</td>
           <td>{{ instance.clientModel }}</td>
           <td>{{ instance.serverModel }}</td>
-          <td> <button (click)="openDialog()"> Atualizar </button></td>
+          <td> <button (click)="openDialog(instance.id)"> Atualizar </button></td>
         </tr>
       </tbody>
     </table>
   </div>
-  <input name="file" type="file" (change)="updateFileChange($event.target.files)">
-  <button (click)="mockPost()">SEND FILE</button>
 </ng-container>

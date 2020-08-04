@@ -1,4 +1,4 @@
-export class Inference {
+export interface Inference {
     label: string;
     confidence: number;
 }

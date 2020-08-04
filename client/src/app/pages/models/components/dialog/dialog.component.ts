@@ -11,10 +11,13 @@ export class DialogComponent implements OnInit {
 
 
   instanceId: number;
+  model = '';
+  file = null;
+  isUploading = false;
 
   constructor(
-    public dialogRef: MatDialogRef<DialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data,
+    public dialogRef: MatDialogRef<DialogComponent>,
     private _instanceService: InstanceService) {
       this.instanceId = data.instanceId;
     }
@@ -23,10 +26,24 @@ export class DialogComponent implements OnInit {
 
   }
 
-  uploadeFile(model, file) {
-    const instanceId = this.instanceId;
-    this._instanceService.uploadModel(instanceId, model, file).then(res => {
+  onFileChange(file) {
+    this.file = null;
+    this.file = file;
+  }
 
+  updateModel(model) {
+    this.model = model;
+  }
+
+  uploadFile() {
+    const instanceId = this.instanceId;
+    const model = this.model;
+    const file = this.file;
+    this.isUploading = true;
+    // BLOQUEAR BOTAO
+    this._instanceService.uploadModel(instanceId, model, file).then(res => {
+      this.dialogRef.close('DONE');
+      this.isUploading = false;
     });
   }
 

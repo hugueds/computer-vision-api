@@ -1,15 +1,13 @@
 <ng-container>
     <app-instance-info [status]="status" [instanceDevice]="instanceDevice"></app-instance-info>
     <app-instructions [status]="status" [instruction]="instruction"></app-instructions>
-    <app-camera 
-        (cameraEvent)="onCameraEvent($event)" 
-        [clientModel]="clientModel"
-        [serverModel]="serverModel"
-        [instance]="instanceDevice?.instance.name" 
-        [code]="instruction.code"        
+    <app-camera
+        (cameraEvent)="onCameraEvent($event)"
+        [instanceDevice]="instanceDevice"
+        [code]="instruction.code"
         >
-        
+
     </app-camera>
-    <app-inference-preview [inference]="inferencePreview" ></app-inference-preview>
+    <app-inference-preview [modelFound]="modelFound" [inference]="inferencePreview" ></app-inference-preview>
     <app-last-result [lastResult]="lastResult"></app-last-result>
 </ng-container>

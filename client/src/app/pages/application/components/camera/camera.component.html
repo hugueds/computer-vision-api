@@ -10,7 +10,7 @@
       </div>
     </div>
     <div
-    [hidden]="!isReading || !serverModel"
+    [hidden]="!isReading"
     [className]="isMobile ? 'capture-button--mobile' : 'capture-button'">
       <app-capture-button (capture)="onCapture()"> </app-capture-button>
     </div>

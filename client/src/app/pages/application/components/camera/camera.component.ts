@@ -25,7 +25,7 @@ export class CameraComponent implements OnInit {
   @ViewChild('hiddenCanvas', { static: true }) public hiddenCanvas: ElementRef;
   @ViewChild('barcode', { static: true }) public barcode: ElementRef;
 
-  @Input('instance') set instance(val: any) {
+  @Input('instanceDevice') set instanceDevice(val: any) {
     if (val) {
       this.initializeModel(val);
     }
@@ -38,9 +38,6 @@ export class CameraComponent implements OnInit {
       // 2 -> abrir camera e fechar barcode
     }
   }
-
-  @Input('clientModel') clientModel: boolean;
-  @Input('serverModel') serverModel: boolean;
 
   @Output('cameraEvent') cameraEmitter = new EventEmitter<any>();
 
@@ -72,8 +69,9 @@ export class CameraComponent implements OnInit {
     // this.openBarcodeScanner();
   }
 
-  initializeModel(instance = 'default') {
-    if (this.modelLoaded)
+  initializeModel(instanceDevice: InstanceDevice) {
+    let instance = instanceDevice.instance.name;
+    if (this.modelLoaded || !instanceDevice.instance.clientModel)
       return;
     if (instance != 'default')
       instance = modelPath.replace('{model}', instance.toLowerCase());
@@ -104,9 +102,7 @@ export class CameraComponent implements OnInit {
     const stream = this.video.nativeElement.srcObject;
     if (stream) {
       const tracks = stream.getTracks();
-      tracks.forEach(function (track) {
-        track.stop();
-      });
+      tracks.forEach(track =>track.stop());
     }
     this.video.nativeElement.srcObject = null;
     this.canvas.nativeElement.style.display = 'none';
@@ -212,7 +208,7 @@ export class CameraComponent implements OnInit {
     const inference = res[0];
     inference.label = inference.label.split(',')[0];
     this.changeBackgroundColor(inference.label);
-    this.cameraEmitter.emit({ name: 'onInference', params: inference })
+    this.cameraEmitter.emit({ name: 'onInference', params: inference });
   }
 
   changeBackgroundColor(label) {
@@ -237,6 +233,7 @@ export class CameraComponent implements OnInit {
     hiddenCtx.drawImage(this.video.nativeElement, 0, 0, videoWidth, videoHeight);
     this.capturedFrame = this.hiddenCanvas.nativeElement.toDataURL();
     this.cameraEmitter.emit({ name: 'onCapture', params: '' });
+
   }
 
   onCancel() {
@@ -253,11 +250,9 @@ export class CameraComponent implements OnInit {
   }
 
   saveImage(image) {
-
     const link = document.createElement("a");
     const date = new Date().toISOString().slice(0, 19).replace('T', '-').replace(/:/g, '').replace(/-/g, '');
     document.body.appendChild(link); // for Firefox
-
     link.setAttribute("href", image);
     link.target = '_blank';
     link.setAttribute("download", date + '.jpg');

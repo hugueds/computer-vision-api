@@ -45,33 +45,41 @@ class TFModel:
             with open('config.yml', 'r') as f:
                 config = yaml.safe_load(f)
                 
-            c = config['models'][name]
-            self.model_name = name
-            self.name = c['name']
-            self.labels = c['labels']
-            self.graph = c['graph']
-            self.size = c['size']
-            self.channels = c['channels']            
-            self.path = config['models']['path']
+            self.name = name
+            self.path = config['models']['path'] + '/server'
             self.default_graph_file = config['models']['graph_file']
-            # self.model = load_model(f'tensorflow_models/{self.graph}')
-            self.load_models()
+            # self.load_models()
+            # c = config['models'][name]
+            # self.name = c['name']
+            # self.labels = c['labels']
+            # self.graph = c['graph']
+            # self.size = c['size']
+            # self.model = load_model(f'tensorflow_models/{self.graph}')                       
+            
         except Exception as ex:            
             logging.error('TFModel __init__::Invalid Model Configuration::'+str(ex))
 
     def predict(self, image):
 
-        if self.channels == 1:
-            image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-            _, image = cv.threshold(image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+        # if self.channels == 1: # config file
+        #     image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+        #     _, image = cv.threshold(image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+
+        # if (self.size):
 
         image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-        image = cv.resize(image, (self.size, self.size), cv.INTER_AREA)
+        # image = cv.resize(image, (self.size, self.size), cv.INTER_AREA) # use config file
+        image = cv.resize(image, (224,224), cv.INTER_AREA)
         image = image / 255
-        image = image.reshape(1, self.size, self.size, self.channels)
+        # image = image.reshape(1, self.size, self.size, self.channels) # use config file
+        image = image.reshape(1, 224, 224, 3)
+
+        self.load_model_single(self.name, self.path)
+
+
         
-        with concurrent.futures.ThreadPoolExecutor() as executor:
-            # future = executor.submit(classify_thread, image, self, self.labels)
+        
+        with concurrent.futures.ThreadPoolExecutor() as executor:            
             future = executor.submit(classify_thread, image, self.model_name)
             return future.result()
 
@@ -91,19 +99,25 @@ class TFModel:
                         labels = []
                         label_file = open('labels.txt', 'r')
                         for line in label_file:
-                            labels.append(line.split(' ')[-1])
+                            label = line.split(' ')[-1][:-1]
+                            labels.append(label)
                         label_file.close()
                         models[model_name] = {                         
                             'graph': load_model(f'{self.path}/{model_name}/{self.default_graph_file}', compile=False),
                             'labels': labels
                         }              
 
-    def load_model(self, model_name, path, filename='keras_model.h5'):
+    def load_model_single(self, model_name, path, filename='keras_model.h5'):
         global models
+        if model_name in models:
+            print('Model already loaded')
+            return
+        print('Loading Model ' + model_name)
         labels = []
         label_file = open(f'{path}/{model_name}/labels.txt', 'r')
         for line in label_file:
-            labels.append(line.split(' ')[-1])
+            label = line.split(' ')[-1][:-1]            
+            labels.append(label)
         label_file.close()
         models[model_name] = { 'labels': labels, 'graph': load_model(f'{path}/{model_name}/{filename}', compile=False)}
 
@@ -113,7 +127,8 @@ class TFModel:
         labels = []
         label_file = open(f'{path}/{model_name}/labels.txt', 'r')
         for line in label_file:
-            labels.append(line.split(' ')[-1])
+            label = line.split(' ')[-1][:-1]
+            labels.append(label)
         label_file.close()
         models[model_name] = { 'labels': labels, 'graph': load_model(f'{path}/{model_name}/{filename}', compile=False)}
 

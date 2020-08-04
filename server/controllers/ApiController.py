@@ -9,7 +9,7 @@ from flask import jsonify
 from pathlib import Path
 from datetime import datetime
 from PIL import Image
-from models import Instance, Device, Result 
+from models import Instance, Device, Result, TFModel
 from sys import platform
 
 class ApiController:   
@@ -58,16 +58,13 @@ class ApiController:
     def classify(self, content):
         
         base64_image = content['picture']
-        identifier = content['partId']
+        identifier = 'not_defined' if content['partId'] == 1 else content['partId'] 
         model = content['model']
         save = content['save']        
         user = content['user']
         device = content['device']
-
-        if identifier == '':
-            identifier = 'not_defined'
-                
-        image = data_uri_to_cv2_img(base64_image)      
+               
+        image = data_uri_to_cv2_img(base64_image)
 
         image_path = ''
         file_name = ''

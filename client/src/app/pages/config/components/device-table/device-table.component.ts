@@ -13,7 +13,7 @@ import { InstanceService } from 'src/app/services/instance.service';
 export class DeviceTableComponent implements OnInit {
 
   models = Object.keys(DeviceModel).filter(k => isNaN(Number(k)));
-  instances: Array<Instance>;
+  instances: Array<Instance> = [];
 
   deviceForm = {
     id: 0,
@@ -33,14 +33,18 @@ export class DeviceTableComponent implements OnInit {
   constructor(private _deviceService: DeviceService
     ,private _instanceService: InstanceService) { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.clearForm();
     this.getInstances();
     this.getDevices();
   }
 
   getInstanceName(instanceId) {
-    return this.instances.filter(i => i.id == instanceId)[0].name;
+    if (!this.instances.length)
+      return;
+    const instance = this.instances.filter(i => i.id == instanceId)[0];
+    return instance.name;
+
   }
 
   getInstances() {
@@ -65,7 +69,7 @@ export class DeviceTableComponent implements OnInit {
       model: '',
       instanceId: ''
     }
-    
+
   }
 
   cancel() {
@@ -76,9 +80,9 @@ export class DeviceTableComponent implements OnInit {
   create(device) {
     this._deviceService.create(device)
     .then(res => {
+      this.editMode = false;
       this.clearForm();
       this.getDevices();
-      this.editMode = false;
     })
     .catch(e => console.error(e))
   }
@@ -86,6 +90,8 @@ export class DeviceTableComponent implements OnInit {
   update(device) {
     this._deviceService.update(device)
     .then(res => {
+      this.editMode = false;
+      this.clearForm();
       this.getDevices();
     })
     .catch(e => console.error(e))
@@ -96,7 +102,7 @@ export class DeviceTableComponent implements OnInit {
     this.deviceForm = {...device};
   }
 
-  
+
 
   delete(device) {
     const confirm = window.confirm('Deseja excluir este dispositivo?');

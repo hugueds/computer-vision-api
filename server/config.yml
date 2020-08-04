@@ -3,18 +3,19 @@ project:
     version: '0.0.10'
 database:
     name: 'cv_service.db'
+    path: ''
 server:
     address: '0.0.0.0'
     address_b: '10.33.22.113'
     port: 5000
     pytesseract_path: 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
     pytesseract_path_linux: 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
-    image_save_path: 'C:/Data'
+    image_save_path: '/Data'
     image_save_path_linux: '/tmp/Data/'    
 image:
     default_size: '640x480'
 models:
-    path: './static/models'
+    path: './tf_models'
     graph_file: 'keras_model.h5'
     emptybox:
         name: 'emptybox'

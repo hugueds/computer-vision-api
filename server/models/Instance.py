@@ -130,9 +130,10 @@ class Instance():
             cursor.execute(sql, (id_,))
             conn.commit()
             cursor.close()
+            # Deletar as pastas e os modelos cliente / servidor com o nome da pasta
 
         except Exception as e:
-            logging.error('Instance::delete::'+str(e))
+            logging.error('Instance::delete::' + str(e))
 
     def to_json(self):
         return {

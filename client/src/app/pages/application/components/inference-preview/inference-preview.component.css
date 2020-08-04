@@ -7,5 +7,9 @@
   align-items: center;
   font-size: medium;
   color: #fafafa;
-  background-color: #005d6d;  
+  background-color: #005d6d;
+}
+
+.hidden {
+  display: none;
 }

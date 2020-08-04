@@ -6,6 +6,8 @@ export interface Instance {
     identifierMode: IdentifierMode;
     save: boolean;
     createdAt: Date;
+    clientModel: boolean;
+    serverModel: boolean;
 }
 
 export enum InstanceType {

@@ -9,19 +9,19 @@
             <mat-select [(ngModel)]="instanceForm.type">
                 <mat-option *ngFor="let t of instanceTypes; let i = index" [value]="i" >
                     {{ instanceTypes[i] }}
-                </mat-option>    
-            </mat-select>            
+                </mat-option>
+            </mat-select>
         </mat-form-field>
         <mat-form-field class="">
             <mat-label>LEITURA</mat-label>
             <mat-select [(ngModel)]="instanceForm.identifierMode">
                 <mat-option *ngFor="let im of identifierModes; let i = index" [value]="i" >
                     {{ identifierModes[i] }}
-                </mat-option> 
-            </mat-select>            
+                </mat-option>
+            </mat-select>
         </mat-form-field>
         <mat-form-field class="">
-            <mat-label>SALVAR</mat-label>            
+            <mat-label>SALVAR</mat-label>
             <mat-select [(ngModel)]="instanceForm.save">
                 <mat-option value="1">SIM</mat-option>
                 <mat-option value="0">NÃO</mat-option>
@@ -64,7 +64,7 @@
 
         <ng-container matColumnDef="createdAt">
             <mat-header-cell *matHeaderCellDef>CRIADO EM</mat-header-cell>
-            <mat-cell *matCellDef="let instance"> {{ instance.createdAt }}</mat-cell>
+            <mat-cell *matCellDef="let instance"> {{ instance.createdAt.slice(0,16) }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="actions">

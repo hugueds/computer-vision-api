@@ -13,19 +13,19 @@
         <input name="ip" matInput [(ngModel)]="deviceForm.ip">
     </mat-form-field>
     <mat-form-field class="">
-        <mat-label>TIPO</mat-label>        
-        <mat-select name="model" matInput [(ngModel)]="deviceForm.model"> 
+        <mat-label>TIPO</mat-label>
+        <mat-select name="model" matInput [(ngModel)]="deviceForm.model">
             <mat-option *ngFor="let m of models; let i = index" [value]="i" >
                 {{ models[i] }}
-            </mat-option>            
+            </mat-option>
         </mat-select>
     </mat-form-field>
     <mat-form-field class="">
-        <mat-label>INSTANCIA</mat-label>        
+        <mat-label>INSTANCIA</mat-label>
         <mat-select name="instanceId" [(ngModel)]="deviceForm.instanceId">
             <mat-option *ngFor="let inst of instances; let i = index" [value]="inst.id" >
                 {{ inst.name }}
-            </mat-option>            
+            </mat-option>
         </mat-select>
     </mat-form-field>
 
@@ -70,7 +70,7 @@
 
     <ng-container matColumnDef="createdAt">
         <mat-header-cell *matHeaderCellDef>CRIADO EM</mat-header-cell>
-        <mat-cell *matCellDef="let device"> {{ device.createdAt }}</mat-cell>
+        <mat-cell *matCellDef="let device"> {{ device.createdAt.slice(0,16) }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="actions">

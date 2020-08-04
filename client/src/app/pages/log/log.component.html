@@ -7,7 +7,7 @@
     </div>
 
     <div>
-    <div>selecione uma instancia</div>    
+    <div>selecione uma instancia</div>
 
     <mat-form-field>
     <mat-select>
@@ -22,7 +22,7 @@
       <mat-datepicker #picker></mat-datepicker>
     </mat-form-field>
     <button mat-raised-button (click)="picker.open()">Open</button>
-    
+
     </div>
 
     <mat-paginator [length]="length" [pageSize]="pageSize" (page)="update($event)">
@@ -62,7 +62,7 @@
 
         <ng-container matColumnDef="timestamp">
           <mat-header-cell *matHeaderCellDef>CRIADO EM</mat-header-cell>
-          <mat-cell *matCellDef="let result"> {{ result.timestamp }}</mat-cell>
+          <mat-cell *matCellDef="let result"> {{ result.timestamp.slice(0,16) }}</mat-cell>
         </ng-container>
 
         <ng-container matColumnDef="path">

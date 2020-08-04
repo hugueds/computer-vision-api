@@ -6,6 +6,8 @@ from routes import router, api_router
 
 mimetypes.add_type("application/javascript", ".js", True)
 
+# TODO: Carregar todos os modelos na inicialização
+
 db_name = 'cv_service.db' # Read from config
 db.set_name(db_name)
 db.create()
@@ -20,15 +22,15 @@ CORS(app)
 
 @app.route('/model/<model>/<extension>', methods=['GET'])
 def index_files(model, extension):
-    folder = '../static/models/'    
+    folder = '../tf_models/client'    
     return send_from_directory(folder, f'{model}/{extension}')
 
 @app.route('/application', methods=['GET'])
 def index_redirect():    
-    return send_from_directory('../static', 'index.html')   
+    return send_from_directory('../static/', 'index.html')   
 
 @app.route('/', methods=['GET'])
 def index():    
-    return send_from_directory('../static', 'index.html')   
+    return send_from_directory('../static/', 'index.html')   
     
 

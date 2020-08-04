@@ -16,8 +16,16 @@ export class InferencePreviewComponent  {
     }
   }
 
+  @Input() set modelFound(val: boolean) {
+    if (val) {
+      this._modelFound = val;
+    }
+  }
+
+  _modelFound = false;
   loaded = false;
   inference: Inference;
+
 
   constructor() { }
 

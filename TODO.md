@@ -1,14 +1,23 @@
 # TODO
 
+## 2020-08-04
+
+- [ ] Criar botão para recarregar no Navbar
+
+## 2020-08-03
+
+- [ ] Verificar o nome do arquivo antes de salva-lo, já fará com que classifique se é cliente ou servidor
+- [ ] Inverter o Upload com a seleção de cliente ou servidor
+
 ## 2020-08-02
 
-- [ ] Alterar a pasta padrão dos modelos salvos
-- [ ] Ao iniciar o programa, copiar as pastas dos modelos dos clientes para a pasta assets
 - [ ] Validar o IP antes de criar o cadastro em Config
 - [ ] Adicionar um ícone para o projeto
 - [ ] Adicionar Datepicker na pagina logs
-- [ ] Reduzir o tamanho do timestamp nos logs
 - [ ] Adicionar o nome do modelo e data na querystring de busca dos resultados
+- [x] Alterar a pasta padrão dos modelos salvos
+- [-] Ao iniciar o programa, copiar as pastas dos modelos dos clientes para a pasta assets (Não mais necessario apos reorganização das pastas)
+- [x] Reduzir o tamanho do timestamp nos logs
 - [x] Substituir valores numericos por Strings em Config Devices
 
 ## 2020-07-31
