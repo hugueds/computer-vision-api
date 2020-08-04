@@ -1,0 +1,104 @@
+{
+  "configVersion": 1,
+  "timestamp": 1596457974903,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "urls": [
+        "/favicon.ico",
+        "/index.html",
+        "/main-es2015.9e5e3e4225ca50b6bdcb.js",
+        "/main-es5.9e5e3e4225ca50b6bdcb.js",
+        "/manifest.webmanifest",
+        "/polyfills-es2015.f2c5ab749249a66bdf26.js",
+        "/polyfills-es5.7fdfbbdda5a500818c0c.js",
+        "/runtime-es2015.1eba213af0b233498d9d.js",
+        "/runtime-es5.1eba213af0b233498d9d.js",
+        "/scripts.ebb8fdcab8e4cc566d3c.js",
+        "/styles.d872a08a1289da392079.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "urls": [
+        "/assets/icons/camera.png",
+        "/assets/icons/icon-128x128.png",
+        "/assets/icons/icon-144x144.png",
+        "/assets/icons/icon-152x152.png",
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-384x384.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/icons/icon-72x72.png",
+        "/assets/icons/icon-96x96.png",
+        "/assets/icons/scania-icon.png",
+        "/assets/models/client/emptybox/metadata.json",
+        "/assets/models/client/emptybox/model.json",
+        "/assets/models/client/emptybox/weights.bin",
+        "/assets/models/emptybox/metadata.json",
+        "/assets/models/emptybox/model.json",
+        "/assets/models/emptybox/weights.bin",
+        "/assets/models/random/metadata.json",
+        "/assets/models/random/model.json",
+        "/assets/models/random/weights.bin"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/assets/icons/camera.png": "66b285c69e3a60c2d646de95958b26fc060803df",
+    "/assets/icons/icon-128x128.png": "dae3b6ed49bdaf4327b92531d4b5b4a5d30c7532",
+    "/assets/icons/icon-144x144.png": "b0bd89982e08f9bd2b642928f5391915b74799a7",
+    "/assets/icons/icon-152x152.png": "7479a9477815dfd9668d60f8b3b2fba709b91310",
+    "/assets/icons/icon-192x192.png": "1abd80d431a237a853ce38147d8c63752f10933b",
+    "/assets/icons/icon-384x384.png": "329749cd6393768d3131ed6304c136b1ca05f2fd",
+    "/assets/icons/icon-512x512.png": "559d9c4318b45a1f2b10596bbb4c960fe521dbcc",
+    "/assets/icons/icon-72x72.png": "c457e56089a36952cd67156f9996bc4ce54a5ed9",
+    "/assets/icons/icon-96x96.png": "3914125a4b445bf111c5627875fc190f560daa41",
+    "/assets/icons/scania-icon.png": "73c677be5bd1af06c4dc01e2978ee22b93e7b520",
+    "/assets/models/client/emptybox/metadata.json": "f26d4038ed0e2c21009603512060dbfffb4628da",
+    "/assets/models/client/emptybox/model.json": "ffc445d43784d69de6da7675aa995ff26ede37b1",
+    "/assets/models/client/emptybox/weights.bin": "4d130b6405a9fcba51c5eb16c4523d447a49648c",
+    "/assets/models/emptybox/metadata.json": "f26d4038ed0e2c21009603512060dbfffb4628da",
+    "/assets/models/emptybox/model.json": "ffc445d43784d69de6da7675aa995ff26ede37b1",
+    "/assets/models/emptybox/weights.bin": "4d130b6405a9fcba51c5eb16c4523d447a49648c",
+    "/assets/models/random/metadata.json": "9b7121c15c526eefd2658bde02ea4108cc0c8c7f",
+    "/assets/models/random/model.json": "852a46ceb646b5468763c76d9836ebd76a3a1103",
+    "/assets/models/random/weights.bin": "5134181ef8f36c8933476170949daab0ce2cbead",
+    "/favicon.ico": "22f6a4a3bcaafafb0254e0f2fa4ceb89e505e8b2",
+    "/index.html": "a4b940c0e17f8cdfb45da7c67091dac7eba0c4df",
+    "/main-es2015.9e5e3e4225ca50b6bdcb.js": "5a30692af94fa668c49241fc75044544ad36baf4",
+    "/main-es5.9e5e3e4225ca50b6bdcb.js": "d5dea7725ab28f9a88c29068fc36838477a229a1",
+    "/manifest.webmanifest": "400460145284d8a4963aae6faf18bfb46179faa0",
+    "/polyfills-es2015.f2c5ab749249a66bdf26.js": "72ad4ccc0a3916ae4598199447cdeadd6d380570",
+    "/polyfills-es5.7fdfbbdda5a500818c0c.js": "dd551a4816902dd39f71a6af2a2220b9fa246d47",
+    "/runtime-es2015.1eba213af0b233498d9d.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "/runtime-es5.1eba213af0b233498d9d.js": "a9aafcf49f49145093fc831efd9b8e2f6c71bb9c",
+    "/scripts.ebb8fdcab8e4cc566d3c.js": "ac4a5c00d016e8ffb74663f3fd27d82af7380e4f",
+    "/styles.d872a08a1289da392079.css": "13b58cfc75a9750b607e3be9fc81a40a37442cc6"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ]
+}
