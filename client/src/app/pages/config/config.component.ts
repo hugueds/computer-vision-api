@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Device } from 'src/app/models/Device';
+import { InstanceService } from 'src/app/services/instance.service';
+import { Instance } from 'src/app/models/Instance';
 
 @Component({
   selector: 'app-config',
@@ -11,16 +13,17 @@ export class ConfigComponent implements OnInit {
 
   deviceForm: any;
   instanceForm: any;
-  devices: Array<Device>;  
+  devices: Array<Device>;
+  instances: Array<Instance>;
 
-  constructor() { }  
+  constructor(private _instanceService: InstanceService) { }
 
   ngOnInit(): void {
-    
+
   }
 
   updateTab() {
-
+    this._instanceService.getAll().then(instances => this.instances = instances);
   }
 
 

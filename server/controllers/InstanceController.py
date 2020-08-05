@@ -1,6 +1,7 @@
-from flask import jsonify
-from models import Instance
 import json
+import logging
+from flask import jsonify
+from models import Instance, Device
 
 class InstanceController():
 
@@ -45,10 +46,18 @@ class InstanceController():
         return jsonify(instance.to_json())
 
     def delete(self, id_):
-        if id_:
+        if id_:            
             instance = Instance.get_by_id(id_)
+            if instance.id_ == 1:
+                logging.info('Cannot delete Instance ID = 1')
+                return jsonify({"error": True, "message": f'Instance ID 1 cannot be deleted'})
+            devices = Device.get_by_instance_id(id_)
+            for d in devices:
+                d.instance_id = 1
+                d.update(d)
+            # Atualizar os dispositivos que tenham como ID essa instancia
             if instance:
-                instance.delete(id_)
+                # instance.delete(id_)
                 return ('Instance ID ' + str(id_) + ' Deleted')
             else:
                 return jsonify({"error": True, "message": f'Instance ID {id_} Not Found'})

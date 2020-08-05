@@ -1,12 +1,19 @@
 # TODO
 
+## 2020-08-05
+
+- [ ] Melhorar o layout da pagina modelos
+- [ ] Ao deletar uma instância, é necessário deletar também todos os devices que tem ela associada
+- [ ] Impedir que o usuário delete a instância de ID = 1 (default)
+- [ ] Log user actions
+
 ## 2020-08-04
 
-- [ ] Criar botão para recarregar no Navbar
+- [x] Criar botão para recarregar no Navbar
 
 ## 2020-08-03
 
-- [ ] Verificar o nome do arquivo antes de salva-lo, já fará com que classifique se é cliente ou servidor
+- [ ] Verificar o nome do arquivo antes de salva-lo, já fará com que classifique se é cliente ou servidor, remover os parenteses ao verificar o nome
 - [ ] Inverter o Upload com a seleção de cliente ou servidor
 
 ## 2020-08-02

@@ -130,6 +130,7 @@ class Instance():
             cursor.execute(sql, (id_,))
             conn.commit()
             cursor.close()
+            # Atualizar todos os dispositivos com a instancia associado
             # Deletar as pastas e os modelos cliente / servidor com o nome da pasta
 
         except Exception as e:

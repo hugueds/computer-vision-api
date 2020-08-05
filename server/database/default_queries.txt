@@ -1,0 +1,15 @@
+
+update instance set client_model = 1, server_model = 1 where id = 1;
+update instance set id = 1 where id = ?
+
+{
+  "clientModel": false,
+  "createdAt": "Wed, 05 Aug 2020 08:58:18 GMT",
+  "description": "default instance with imagenet classes",
+  "id": 1,
+  "identifierMode": 0,
+  "name": "default",
+  "save": 0,
+  "serverModel": false,
+  "type": 2
+}

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Device, DeviceModel } from 'src/app/models/Device';
 import { DeviceService } from 'src/app/services/device.service';
 import { Instance } from 'src/app/models/Instance';
@@ -12,8 +12,10 @@ import { InstanceService } from 'src/app/services/instance.service';
 })
 export class DeviceTableComponent implements OnInit {
 
+  @Input() instances: Array<Instance> = [];
+
   models = Object.keys(DeviceModel).filter(k => isNaN(Number(k)));
-  instances: Array<Instance> = [];
+  devices: Array<Device>;
 
   deviceForm = {
     id: 0,
@@ -25,9 +27,6 @@ export class DeviceTableComponent implements OnInit {
   }
 
   editMode = false;
-
-  devices: Array<Device>;
-
   displayedColumns = ['id', 'name', 'user', 'ip', 'model', 'instanceId', 'createdAt', 'actions']
 
   constructor(private _deviceService: DeviceService
