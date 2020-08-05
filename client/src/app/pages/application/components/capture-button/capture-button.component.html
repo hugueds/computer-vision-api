@@ -1,6 +1,6 @@
 <ng-container>
-    <div class="capture-button--container">
-        <button mat-fab (click)="capture()" >
+    <div *ngIf="enabled" class="capture-button--container">
+        <button [disabled]="!enabled" mat-fab (click)="capture()" >
           <img class="camera-icon" src="assets/icons/camera.png" />
         </button>
     </div>

@@ -12,7 +12,7 @@
     <div
     [hidden]="!isReading"
     [className]="isMobile ? 'capture-button--mobile' : 'capture-button'">
-      <app-capture-button (capture)="onCapture()"> </app-capture-button>
+      <app-capture-button [enabled]="serverModel" (capture)="onCapture()"> </app-capture-button>
     </div>
   </div>
   <app-confirmation-buttons

@@ -1,17 +1,20 @@
 <mat-vertical-stepper linear  #stepper>
   <mat-step>
-      <ng-template matStepLabel>Escolha um tipo</ng-template>
-        <button mat-button matStepperNext (click)="updateModel('client')">CLIENTE</button>
-        <button mat-button matStepperNext (click)="updateModel('server')">SERVIDOR</button>
-  </mat-step>
-  <mat-step>
     <form >
       <ng-template matStepLabel>Selecione o arquivo do Modelo</ng-template>
         <input name="file" type="file"  (change)="onFileChange($event.target.files)"/>
-      <div>
-        <button [disabled]="isUploading" mat-button matStepperPrevious  (click)="stepper.reset()">VOLTAR</button>
-        <button [disabled]="isUploading" mat-button (click)="uploadFile()">CONCLUIR</button>
+      </form>
+      <div class="next-button">
+        <button [disabled]="!file" class="" mat-raised-button color="warn" matStepperNext>AVANÇAR</button>
       </div>
-    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Escolha um tipo</ng-template>
+      <button mat-button matStepperNext (click)="updateModel('client')">CLIENTE</button>
+      <button mat-button matStepperNext (click)="updateModel('server')">SERVIDOR</button>
+  </mat-step>
+  <mat-step>
+    <button [disabled]="isUploading" mat-button matStepperPrevious  (click)="stepper.reset()">REINICIAR</button>
+    <button [disabled]="isUploading" mat-button (click)="uploadFile()">CONCLUIR</button>
   </mat-step>
 </mat-vertical-stepper>

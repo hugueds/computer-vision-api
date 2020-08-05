@@ -21,9 +21,9 @@ export class ResultService {
     }
   }
 
-  async get(offset=0, quantity=10): Promise<Array<Result>> {
+  async get(offset=0, quantity=10, instance=''): Promise<Array<Result>> {
     try {
-      const response = await axios.get(`${this.baseURL}/result?offset=${offset}&quantity=${quantity}`);
+      const response = await axios.get(`${this.baseURL}/result?offset=${offset}&quantity=${quantity}&model=${instance}`);
       return response.data;
     } catch (err) {
       console.error(err);

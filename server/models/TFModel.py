@@ -58,29 +58,16 @@ class TFModel:
             
         except Exception as ex:            
             logging.error('TFModel __init__::Invalid Model Configuration::'+str(ex))
+    
 
-    def predict(self, image):
-
-        # if self.channels == 1: # config file
-        #     image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
-        #     _, image = cv.threshold(image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
-
-        # if (self.size):
-
-        image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
-        # image = cv.resize(image, (self.size, self.size), cv.INTER_AREA) # use config file
+    def predict(self, image):        
         image = cv.resize(image, (224,224), cv.INTER_AREA)
-        image = image / 255
-        # image = image.reshape(1, self.size, self.size, self.channels) # use config file
+        image = (image / 127.0) - 1        
         image = image.reshape(1, 224, 224, 3)
-
-        self.load_model_single(self.name, self.path)
-
-
-        
+        self.load_model_single(self.name, self.path)        
         
         with concurrent.futures.ThreadPoolExecutor() as executor:            
-            future = executor.submit(classify_thread, image, self.model_name)
+            future = executor.submit(classify_thread, image, self.name)
             return future.result()
 
     def load_models(self):        
@@ -109,15 +96,24 @@ class TFModel:
 
     def load_model_single(self, model_name, path, filename='keras_model.h5'):
         global models
+
         if model_name in models:
             print('Model already loaded')
             return
+
         print('Loading Model ' + model_name)
+        
+        if model_name == 'default':
+            models['default'] = { 'labels': [], 'graph': MobileNetV2(input_shape=(224, 224, 3), include_top=True, weights="imagenet") }
+            return
+            
         labels = []
         label_file = open(f'{path}/{model_name}/labels.txt', 'r')
+
         for line in label_file:
             label = line.split(' ')[-1][:-1]            
             labels.append(label)
+
         label_file.close()
         models[model_name] = { 'labels': labels, 'graph': load_model(f'{path}/{model_name}/{filename}', compile=False)}
 
@@ -131,6 +127,25 @@ class TFModel:
             labels.append(label)
         label_file.close()
         models[model_name] = { 'labels': labels, 'graph': load_model(f'{path}/{model_name}/{filename}', compile=False)}
+
+    def predict_v1(image):
+        if self.channels == 1: # config file
+            image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+            _, image = cv.threshold(image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+
+        image = cv.cvtColor(image, cv.COLOR_BGR2RGB)
+        image = cv.resize(image, (self.size, self.size), cv.INTER_AREA) # use config file
+        image = cv.resize(image, (224,224), cv.INTER_AREA)
+        image = (image / 127.0) - 1
+        # image = image.reshape(1, self.size, self.size, self.channels) # use config file
+        image = image.reshape(1, 224, 224, 3)
+
+        self.load_model_single(self.name, self.path)        
+        
+        with concurrent.futures.ThreadPoolExecutor() as executor:            
+            future = executor.submit(classify_thread, image, self.name)
+            return future.result()
+        pass
 
 def reload_model(model_name):
     pass                             

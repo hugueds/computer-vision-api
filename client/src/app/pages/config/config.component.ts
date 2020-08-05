@@ -15,6 +15,7 @@ export class ConfigComponent implements OnInit {
   instanceForm: any;
   devices: Array<Device>;
   instances: Array<Instance>;
+  tabUpdate = false;
 
   constructor(private _instanceService: InstanceService) { }
 
@@ -23,7 +24,8 @@ export class ConfigComponent implements OnInit {
   }
 
   updateTab() {
-    this._instanceService.getAll().then(instances => this.instances = instances);
+    this.tabUpdate = true;
+    setTimeout(() => this.tabUpdate = false, 100);
   }
 
 

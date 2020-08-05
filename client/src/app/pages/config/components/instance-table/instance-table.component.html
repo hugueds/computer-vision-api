@@ -71,9 +71,9 @@
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let instance">
                 <button class="config-button config-button--edit" (click)="editInstance(instance)"
-                    mat-button>EDIT</button>
+                    mat-raised-button color=''>EDIT</button>
                 <button class="config-button config-button--delete" (click)="deleteInstance(instance)"
-                    mat-button>DELETE</button>
+                    mat-raised-button color='warn'>DELETE</button>
             </mat-cell>
         </ng-container>
 

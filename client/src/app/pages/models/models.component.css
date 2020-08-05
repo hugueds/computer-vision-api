@@ -7,7 +7,10 @@ table {
   width: 100%;
 }
 
+tr:nth-child(even) {background: #aaa2a2}
+tr:nth-child(odd) {background: #E2E2E2}
+
 td {
-  padding: 1%;
+  padding: 0.25%;
   text-align: center;
 }

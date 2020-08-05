@@ -1,0 +1,26 @@
+.create-container {
+  margin-top: 1%;
+  display: flex;
+  justify-content: center;
+}
+
+.create-container mat-form-field {
+  margin-left: 5%;
+}
+
+.create-container--control {
+  display: flex;
+  justify-content: center;
+}
+
+mat-table {
+  margin-top: 1%;
+}
+
+mat-row:nth-child(odd) {
+  background: rgb(192, 189, 189)(39, 37, 37);
+}
+
+mat-row:nth-child(even) {
+  background: rgb(185, 181, 181);
+}

@@ -57,9 +57,14 @@ export class InstanceService {
     }
    }
 
-   async uploadModel(instanceId, model, fileList) {
+   async uploadModel(instanceId, model, file) {
     try {
-      const file: File = fileList[0];
+
+      if (file.name.includes('converted_keras'))
+        model = 'server';
+      else if (file.name.includes('tm-my-image-model'))
+        model = 'client';
+
       const bodyFormData = new FormData();
       bodyFormData.append('model', model);
       bodyFormData.append('file', file, model);

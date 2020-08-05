@@ -1,0 +1,18 @@
+.create-container {
+  margin-top: 1%;
+  display: flex;
+  justify-content: center;
+}
+
+.create-container mat-form-field {
+  margin-left: 5%;
+}
+
+.create-container--control {
+  display: flex;
+  justify-content: center;
+}
+
+mat-table {
+  margin-top: 1%;
+}

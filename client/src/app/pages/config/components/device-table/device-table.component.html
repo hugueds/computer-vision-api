@@ -76,8 +76,8 @@
     <ng-container matColumnDef="actions">
         <mat-header-cell *matHeaderCellDef></mat-header-cell>
         <mat-cell *matCellDef="let device">
-            <button class="config-button config-button--edit" (click)="edit(device)" mat-button>EDIT</button>
-            <button class="config-button config-button--delete" (click)="delete(device)" mat-button>DELETE</button>
+            <button class="config-button config-button--edit" (click)="edit(device)" mat-raised-button>EDIT</button>
+            <button class="config-button config-button--delete" (click)="delete(device)" mat-raised-button color="warn">DELETE</button>
         </mat-cell>
     </ng-container>
 

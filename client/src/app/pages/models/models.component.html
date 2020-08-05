@@ -13,9 +13,9 @@
         <tr class="row" *ngFor="let instance of instances">
           <td>{{ instance.id }}</td>
           <td>{{ instance.name }}</td>
-          <td>{{ instance.clientModel }}</td>
-          <td>{{ instance.serverModel }}</td>
-          <td> <button (click)="openDialog(instance.id)"> Atualizar </button></td>
+          <td [style.background]="instance.clientModel ? 'lime' : 'red' " ></td>
+          <td [style.background]="instance.serverModel ? 'lime' : 'red' "></td>
+          <td> <button mat-raised-button color="accent" (click)="openDialog(instance.id)"> Atualizar </button></td>
         </tr>
       </tbody>
     </table>

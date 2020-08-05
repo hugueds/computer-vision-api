@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'app-capture-button',
@@ -7,6 +7,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 })
 export class CaptureButtonComponent implements OnInit {
 
+  @Input() enabled = false;
   @Output('capture') _capture = new EventEmitter<void>();
 
   constructor() { }

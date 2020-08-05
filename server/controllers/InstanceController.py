@@ -29,7 +29,6 @@ class InstanceController():
             identifier_mode=request['identifierMode'],
             save=request['save']
         )
-
         instance.save()
         return jsonify(instance.to_json())
 
@@ -54,10 +53,11 @@ class InstanceController():
             devices = Device.get_by_instance_id(id_)
             for d in devices:
                 d.instance_id = 1
-                d.update(d)
-            # Atualizar os dispositivos que tenham como ID essa instancia
+                d.update(d)            
             if instance:
-                # instance.delete(id_)
+                instance.delete(id_)
+                # Deletar as pastas dos modelos relacionadas com o nome
+                
                 return ('Instance ID ' + str(id_) + ' Deleted')
             else:
                 return jsonify({"error": True, "message": f'Instance ID {id_} Not Found'})

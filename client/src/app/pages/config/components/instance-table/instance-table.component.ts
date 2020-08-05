@@ -53,7 +53,7 @@ export class InstanceTableComponent implements OnInit {
   createInstance(instance) {
     this._instanceService.create(instance)
       .then(res => {
-        window.location.reload();
+        this.getInstances();
         this.clearForm();
       })
       .catch(e => console.error(e))

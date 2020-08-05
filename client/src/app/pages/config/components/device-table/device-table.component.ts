@@ -12,9 +12,15 @@ import { InstanceService } from 'src/app/services/instance.service';
 })
 export class DeviceTableComponent implements OnInit {
 
-  @Input() instances: Array<Instance> = [];
+  @Input() set tabUpdate(val: any) {
+    if (val) {
+      this._instanceService.getAll().then(r => this.instances  = r);
+    }
+  }
 
-  models = Object.keys(DeviceModel).filter(k => isNaN(Number(k)));
+  instances: Array<Instance> = [];
+  models = [];
+
   devices: Array<Device>;
 
   deviceForm = {
@@ -28,14 +34,17 @@ export class DeviceTableComponent implements OnInit {
 
   editMode = false;
   displayedColumns = ['id', 'name', 'user', 'ip', 'model', 'instanceId', 'createdAt', 'actions']
+  regexIP = /\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b/
 
   constructor(private _deviceService: DeviceService
     ,private _instanceService: InstanceService) { }
 
   ngOnInit(): void {
+    this.models = Object.keys(DeviceModel).filter(k => isNaN(Number(k)));
     this.clearForm();
     this.getInstances();
     this.getDevices();
+
   }
 
   getInstanceName(instanceId) {
@@ -43,7 +52,6 @@ export class DeviceTableComponent implements OnInit {
       return;
     const instance = this.instances.filter(i => i.id == instanceId)[0];
     return instance.name;
-
   }
 
   getInstances() {
@@ -100,7 +108,6 @@ export class DeviceTableComponent implements OnInit {
     this.editMode = true;
     this.deviceForm = {...device};
   }
-
 
 
   delete(device) {

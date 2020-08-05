@@ -10,7 +10,6 @@ declare let ml5: any;
 const mobileCanvasSize = 300;
 const videoWidth = 640;
 const videoHeight = 480;
-// const modelPath = `assets/models/client/{model}/model.json`;
 const modelPath = environment.modelPath;
 const frameRate = 60;
 @Component({
@@ -25,22 +24,22 @@ export class CameraComponent implements OnInit {
   @ViewChild('hiddenCanvas', { static: true }) public hiddenCanvas: ElementRef;
   @ViewChild('barcode', { static: true }) public barcode: ElementRef;
 
-  @Input('instanceDevice') set instanceDevice(val: any) {
+  @Input('instanceDevice') set instanceDevice(val: InstanceDevice) {
     if (val) {
       this.initializeModel(val);
+      this.serverModel = val.instance.serverModel;
     }
   }
 
   @Input('code') set code(val: string) {
     if (val) {
       this._code = val;
-      // 1 -> abrir barcode e fechar camera
-      // 2 -> abrir camera e fechar barcode
     }
   }
 
   @Output('cameraEvent') cameraEmitter = new EventEmitter<any>();
 
+  serverModel = false;
   saveLocal = false;
   modelLoaded = false;
   cameraLoaded = false;
@@ -75,6 +74,8 @@ export class CameraComponent implements OnInit {
       return;
     if (instance != 'default')
       instance = modelPath.replace('{model}', instance.toLowerCase());
+    else
+      instance = 'MobileNet';
     this.net = ml5.imageClassifier(instance, () => this.modelReady(instance));
   }
 

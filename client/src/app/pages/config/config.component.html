@@ -5,8 +5,8 @@
   <mat-tab-group mat-stretch-tabs="always" mat-align-tabs="center" [selectedIndex]="0" (selectedIndexChange)="updateTab()">
 
     <mat-tab label="DISPOSITIVOS">
-      <app-device-table></app-device-table>      
-    </mat-tab>  
+      <app-device-table [tabUpdate]="tabUpdate" ></app-device-table>
+    </mat-tab>
 
     <mat-tab label="INSTÂNCIAS">
       <app-instance-table></app-instance-table>

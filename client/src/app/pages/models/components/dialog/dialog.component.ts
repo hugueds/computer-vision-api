@@ -12,7 +12,7 @@ export class DialogComponent implements OnInit {
 
   instanceId: number;
   model = '';
-  file = null;
+  file: File = null;
   isUploading = false;
 
   constructor(
@@ -26,9 +26,9 @@ export class DialogComponent implements OnInit {
 
   }
 
-  onFileChange(file) {
+  onFileChange(file: FileList) {
     this.file = null;
-    this.file = file;
+    this.file = file[0];
   }
 
   updateModel(model) {

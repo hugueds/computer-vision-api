@@ -6,6 +6,8 @@
 - [ ] Ao deletar uma instância, é necessário deletar também todos os devices que tem ela associada
 - [ ] Impedir que o usuário delete a instância de ID = 1 (default)
 - [ ] Log user actions
+- [ ] Criar botão para ativar o barcode, se o identifier for '' ou '000000' desabilitar botao de fotografia
+- [ ] Adicionar um snackbar para cada validação / nova inserção
 
 ## 2020-08-04
 
@@ -13,8 +15,8 @@
 
 ## 2020-08-03
 
-- [ ] Verificar o nome do arquivo antes de salva-lo, já fará com que classifique se é cliente ou servidor, remover os parenteses ao verificar o nome
-- [ ] Inverter o Upload com a seleção de cliente ou servidor
+- [x] Verificar o nome do arquivo antes de salva-lo, já fará com que classifique se é cliente ou servidor, remover os parenteses ao verificar o nome
+- [x] Inverter o Upload com a seleção de cliente ou servidor
 
 ## 2020-08-02
 
@@ -29,10 +31,10 @@
 
 ## 2020-07-31
 
-- [ ] Adicionar metodo para recarregar os modelos no servidor após salva-los
-- [ ] Verificar se o modelo possui as duas instancias... caso nao tiver o servidor não habilitar a camera, caso não tenha a do cliente não habilitar a inferencia caso nao tenha as duas bloquear a camera
 - [ ] Trazer apenas os 10 logs gerais e só resgatar o restante após selecionar a instância
 - [ ] Criar modal para ver mais os 10 ultimos resultados de inferência
+- [x] Verificar se o modelo possui as duas instancias... caso nao tiver o servidor não habilitar a camera, caso não tenha a do cliente não habilitar a inferencia caso nao tenha as duas bloquear a camera
+- [x] Adicionar metodo para recarregar os modelos no servidor após salva-los
 - [x] Limpar campos no dispositivo após a inclusão
 - [x] Colocar botões de configurações e de inclusão na linha de baixo
 
