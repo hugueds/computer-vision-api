@@ -18,9 +18,9 @@ mat-table {
 }
 
 mat-row:nth-child(odd) {
-  background: rgb(192, 189, 189)(39, 37, 37);
+  background-color: #FAFAFA;
 }
 
 mat-row:nth-child(even) {
-  background: rgb(185, 181, 181);
+  background-color: #dedede;
 }

@@ -1,14 +1,14 @@
 <ng-container>
     <div class="camera-preview" [style.background]="backgroundColor">
-    <div class="camera-wrapper">
-      <video  #video id="video" preload="auto" autoplay  playsinline width="640" height="480"></video>
-      <canvas #canvas id="canvas" width="640" height="480"></canvas>
-      <canvas #hiddenCanvas id="hiddenCanvas" width="640" height="480"></canvas>
-      <div #barcode id="barcode" width=640 height=480>
-        <video src=""></video>
-        <canvas class="drawingBuffer"></canvas>
+      <div class="camera-wrapper">
+        <video  #video id="video" preload="auto" autoplay  playsinline width="640" height="480"></video>
+        <canvas #canvas id="canvas" width="640" height="480"></canvas>
+        <canvas #hiddenCanvas id="hiddenCanvas" width="640" height="480"></canvas>
+        <div #barcode id="barcode" width=640 height=480>
+          <video src=""></video>
+          <canvas class="drawingBuffer"></canvas>
+        </div>
       </div>
-    </div>
     <div
     [hidden]="!isReading"
     [className]="isMobile ? 'capture-button--mobile' : 'capture-button'">

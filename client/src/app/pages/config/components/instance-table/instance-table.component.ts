@@ -19,7 +19,9 @@ export class InstanceTableComponent implements OnInit {
     description: '',
     type: '',
     identifierMode: '',
-    save: ''
+    save: '',
+    clientModel: false,
+    serverModel: false
   }
   instances: Array<Instance>;
   editMode = false;
@@ -68,6 +70,7 @@ export class InstanceTableComponent implements OnInit {
     this._instanceService.update(instance)
       .then(res => {
         this.getInstances();
+        this.clearForm();
         this.editMode = false;
       })
       .catch(e => console.error(e))
@@ -79,10 +82,7 @@ export class InstanceTableComponent implements OnInit {
       return;
 
     this._instanceService.delete(instance.id)
-      .then(res => {
-        // this.getInstances();
-        window.location.reload();
-      })
+      .then(res => this.getInstances())
       .catch(e => console.error(e))
   }
 
@@ -94,7 +94,9 @@ export class InstanceTableComponent implements OnInit {
       description: '',
       type: '',
       identifierMode: '',
-      save: ''
+      save: '',
+      clientModel: false,
+      serverModel: false
     }
 
   }

@@ -1,87 +1,89 @@
 <ng-container>
-
-  <!-- TODO: Adicionar filtros -->
   <div class="log-wrapper">
     <div class="header">
       <h1>ULTIMOS RESULTADOS</h1>
     </div>
 
-    <div>
-    <div>selecione uma instancia</div>
+    <div class="filter-wrapper">
+      <mat-form-field>
+        <mat-label>Selecione uma Instância</mat-label>
+        <mat-select  (selectionChange)="updateInstance($event)" [(ngModel)]="instance">
+          <mat-option value="TODAS">TODAS</mat-option>
+          <mat-option *ngFor="let i of instances" [value]="i.name">{{ i.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-    <mat-form-field>
-    <mat-select>
-      <mat-option *ngFor="let i of instances" [value]="i.id"> {{ i.name }}</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-    <div>selecione uma data</div>
-    <mat-form-field class="example-full-width" appearance="fill">
-      <mat-label>Choose a date</mat-label>
-      <input matInput [matDatepicker]="picker">
-      <mat-datepicker #picker></mat-datepicker>
-    </mat-form-field>
-    <button mat-raised-button (click)="picker.open()">Open</button>
+      <div>
+        <mat-form-field class="" appearance="fill">
+          <mat-label>Selecione uma Data</mat-label>
+          <input (dateInput)="updateDate($event)" matInput [matDatepicker]="dp3" disabled />
+          <mat-datepicker-toggle matSuffix [for]="dp3"></mat-datepicker-toggle>
+          <mat-datepicker  #dp3 disabled="false"></mat-datepicker>
+        </mat-form-field>
+      </div>
 
     </div>
 
-    <mat-paginator [length]="length" [pageSize]="pageSize" (page)="update($event)">
+
+
+
+    <mat-paginator
+      [length]="length"
+      [pageSize]="pageSize"
+      (page)="update($event)"
+    >
     </mat-paginator>
 
-
     <mat-table [dataSource]="results" class="mat-elevation-z8">
-        <ng-container matColumnDef="id">
-          <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
-          <mat-cell *matCellDef="let result"> {{ result.id }} </mat-cell>
-        </ng-container>
+      <ng-container matColumnDef="id">
+        <mat-header-cell *matHeaderCellDef> ID </mat-header-cell>
+        <mat-cell *matCellDef="let result"> {{ result.id }} </mat-cell>
+      </ng-container>
 
-        <ng-container matColumnDef="user">
-          <mat-header-cell *matHeaderCellDef>USUARIO</mat-header-cell>
-          <mat-cell *matCellDef="let result"> {{ result.user }}</mat-cell>
-        </ng-container>
+      <ng-container matColumnDef="user">
+        <mat-header-cell *matHeaderCellDef>USUARIO</mat-header-cell>
+        <mat-cell *matCellDef="let result"> {{ result.user }}</mat-cell>
+      </ng-container>
 
-        <ng-container matColumnDef="device">
-          <mat-header-cell *matHeaderCellDef>DISPOSITIVO</mat-header-cell>
-          <mat-cell *matCellDef="let result"> {{ result.device}}</mat-cell>
-        </ng-container>
+      <ng-container matColumnDef="device">
+        <mat-header-cell *matHeaderCellDef>DISPOSITIVO</mat-header-cell>
+        <mat-cell *matCellDef="let result"> {{ result.device }}</mat-cell>
+      </ng-container>
 
-        <ng-container matColumnDef="instance">
-          <mat-header-cell *matHeaderCellDef>INSTANCIA</mat-header-cell>
-          <mat-cell *matCellDef="let result"> {{ result.instance }}</mat-cell>
-        </ng-container>
+      <ng-container matColumnDef="instance">
+        <mat-header-cell *matHeaderCellDef>INSTANCIA</mat-header-cell>
+        <mat-cell *matCellDef="let result"> {{ result.instance }}</mat-cell>
+      </ng-container>
 
-        <ng-container matColumnDef="label">
-          <mat-header-cell *matHeaderCellDef>ROTULO</mat-header-cell>
-          <mat-cell *matCellDef="let result"> {{ result.label }}</mat-cell>
-        </ng-container>
+      <ng-container matColumnDef="label">
+        <mat-header-cell *matHeaderCellDef>ROTULO</mat-header-cell>
+        <mat-cell *matCellDef="let result"> {{ result.label }}</mat-cell>
+      </ng-container>
 
-        <ng-container matColumnDef="confidence">
-          <mat-header-cell *matHeaderCellDef>PRECISAO</mat-header-cell>
-          <mat-cell *matCellDef="let result"> {{ (result.confidence * 100).toFixed(2) }}% </mat-cell>
-        </ng-container>
+      <ng-container matColumnDef="confidence">
+        <mat-header-cell *matHeaderCellDef>PRECISAO</mat-header-cell>
+        <mat-cell *matCellDef="let result">
+          {{ (result.confidence * 100).toFixed(2) }}%
+        </mat-cell>
+      </ng-container>
 
-        <ng-container matColumnDef="timestamp">
-          <mat-header-cell *matHeaderCellDef>CRIADO EM</mat-header-cell>
-          <mat-cell *matCellDef="let result"> {{ result.timestamp.slice(0,16) }}</mat-cell>
-        </ng-container>
+      <ng-container matColumnDef="timestamp">
+        <mat-header-cell *matHeaderCellDef>CRIADO EM</mat-header-cell>
+        <mat-cell *matCellDef="let result">
+          {{ result.timestamp.slice(0, 16) }}</mat-cell
+        >
+      </ng-container>
 
-        <ng-container matColumnDef="path">
-          <mat-header-cell *matHeaderCellDef>CAMINHO</mat-header-cell>
-          <mat-cell *matCellDef="let result">
-             <!-- <a target="_blank" rel="noopener noreferrer" href="file://{{ result.path.replace('\\\\', '') }}"> {{ result.path }} </a> -->
-             <a target="_blank" rel="noopener noreferrer"> {{ result.path }} </a>
-            </mat-cell>
-        </ng-container>
+      <ng-container matColumnDef="path">
+        <mat-header-cell *matHeaderCellDef>CAMINHO</mat-header-cell>
+        <mat-cell *matCellDef="let result">
+          <!-- <a target="_blank" rel="noopener noreferrer" href="file://{{ result.path.replace('\\\\', '') }}"> {{ result.path }} </a> -->
+          <a target="_blank" rel="noopener noreferrer"> {{ result.path }} </a>
+        </mat-cell>
+      </ng-container>
 
-
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
-      </mat-table>
-
-
-
-
-    </div>
-
+      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+    </mat-table>
+  </div>
 </ng-container>
-

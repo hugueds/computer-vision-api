@@ -17,15 +17,15 @@ class InstanceType(Enum):
 
 class Instance():
 
-    def __init__(self, id_=None, name='', description='', type_=0, identifier_mode=0, save=False):
+    def __init__(self, id_=None, name='', description='', type_=0, identifier_mode=0, save=False, client_model=False, server_model=False):
         self.id_ = id_
         self.name = name
         self.description = description
         self.type_ = type_
         self.identifier_mode = identifier_mode
         self.save_ = save
-        self.client_model = False
-        self.server_model = False
+        self.client_model = client_model
+        self.server_model = server_model
         self.created_at = datetime.datetime.now()
 
     @staticmethod
@@ -82,8 +82,7 @@ class Instance():
             logging.error('Instance::save::'+str(e))
 
     @staticmethod
-    def update(instance):
-        
+    def update(instance):        
         try:
             print('Updating Instance ID ' + str(instance.id_))
             sql = ''' 
@@ -99,18 +98,15 @@ class Instance():
                 WHERE ID = ?
             '''
             conn = db.connect()
-            cursor = conn.cursor()
-            instance.save_ = 1 if instance.save else 0
-            instance.client_model = 1 if instance.client_model else 0
-            instance.server_model = 1 if instance.server_model else 0
+            cursor = conn.cursor()            
             new_instance = (
                 instance.name, 
                 instance.description, 
                 instance.type_, 
                 instance.identifier_mode, 
-                instance.save_ , 
-                instance.client_model ,
-                instance.server_model ,
+                1 if instance.save_ else 0 , 
+                1 if instance.client_model else 0 ,
+                1 if instance.server_model else 0 ,
                 instance.id_,
                 )
             cursor.execute(sql, (new_instance))

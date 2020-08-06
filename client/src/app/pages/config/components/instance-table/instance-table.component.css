@@ -16,3 +16,11 @@
 mat-table {
   margin-top: 1%;
 }
+
+mat-row:nth-child(odd) {
+  background-color: #FAFAFA;
+}
+
+mat-row:nth-child(even) {
+  background-color: #dedede;
+}

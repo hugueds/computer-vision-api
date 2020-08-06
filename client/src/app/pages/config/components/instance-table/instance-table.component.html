@@ -23,8 +23,8 @@
         <mat-form-field class="">
             <mat-label>SALVAR</mat-label>
             <mat-select [(ngModel)]="instanceForm.save">
-                <mat-option value="1">SIM</mat-option>
-                <mat-option value="0">NÃO</mat-option>
+                <mat-option [value]="true">SIM</mat-option>
+                <mat-option [value]="false">NÃO</mat-option>
             </mat-select>
         </mat-form-field>
 

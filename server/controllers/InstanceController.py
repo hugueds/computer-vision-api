@@ -40,6 +40,8 @@ class InstanceController():
             type_=request['type'],
             identifier_mode=request['identifierMode'],
             save=request['save'],
+            client_model=request['clientModel'],
+            server_model=request['serverModel']
         )
         Instance.update(instance)
         return jsonify(instance.to_json())

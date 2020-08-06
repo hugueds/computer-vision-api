@@ -1,5 +1,6 @@
 import sqlite3
 from datetime import datetime
+from datetime import date
 from database.Database import db
 
 class Result():
@@ -16,12 +17,12 @@ class Result():
         self.timestamp = datetime.now()                
 
     @staticmethod
-    def get(offset, quantity, instance='%', date=''):
+    def get(offset, quantity, instance='%', date=date.today()):
 
-        sql = ''' SELECT * FROM Result  WHERE Instance LIKE ? order by ID DESC LIMIT (?) OFFSET (?) '''
+        sql = ''' SELECT * FROM Result  WHERE Instance LIKE ? AND DATE(Timestamp) = ? order by ID DESC LIMIT (?) OFFSET (?) '''
         cursor = db.connect().cursor()       
 
-        d = (instance, quantity, offset)
+        d = (instance, date, quantity, offset)
         cursor.execute(sql, (d))
 
         results = []
