@@ -66,11 +66,21 @@ def create(connection):
     """)
 
     logging.info('Tables Created')
+    
 
-
-    connection.close()
+def insert_default(connection):
+    cursor = connection.cursor()
+    cursor.execute("""
+        INSERT INTO INSTANCE (id,name,description,type,identifier_mode,save,server_model,client_model)
+        VALUES (1, 'default', 'default instance', 0, 0, 1, 1, 1)
+    """)
+    
+    logging.info('Default Instance created')    
 
 if __name__ == '__main__':
-    database = 'cv_service.db'
+    database = '_cv_service.db'
     connection = sqlite3.connect(database)
     create(connection)
+    insert_default(connection)
+    connection.commit()
+    connection.close()

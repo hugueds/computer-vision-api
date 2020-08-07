@@ -24,17 +24,16 @@ def classify_thread(image, model):
     }
 
     net = models[model]['graph']
+    res = net.predict(image)
 
     if model == 'default':
-        res = net.predict(image)
         pred = decode_predictions(res, top=1)[0][0]
         prediction['label'] = pred[1].upper()
         prediction['confidence'] = float(round(pred[2], 2))
-    else:
-        pred = net.predict(image)        
-        index = int(pred.argmax(axis=1)[0])        
+    else:             
+        index = int(res.argmax(axis=1)[0])        
         prediction['label'] = models[model]['labels'][index].upper()
-        prediction['confidence'] = float(round(pred[0][index], 2))
+        prediction['confidence'] = float(round(res[0][index], 2))
 
     return prediction
 
@@ -47,14 +46,7 @@ class TFModel:
                 
             self.name = name
             self.path = config['models']['path'] + '/server'
-            self.default_graph_file = config['models']['graph_file']
-            # self.load_models()
-            # c = config['models'][name]
-            # self.name = c['name']
-            # self.labels = c['labels']
-            # self.graph = c['graph']
-            # self.size = c['size']
-            # self.model = load_model(f'tensorflow_models/{self.graph}')                       
+            self.default_graph_file = config['models']['graph_file']                  
             
         except Exception as ex:            
             logging.error('TFModel __init__::Invalid Model Configuration::'+str(ex))
@@ -64,7 +56,7 @@ class TFModel:
         image = cv.resize(image, (224,224), cv.INTER_AREA)
         image = (image / 127.0) - 1        
         image = image.reshape(1, 224, 224, 3)
-        self.load_model_single(self.name, self.path)        
+        self.load_model_single(self.name, self.path)
         
         with concurrent.futures.ThreadPoolExecutor() as executor:            
             future = executor.submit(classify_thread, image, self.name)
@@ -97,8 +89,7 @@ class TFModel:
     def load_model_single(self, model_name, path, filename='keras_model.h5'):
         global models
 
-        if model_name in models:
-            print('Model already loaded')
+        if model_name in models:            
             return
 
         print('Loading Model ' + model_name)
