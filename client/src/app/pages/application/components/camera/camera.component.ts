@@ -10,7 +10,7 @@ declare let ml5: any;
 const mobileCanvasSize = 300;
 const videoWidth = 640;
 const videoHeight = 480;
-const modelPath = environment.modelPath;
+const modelPath = `${environment.server}/${environment.modelPath}`;
 const frameRate = 60;
 @Component({
   selector: 'app-camera',
@@ -56,7 +56,7 @@ export class CameraComponent implements OnInit {
   net: any;
 
   ngOnInit(): void {
-    if (document.documentElement.clientWidth <= MOBILE_WIDTH) {
+    if (document.documentElement.clientWidth <= MOBILE_WIDTH) { // User the device config instead
       this.isMobile = true;
       this.resizeCameraRegion();
     }

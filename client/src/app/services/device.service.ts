@@ -9,7 +9,7 @@ import axios from 'axios';
 })
 export class DeviceService {
 
-  baseURL = environment.server;
+  baseURL = `${environment.server}/api`;
 
   constructor() { }
 
@@ -50,7 +50,7 @@ export class DeviceService {
     }
   }
 
-  async update(device: Device) { 
+  async update(device: Device) {
     try {
       const response = await axios.put(`${this.baseURL}/device/`, device);
       return response.data;
@@ -58,7 +58,7 @@ export class DeviceService {
       console.error(err);
     }
   }
-  async delete(device: Device) { 
+  async delete(device: Device) {
     try {
       const response = await axios.delete(`${this.baseURL}/device/${device.id}`);
       return response.data;

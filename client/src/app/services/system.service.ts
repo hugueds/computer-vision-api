@@ -11,7 +11,7 @@ const updateTime = 10000;
 })
 export class SystemService {
 
-  baseURL = environment.server;
+  baseURL = `${environment.server}/api`;
   running = false;
 
   serverStatus: boolean;

@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 })
 export class InstanceService {
 
-  baseURL = environment.server;
+  baseURL = `${environment.server}/api`;
 
   constructor() { }
 

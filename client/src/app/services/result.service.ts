@@ -8,7 +8,7 @@ import axios from 'axios';
 })
 export class ResultService {
 
-  baseURL = environment.server;
+  baseURL = `${environment.server}/api`;
 
   constructor() { }
 

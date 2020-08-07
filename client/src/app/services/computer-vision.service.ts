@@ -7,7 +7,7 @@ import {environment} from '../../environments/environment';
 })
 export class ComputerVisionService {
 
-  baseURL = environment.server;
+  baseURL = `${environment.server}/api`;
 
   constructor() { }
 

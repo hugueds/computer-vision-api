@@ -1,5 +1,9 @@
 # TODO
 
+## 2020-08-07
+
+- [ ] Cadastrar instancia "default" ao iniciar o sistema
+
 ## 2020-08-06
 
 - [ ] Se for barcode, perguntar se deseja enviar para o servidor mesmo sem o numero
