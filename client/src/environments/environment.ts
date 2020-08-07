@@ -16,7 +16,6 @@ export const quaggaConfig = {
     name: "Live",
     type: "LiveStream",
   },
-
   decoder: {
     readers: ["code_128_reader", 'ean_reader', 'ean_8_reader']
   }
@@ -42,4 +41,4 @@ export const MOBILE_WIDTH = 600;
  * This import should be commented out in production mode because it will have a negative impact
  * on performance if an error is thrown.
  */
-// import 'zone.js/dist/zone-error';  // Included with Angular CLI.
+import 'zone.js/dist/zone-error';  // Included with Angular CLI.

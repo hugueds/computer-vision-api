@@ -21,7 +21,7 @@ export class ApplicationComponent implements OnInit {
   subscription: any;
   status: any;
   modelFound = false;
-  lastResults = [];
+  last10Results = [];
 
   defaultInstanceDevice = {
     instance: { name: 'default' }
@@ -53,8 +53,6 @@ export class ApplicationComponent implements OnInit {
     , private _systemService: SystemService
     ) { }
 
-
-
   ngOnInit(): void {
     this._systemService.getStatus().then(res => this.status = res);
     this.subscription = this._systemService.start().subscribe(res => this.status = res );
@@ -68,7 +66,6 @@ export class ApplicationComponent implements OnInit {
   }
 
   deviceLoaded(instanceDevice: InstanceDevice) {
-    const idMode = instanceDevice.instance.identifierMode;
     if (instanceDevice.instance.clientModel)
       this.modelFound = true;
     this.instanceDevice = instanceDevice;
@@ -124,6 +121,9 @@ export class ApplicationComponent implements OnInit {
       , this.instanceDevice.device.name
     )
     .then(result => {
+      if (this.last10Results.length > 10)
+        this.last10Results.pop();
+      this.last10Results.unshift(result);
       this.updateStepCode();
       this.lastResult = result.content;
       this.deviceLoaded(this.instanceDevice);

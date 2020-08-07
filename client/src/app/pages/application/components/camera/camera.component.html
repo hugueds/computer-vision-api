@@ -1,4 +1,10 @@
 <ng-container>
+      <div class="barcode-bar">
+        <!-- <button (click)="openCamera()">OPEN CAMERA</button>
+        <button (click)="closeCamera()">CLOSE CAMERA</button> -->
+        <button [hidden]="barcodeOpened" (click)="openBarcodeScanner()">OPEN BARCODE</button>
+        <button [hidden]="!barcodeOpened" (click)="closeBarcodeScanner()">CLOSE BARCODE</button>
+    </div>
     <div class="camera-preview" [style.background]="backgroundColor">
       <div class="camera-wrapper">
         <video  #video id="video" preload="auto" autoplay  playsinline width="640" height="480"></video>

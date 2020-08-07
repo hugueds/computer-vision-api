@@ -26,7 +26,7 @@ class ApiController:
                 self.image_save_path = config['server']['image_save_path']
                 pyt.pytesseract.tesseract_cmd = config['server']['pytesseract_path']
 
-        except Exception as e:                        
+        except Exception as e:
             logging.error('APIController::' + str(e))
 
     def index(self):
@@ -74,7 +74,7 @@ class ApiController:
         h, w = image.shape[:2]        
         
         if save:
-            image_path  = get_picture_path(self.image_save_path, identifier)
+            image_path  = get_picture_path(self.image_save_path, model, identifier)
             file_name = image_path.split('/')[-1]
             image[int(h*0.90):,:,:] = 0 # Creates a black stripe at the bottom of the image
             font = cv2.FONT_HERSHEY_SIMPLEX
@@ -109,7 +109,7 @@ def data_uri_to_cv2_img(uri):
     img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
     return img
 
-def get_picture_path(path, identifier):
+def get_picture_path(path, model, identifier):
 
     # year Month day hour minute second
     y, M, d, h, m, s = (
@@ -122,7 +122,7 @@ def get_picture_path(path, identifier):
     )
 
     file_name = f"{y}{M}{d}_{h}{m}{s}_{identifier}.jpg"    
-    path = f"{path}/{y}/{M}/{d}/{identifier}"
+    path = f"{path}/{model}/{y}/{M}/{d}/{identifier}"
     
     Path(path).mkdir(parents=True, exist_ok=True)
 

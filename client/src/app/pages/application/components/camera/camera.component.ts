@@ -24,34 +24,33 @@ export class CameraComponent implements OnInit {
   @ViewChild('hiddenCanvas', { static: true }) public hiddenCanvas: ElementRef;
   @ViewChild('barcode', { static: true }) public barcode: ElementRef;
 
-  @Input('instanceDevice') set instanceDevice(val: InstanceDevice) {
+  @Input('instanceDevice') set _instanceDevice(val: InstanceDevice) {
     if (val) {
       this.initializeModel(val);
-      this.serverModel = val.instance.serverModel;
     }
   }
 
-  @Input('code') set code(val: string) {
+  @Input('code') set _code(val: string) {
     if (val) {
-      this._code = val;
+      this.code = val;
     }
   }
 
   @Output('cameraEvent') cameraEmitter = new EventEmitter<any>();
 
+  instanceDevice: InstanceDevice;
   serverModel = false;
   saveLocal = false;
   modelLoaded = false;
   cameraLoaded = false;
   isReading = true;
   isMobile = false;
+  barcodeOpened = false;
   counter = 0;
   backgroundColor = 'gray';
-  capturedFrame: any;
-  barcodeOpened = false;
   borderColor = 'navy';
-  _code: string;
-
+  code: string;
+  capturedFrame: any;
   cameraId: any;
   net: any;
 
@@ -65,23 +64,32 @@ export class CameraComponent implements OnInit {
   ngAfterViewInit() {
     this.openCamera();
     window.requestAnimationFrame(() => this.getFrames());
-    // this.openBarcodeScanner();
   }
 
   initializeModel(instanceDevice: InstanceDevice) {
+    this.instanceDevice = instanceDevice;
     let instance = instanceDevice.instance.name;
-    if (this.modelLoaded || !instanceDevice.instance.clientModel)
+    if (!instanceDevice.instance.clientModel)
       return;
     if (instance != 'default')
       instance = modelPath.replace('{model}', instance.toLowerCase());
     else
       instance = 'MobileNet';
     this.net = ml5.imageClassifier(instance, () => this.modelReady(instance));
+    this.serverModel = instanceDevice.instance.serverModel;
   }
 
   modelReady(modelName) {
     console.log(`Model ${modelName} loaded`);
     this.modelLoaded = true;
+    // this.startCapture();
+  }
+
+  startCapture() {
+    if (this.instanceDevice.instance.identifierMode == IdentifierMode.BARCODE)
+      this.openBarcodeScanner();
+    else
+      this.openCamera();
   }
 
   openCamera() {
@@ -93,7 +101,6 @@ export class CameraComponent implements OnInit {
           this.canvas.nativeElement.style.display = 'block';
           this.cameraLoaded = true;
           setTimeout(() => { this.video.nativeElement.play() }, 2000);
-          // this.resizeCameraRegion();
         });
       });
     }
@@ -103,7 +110,7 @@ export class CameraComponent implements OnInit {
     const stream = this.video.nativeElement.srcObject;
     if (stream) {
       const tracks = stream.getTracks();
-      tracks.forEach(track =>track.stop());
+      tracks.forEach(track => track.stop());
     }
     this.video.nativeElement.srcObject = null;
     this.canvas.nativeElement.style.display = 'none';
@@ -114,7 +121,11 @@ export class CameraComponent implements OnInit {
     window.requestAnimationFrame(() => this.getFrames());
   }
 
-  initBarcode() {
+  openBarcodeScanner() {
+
+    this.closeCamera();
+    this.barcodeOpened = true;
+    this.barcode.nativeElement.style.display = 'block';
 
     const quaggaConfig = {
       debug: false,
@@ -134,7 +145,6 @@ export class CameraComponent implements OnInit {
         readers: ["code_128_reader", 'ean_reader', 'ean_8_reader']
       }
     }
-
 
     Quagga.init(quaggaConfig, (err) => {
       if (err) {
@@ -158,7 +168,7 @@ export class CameraComponent implements OnInit {
 
     Quagga.onDetected((data) => {
       this.cameraEmitter.emit({ name: 'onBarcode', params: data.codeResult.code });
-      Quagga.stop();
+      this.closeBarcodeScanner();
     });
   }
 
@@ -169,16 +179,9 @@ export class CameraComponent implements OnInit {
     this.openCamera();
   }
 
-  openBarcodeScanner(): void {
-    this.barcodeOpened = true;
-    this.barcode.nativeElement.style.display = 'block';
-    this.closeCamera();
-    this.initBarcode();
-  }
-
   resizeCameraRegion() {
-      this.canvas.nativeElement.width = mobileCanvasSize;
-      this.canvas.nativeElement.height = mobileCanvasSize;
+    this.canvas.nativeElement.width = mobileCanvasSize;
+    this.canvas.nativeElement.height = mobileCanvasSize;
   }
 
   async getFrames() {
@@ -220,7 +223,6 @@ export class CameraComponent implements OnInit {
   }
 
   onCapture() {
-
     const ctx = this.canvas.nativeElement.getContext('2d');
     const hiddenCtx = this.hiddenCanvas.nativeElement.getContext('2d');
 
@@ -234,7 +236,8 @@ export class CameraComponent implements OnInit {
     hiddenCtx.drawImage(this.video.nativeElement, 0, 0, videoWidth, videoHeight);
     this.capturedFrame = this.hiddenCanvas.nativeElement.toDataURL();
     this.cameraEmitter.emit({ name: 'onCapture', params: '' });
-
+    // this.closeCamera();
+    // this.startCapture();
   }
 
   onCancel() {
