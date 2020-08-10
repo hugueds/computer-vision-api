@@ -1,11 +1,19 @@
 
 from app import  app
+import yaml
 import logging
-
-server = '10.33.22.113'
 
 if __name__ == '__main__':    
     logging.info('Starting Application')
-    app.run(server, debug=True, ssl_context=('cert.pem', 'key.pem') )
-    # app.run('0.0.0.0', debug=True, ssl_context=('example.crt', 'example.key') )
-    # app.run('0.0.0.0', debug=True )
+
+    with open('config.yml', 'r') as file:
+        config = yaml.safe_load(file)
+
+    server = config['server']['address']
+    port = config['server']['port']
+    ssl_context = ('cert.pem', 'key.pem')
+
+    # Fazer o replace nos arquivos main
+
+    app.run(server, port=port, debug=True, ssl_context=ssl_context)
+    

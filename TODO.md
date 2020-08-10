@@ -1,5 +1,10 @@
 # TODO
 
+## 2020-08-10
+
+- [ ] Colocar as configurações de server no arquivo config e carregar na inicialização do sistema
+- [ ] Criar uma tabela para os modelos
+
 ## 2020-08-07
 
 - [ ] Cadastrar instancia "default" ao iniciar o sistema

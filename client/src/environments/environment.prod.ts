@@ -1,6 +1,7 @@
 export const environment = {
   production: false,
-  server: 'https://10.33.12.206:443',
+  server: '.',
+  // server: 'https://10.33.12.206:443',
   // server: 'https://10.33.22.113:5000',
   modelPath: 'model/{model}/model.json'
 };
