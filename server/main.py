@@ -12,8 +12,6 @@ if __name__ == '__main__':
     server = config['server']['address']
     port = config['server']['port']
     ssl_context = ('cert.pem', 'key.pem')
-
-    # Fazer o replace nos arquivos main
-
+    
     app.run(server, port=port, debug=True, ssl_context=ssl_context)
     
