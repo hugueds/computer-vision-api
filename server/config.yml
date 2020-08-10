@@ -1,12 +1,13 @@
 project:
     name: 'Computer Vision Service'
-    version: '0.0.10'
+    version: '0.1.0'
 database:
     name: 'cv_service.db'
     path: ''
 server:
-    address: '0.0.0.0'
-    address_b: '10.33.22.113'
+    address: '10.33.22.113'
+    address_1: '10.33.22.113'
+    address_2: ''
     port: 5000
     pytesseract_path: 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
     pytesseract_path_linux: 'C:\\Program Files\\Tesseract-OCR\\tesseract.exe'
@@ -17,27 +18,3 @@ image:
 models:
     path: './tf_models'
     graph_file: 'keras_model.h5'
-    emptybox:
-        name: 'emptybox'
-        graph: 'emptybox'
-        size: 224
-        channels: 3
-        labels: ['OK', 'NOT_OK']   
-    tanklabels:
-        name: 'tanklabels'
-        graph: 'tanklabels'
-        size: 70
-        channels: 1
-        labels: ['1', '2', 'P', 'T', '1_180', '2_180', 'P_180', 'T_180', '1_90', '2_90', 'P_90', 'T_90']        
-    default:
-        name: 'default'
-        graph: 'imagenet'
-        size: 224
-        channels: 3
-        labels: []  
-    Model2:
-        name: 'Model2'          
-        graph: 'model2.h5'
-        size: 70
-        channels: 1
-        labels: ['OK']

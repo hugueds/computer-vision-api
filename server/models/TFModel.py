@@ -136,7 +136,7 @@ class TFModel:
         with concurrent.futures.ThreadPoolExecutor() as executor:            
             future = executor.submit(classify_thread, image, self.name)
             return future.result()
-        pass
+        
 
 def reload_model(model_name):
     pass                             
