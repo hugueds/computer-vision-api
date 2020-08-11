@@ -32,17 +32,18 @@ class ApiController:
     def index(self):
         return "ApiController"    
 
-    def get_ocr(self, base64_image, knowledgeList=[]):        
+    def get_ocr(self, content):        
 
-        image_path = ''
-        image = base64_image.split('base64,')[-1].strip()        
+        base64_image = content['picture']
+        image = data_uri_to_cv2_img(base64_image)
+        g_img = image
+        # g_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        # _, g_img = cv2.threshold(g_img, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+        g_img = Image.fromarray(g_img)
 
-        image = cv2.imread('ocr_test.png', 0)
-        _, image = cv2.threshold(
-            image, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
-        image = Image.fromarray(image)
-
-        strings = pyt.image_to_string(image, config='--psm 6 --oem 1')
+        strings = pyt.image_to_string(g_img, config='--psm 6 --oem 1')
+        
+        print(strings)
         
         return {
             "error": False,
@@ -50,8 +51,7 @@ class ApiController:
             "result": {
                 "label": strings,
                 "confidence": 100
-            },
-            "imagePath": image_path
+            }            
         }
         # Buscar lista de strings para modelo conhecido
 

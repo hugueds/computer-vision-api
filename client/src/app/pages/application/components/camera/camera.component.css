@@ -1,9 +1,9 @@
 .camera-preview {
   display: flex;
   margin: 0 auto;
-  /* border: 3px solid magenta; */
   background: #C8C9C7;
   flex-wrap: wrap;
+  /* border: 3px solid magenta; */
 }
 
 .camera-wrapper {
@@ -74,7 +74,7 @@
   align-content: center;
   max-width: 640px;
   max-height: 480px;
-  border: 3px groove lime;
+  border: 5px groove lime;
 }
 
 #barcode .barcode-mobile {
@@ -83,7 +83,7 @@
   align-content: center;
   max-width: 640px;
   max-height: 480px;
-  border: 3px groove lime;
+  border: 4px groove lime;
 }
 
 .hidden {

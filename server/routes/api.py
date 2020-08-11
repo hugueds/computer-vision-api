@@ -57,8 +57,8 @@ def classify():
 
 @api_router.route('/api/ocr/', methods=['POST'])
 def ocr():
-    content = request.json
-    return api_controller.get_ocr(content['picture'])
+    if request.method == 'POST':    
+        return api_controller.get_ocr(request.json)
 
 
 @api_router.route('/api/barcode/', methods=['POST'])

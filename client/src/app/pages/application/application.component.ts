@@ -7,6 +7,7 @@ import { InstanceService } from 'src/app/services/instance.service';
 import { InstanceDevice } from 'src/app/models/InstanceDevice';
 import { ComputerVisionService } from 'src/app/services/computer-vision.service';
 import { SystemService } from 'src/app/services/system.service';
+import { sequence } from './Sequence';
 
 
 @Component({
@@ -66,12 +67,16 @@ export class ApplicationComponent implements OnInit {
   }
 
   deviceLoaded(instanceDevice: InstanceDevice) {
-    if (instanceDevice.instance.clientModel)
+    if (instanceDevice.instance.clientModel || instanceDevice.instance.type != InstanceType.CLASSIFIER)
       this.modelFound = true;
     this.instanceDevice = instanceDevice;
+    console.log('Device Loaded');
+    this.startOperation();
+  }
+
+  startOperation() {
     this.instruction.step = 1;
     this.instruction.identifier = '000000';
-    console.log('Device Loaded');
     this.updateStepCode();
   }
 
@@ -87,7 +92,7 @@ export class ApplicationComponent implements OnInit {
   onBarcode(barcode: string) {
     this.instruction.identifier = barcode;
     this.instruction.step = 2;
-    this.instruction.name = 'Fotografe a peça';
+
     console.log('BARCODE READ: ' + barcode);
     this.updateStepCode();
   }
@@ -98,12 +103,12 @@ export class ApplicationComponent implements OnInit {
 
   onCapture() {
     this.instruction.step = 3;
-    this.instruction.name = 'Confirme a imagem';
+    this.updateStepCode();
   }
 
   onCancel() {
     this.instruction.step = 2;
-    this.instruction.name = 'Fotografe a peça';
+    this.updateStepCode();
   }
 
   onCameraEvent($event) {
@@ -112,6 +117,9 @@ export class ApplicationComponent implements OnInit {
   }
 
   onSubmit(picture: string) {
+
+    // this._computerVisionService.sendOCR(picture).then(r => console.log(r));
+
     this._computerVisionService.classify(
       picture
       , this.instanceDevice.instance.name || 'default'
@@ -124,9 +132,9 @@ export class ApplicationComponent implements OnInit {
       if (this.last10Results.length > 10)
         this.last10Results.pop();
       this.last10Results.unshift(result);
-      this.updateStepCode();
       this.lastResult = result.content;
-      this.deviceLoaded(this.instanceDevice);
+      this.updateStepCode();
+      this.startOperation();
     })
     .catch(e => console.error(e))
 
@@ -137,6 +145,7 @@ export class ApplicationComponent implements OnInit {
     const identifierMode = this.instanceDevice.instance.identifierMode.toString();
     const step = this.instruction.step.toString();
     this.instruction.code = instanceType + identifierMode + step;
+    this.instruction.name =  sequence[this.instruction.code];
     console.log('STEP CODE: ' + this.instruction.code);
   }
 

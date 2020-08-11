@@ -2,8 +2,8 @@
       <div class="barcode-bar">
         <!-- <button (click)="openCamera()">OPEN CAMERA</button>
         <button (click)="closeCamera()">CLOSE CAMERA</button> -->
-        <button [hidden]="barcodeOpened" (click)="openBarcodeScanner()">OPEN BARCODE</button>
-        <button [hidden]="!barcodeOpened" (click)="closeBarcodeScanner()">CLOSE BARCODE</button>
+         <button [hidden]="barcodeOpened" (click)="openBarcodeScanner()">OPEN BARCODE</button>
+         <button [hidden]="!barcodeOpened" (click)="closeBarcodeScanner()">CLOSE BARCODE</button>
     </div>
     <div class="camera-preview" [style.background]="backgroundColor">
       <div class="camera-wrapper">
@@ -16,7 +16,7 @@
         </div>
       </div>
     <div
-    [hidden]="!isReading"
+    [hidden]="!isReading || barcodeOpened"
     [className]="isMobile ? 'capture-button--mobile' : 'capture-button'">
       <app-capture-button [enabled]="serverModel" (capture)="onCapture()"> </app-capture-button>
     </div>

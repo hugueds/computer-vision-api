@@ -12,12 +12,6 @@ export class ComputerVisionService {
   constructor() { }
 
   async sendOCR(picture) {
-
-    if (!picture) {
-      console.error('SendOCR::No picture was provided');
-      return;
-    }
-
     try {
       const response = await axios.post(`${this.baseURL}/ocr`, { picture });
       return response.data;

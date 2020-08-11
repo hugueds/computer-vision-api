@@ -37,9 +37,9 @@ export const sequence = {
   '020': 'F',
   '021': 'G',
   '022': 'H',
-  '201': 'Ler Codigo de Barras',
-  '202': 'Fotografe a peça',
-  '203': 'Verifique e envie ao servidor',
-  '204': '',
+  '201': 'LEIA O CODIGO DE BARRAS',
+  '202': 'FOTOGRAFE A PEÇA',
+  '203': 'VERIFICAR E ENVIAR AO SERVIDOR',
+  '204': 'OK',
   '999': 'Inicializando'
 }
