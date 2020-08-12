@@ -1,9 +1,13 @@
 # TODO
 
+## 2020-08-12
+
+- [ ] Ao apagar modelo, também apagar a referencia no dispositivo
+
 ## 2020-08-10
 
-- [ ] Colocar as configurações de server no arquivo config e carregar na inicialização do sistema
 - [ ] Criar uma tabela para os modelos
+- [x] Colocar as configurações de server no arquivo config e carregar na inicialização do sistema
 
 ## 2020-08-07
 
@@ -34,9 +38,9 @@
 ## 2020-08-02
 
 - [ ] Validar o IP antes de criar o cadastro em Config
-- [ ] Adicionar um ícone para o projeto
-- [ ] Adicionar Datepicker na pagina logs
-- [ ] Adicionar o nome do modelo e data na querystring de busca dos resultados
+- [x] Adicionar um ícone para o projeto
+- [x] Adicionar o nome do modelo e data na querystring de busca dos resultados
+- [x] Adicionar Datepicker na pagina logs
 - [x] Alterar a pasta padrão dos modelos salvos
 - [-] Ao iniciar o programa, copiar as pastas dos modelos dos clientes para a pasta assets (Não mais necessario apos reorganização das pastas)
 - [x] Reduzir o tamanho do timestamp nos logs
@@ -55,9 +59,9 @@
 
 - [ ] Quando deletar uma instancia, deletar tambem as pastas envolvidas
 - [ ] Liberar botão de tirar foto somente se estiver em OK - (Opcional)
-- [ ] Fazer busca nos logs por data e instancia
 - [ ] Pintar linhas OKs e NOT_OKs nos Logs
-- [ ] Pintar linhas OKs e NOT_OKs nas configurações da instância
+- [x] Fazer busca nos logs por data e instancia
+- [x] Pintar linhas OKs e NOT_OKs nas configurações dos modelos
 - [x] Adicionar coluna nas instâncias que diga se há ou não modelos relacionados
 - [x] Criar uma pag para gerenciar modelos, eles devem conter 1 - JS Model (cliente), 2 - Keras Model(servidor), 3 - Instance list
 

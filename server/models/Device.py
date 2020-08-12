@@ -36,7 +36,7 @@ class Device():
 
     @staticmethod
     def get_by_instance_id(instance_id):
-        print('Getting Devices with Instance ID: ' + instance_id)
+        print('Getting Devices with Instance ID: ' + str(instance_id))
         sql = ''' SELECT * FROM DEVICE WHERE instance_id = ?; '''
         devices = Device.__get(sql, instance_id)
         return devices

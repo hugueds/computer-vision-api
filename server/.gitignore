@@ -12,3 +12,6 @@ __pycache__
 tf_models/*
 tf_models
 test
+default.db
+test/
+test/*

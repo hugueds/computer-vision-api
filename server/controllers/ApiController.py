@@ -32,16 +32,15 @@ class ApiController:
     def index(self):
         return "ApiController"    
 
-    def get_ocr(self, content):        
-
+    def get_ocr(self, content):
+        # Buscar lista de strings para modelo conhecido
         base64_image = content['picture']
         image = data_uri_to_cv2_img(base64_image)
         g_img = image
-        # g_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-        # _, g_img = cv2.threshold(g_img, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+        g_img = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        _, g_img = cv2.threshold(g_img, 127, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
         g_img = Image.fromarray(g_img)
-
-        strings = pyt.image_to_string(g_img, config='--psm 6 --oem 1')
+        strings = pyt.image_to_string(g_img, config='--psm 6 --oem 3')
         
         print(strings)
         
@@ -53,7 +52,6 @@ class ApiController:
                 "confidence": 100
             }            
         }
-        # Buscar lista de strings para modelo conhecido
 
     def classify(self, content):
         
@@ -71,15 +69,16 @@ class ApiController:
 
         tf = TFModel(model)    
         prediction = tf.predict(image)
-        h, w = image.shape[:2]        
+        h, w = image.shape[:2]           
         
         if save:
             image_path  = get_picture_path(self.image_save_path, model, identifier)
             file_name = image_path.split('/')[-1]
             image[int(h*0.90):,:,:] = 0 # Creates a black stripe at the bottom of the image
             font = cv2.FONT_HERSHEY_SIMPLEX
-            cv2.putText(image, f'{prediction["label"]}', ( int(w*0.01), int(h*0.95) ), font, w/1000, (0,217,217), 1)
-            cv2.putText(image, f'{ file_name }',      ( int(w*0.01), int(h*0.99)), font, w/1000, (0,217,217), 1)
+            color = (0,217,217) 
+            cv2.putText(image, f'{prediction["label"]}', (int(w*0.01), int(h*0.95)), font, w/1000, color, 1)
+            cv2.putText(image, f'{ file_name }',         (int(w*0.01), int(h*0.99)), font, w/1000, color, 1)
             cv2.imwrite(image_path, image)        
 
         result = Result(
