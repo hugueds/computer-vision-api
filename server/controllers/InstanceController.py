@@ -62,6 +62,6 @@ class InstanceController():
             return ('Instance ID ' + str(id_) + ' Deleted')
         else:
             return jsonify({"error": True, "message": f'Instance ID {id_} Not Found'})
-    return 'Not Found'
+            return 'Not Found'
 
 instance_controller = InstanceController()

@@ -28,6 +28,18 @@ class Instance():
         self.server_model = server_model
         self.created_at = datetime.datetime.now()
 
+    def __init__(self, **kwargs):
+        self.id_ = kwargs.get('id')
+        self.name = kwargs.get('name')
+        self.description = kwargs.get('description')
+        self.type_ = kwargs.get('type_')
+        self.identifier_mode = kwargs.get('identifier_mode')
+        self.save_ = kwargs.get('save')
+        self.client_model = kwargs.get('client_model')
+        self.server_model = kwargs.get('server_model')
+        self.created_at = datetime.datetime.now()
+        
+
     @staticmethod
     def get(id_=0):
         sql = ''' SELECT * FROM INSTANCE WHERE ID > ? '''

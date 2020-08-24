@@ -1,3 +1,4 @@
+debug: False
 project:
     name: 'Computer Vision Service'
     version: '0.1.0'

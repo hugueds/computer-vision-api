@@ -3,7 +3,8 @@ from app import  app
 import yaml
 import logging
 
-if __name__ == '__main__':    
+if __name__ == '__main__':
+
     logging.info('Starting Application')
 
     with open('config.yml', 'r') as file:
@@ -11,9 +12,8 @@ if __name__ == '__main__':
 
     server = config['server']['address']
     port = config['server']['port']
-    ssl_context = ('cert.pem', 'key.pem')
-
-    #remove large files
+    debug = True if config['debug'] == 'True' else False
+    ssl_context = ('cert.pem', 'key.pem')    
     
-    app.run(server, port=port, debug=True, ssl_context=ssl_context)
+    app.run(server, port=port, debug=debug, ssl_context=ssl_context)
     

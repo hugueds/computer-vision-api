@@ -69,8 +69,4 @@ class InstanceModelController:
                 z.extractall(f'{path}/{model_name}')
 
 
-
-
-
-
 instance_model_controller = InstanceModelController()
