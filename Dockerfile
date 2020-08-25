@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# ng serve --host 0.0.0.0 --ssl true --ssl-cert cert.pem --ssl-key key.pem
-=======
 FROM python:3.6-alpine
 
 RUN mkdir -p /usr/src/app
@@ -25,4 +22,3 @@ COPY . /usr/src/app
 EXPOSE 5000
 
 CMD ["/usr/local/bin/python3.6","app.py"]
->>>>>>> scania/master
