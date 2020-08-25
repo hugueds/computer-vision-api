@@ -17,8 +17,8 @@ ENV no_proxy=
 
 RUN pip install -i http://repo.br.scania.com/repository/pypi-all/simple --trusted-host repo.br.scania.com -r requirements.txt
  
-COPY . /usr/src/app
+COPY ./server /usr/src/appW
 
 EXPOSE 5000
 
-CMD ["/usr/local/bin/python3.6","app.py"]
+CMD ["/usr/local/bin/python3.6","main.py"]
