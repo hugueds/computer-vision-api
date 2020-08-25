@@ -13,3 +13,6 @@ update instance set id = 1 where id = ?
   "serverModel": false,
   "type": 2
 }
+
+Insert into devices values 
+()

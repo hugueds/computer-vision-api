@@ -1,10 +1,8 @@
 import sqlite3
 import logging
 
-def create(connection):
+def create(cursor):  
     
-    cursor = connection.cursor()
-
     cursor.execute("""
 
         CREATE TABLE IF NOT EXISTS Result (
