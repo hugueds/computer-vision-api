@@ -22,7 +22,7 @@
     "@angular/platform-browser-dynamic": "~9.0.0",
     "@angular/router": "~9.0.0",
     "@angular/service-worker": "~9.0.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "ml5": "^0.5.0",
     "moment": "^2.27.0",
     "quagga": "^0.12.1",
